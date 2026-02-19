@@ -2,6 +2,12 @@
 @use './vendor/index';
 @use './base/reset';
 @use './base/base';
+@use './layout/game-layout';
 @use './layout/home-layout';
+@use './layout/settings-layout';
+@use './components/settings-option';
+@use './components/settings-start-button';
 @use './components/home-play-button';
+@use './pages/settings';
+@use './pages/game';
 @use './pages/home';

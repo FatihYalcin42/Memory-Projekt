@@ -1,0 +1,49 @@
+.settings-option-item + .settings-option-item {
+  margin-top: 4px;
+}
+
+.settings-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--settings-text);
+  cursor: pointer;
+}
+
+.settings-option__marker {
+  width: 20px;
+  height: 20px;
+  background-color: var(--settings-muted);
+}
+
+.settings-option__label {
+  font-size: 33px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.settings-option__line {
+  width: 18px;
+  height: 34px;
+  margin-left: 6px;
+}
+
+.settings-option.is-selected .settings-option__marker {
+  background-color: var(--settings-active);
+}
+
+.settings-option.is-selected .settings-option__label {
+  font-weight: 700;
+}
+
+.settings-option.is-disabled {
+  cursor: not-allowed;
+}
+
+.settings-option.is-disabled .settings-option__label {
+  color: #8a8a8a;
+}

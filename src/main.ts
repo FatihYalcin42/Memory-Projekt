@@ -1,5 +1,5 @@
 import './styles/main.scss';
-import { mountHomePage } from './pages/home/home-page';
+import { startRouter } from './app/router';
 
 function initApp(): void {
   const appRoot = document.getElementById('app');
@@ -7,7 +7,7 @@ function initApp(): void {
     return;
   }
 
-  mountHomePage(appRoot);
+  startRouter(appRoot);
 }
 
 initApp();

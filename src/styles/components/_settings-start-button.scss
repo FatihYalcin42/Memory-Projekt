@@ -1,0 +1,17 @@
+.settings-start-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.settings-start-button img {
+  display: block;
+  width: 126px;
+  height: 53px;
+}
+
+.settings-start-button.is-disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
