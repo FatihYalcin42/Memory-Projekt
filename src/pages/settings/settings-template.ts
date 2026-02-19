@@ -13,10 +13,11 @@ import {
 } from '../../app/game-settings';
 import boardSizeIcon from '../../../puplic/designs/theme_1/style.svg';
 import inactiveOptionIcon from '../../../puplic/designs/theme_1/fiber_manual_record.svg';
-import lineAccent from '../../../puplic/designs/theme_1/Line 6.svg';
+import footerSlashLine from '../../../puplic/designs/theme_1/Line 6.svg';
 import activeOptionIcon from '../../../puplic/designs/theme_1/mode_standby.svg';
 import gameThemeIcon from '../../../puplic/designs/theme_1/palette.svg';
 import playerIcon from '../../../puplic/designs/theme_1/chess_pawn.svg';
+import selectedOptionLine from '../../../puplic/designs/theme_1/select-line.svg';
 import previewImage from '../../../puplic/designs/theme_1/setting-picture.svg';
 import startButtonImage from '../../../puplic/designs/theme_1/small button.svg';
 
@@ -39,6 +40,7 @@ export function createSettingsTemplate(settings: GameSettings): string {
 
         <section class="settings-footer">
           ${createSummary(settings)}
+          ${createFooterDivider()}
           ${createStartButton()}
         </section>
       </div>
@@ -69,7 +71,6 @@ function createThemeOptions(selectedTheme: ThemeOption | null): string {
       choice.value,
       choice.label,
       selectedTheme === choice.value,
-      true,
     );
   }).join('');
 }
@@ -101,10 +102,9 @@ function createOptionButton(
   value: string,
   label: string,
   isSelected: boolean,
-  showLine = false,
 ): string {
   const selectedClass = isSelected ? ' is-selected' : '';
-  const lineMarkup = showLine && isSelected ? createLineAccent() : '';
+  const lineMarkup = isSelected ? createSelectedOptionLine() : '';
   const markerIcon = isSelected ? activeOptionIcon : inactiveOptionIcon;
 
   return `
@@ -123,11 +123,22 @@ function createOptionButton(
   `;
 }
 
-function createLineAccent(): string {
+function createSelectedOptionLine(): string {
   return `
     <img
       class="settings-option__line"
-      src="${lineAccent}"
+      src="${selectedOptionLine}"
+      alt=""
+      aria-hidden="true"
+    />
+  `;
+}
+
+function createFooterDivider(): string {
+  return `
+    <img
+      class="settings-footer__line"
+      src="${footerSlashLine}"
       alt=""
       aria-hidden="true"
     />
