@@ -12,11 +12,13 @@ import {
   hasCompleteSettings,
 } from '../../app/game-settings';
 import boardSizeIcon from '../../../puplic/designs/theme_1/style.svg';
+import inactiveOptionIcon from '../../../puplic/designs/theme_1/fiber_manual_record.svg';
 import lineAccent from '../../../puplic/designs/theme_1/Line 6.svg';
+import activeOptionIcon from '../../../puplic/designs/theme_1/mode_standby.svg';
+import gameThemeIcon from '../../../puplic/designs/theme_1/palette.svg';
 import playerIcon from '../../../puplic/designs/theme_1/chess_pawn.svg';
 import previewImage from '../../../puplic/designs/theme_1/setting-picture.svg';
 import startButtonImage from '../../../puplic/designs/theme_1/small button.svg';
-import themeIcon from '../../../puplic/designs/theme_1/fiber_manual_record.svg';
 
 type SettingsGroup = 'boardSize' | 'player' | 'theme';
 
@@ -26,7 +28,7 @@ export function createSettingsTemplate(settings: GameSettings): string {
       <div class="settings-screen__canvas">
         <section class="settings-panel">
           <h1 id="settings-title" class="settings-panel__title">Settings</h1>
-          ${createSettingsGroup('Game themes', themeIcon, createThemeOptions(settings.theme))}
+          ${createSettingsGroup('Game themes', gameThemeIcon, createThemeOptions(settings.theme))}
           ${createSettingsGroup('Choose player', playerIcon, createPlayerOptions(settings.player))}
           ${createSettingsGroup('Board size', boardSizeIcon, createBoardSizeOptions(settings.boardSize))}
         </section>
@@ -62,14 +64,12 @@ function createSettingsGroup(
 
 function createThemeOptions(selectedTheme: ThemeOption | null): string {
   return THEME_CHOICES.map((choice) => {
-    const isDisabled = choice.value !== 'code-vibes';
     return createOptionButton(
       'theme',
       choice.value,
       choice.label,
       selectedTheme === choice.value,
       true,
-      isDisabled,
     );
   }).join('');
 }
@@ -102,23 +102,20 @@ function createOptionButton(
   label: string,
   isSelected: boolean,
   showLine = false,
-  isDisabled = false,
 ): string {
   const selectedClass = isSelected ? ' is-selected' : '';
-  const disabledClass = isDisabled ? ' is-disabled' : '';
   const lineMarkup = showLine && isSelected ? createLineAccent() : '';
-  const disabledAttribute = isDisabled ? 'disabled' : '';
+  const markerIcon = isSelected ? activeOptionIcon : inactiveOptionIcon;
 
   return `
     <li class="settings-option-item">
       <button
-        class="settings-option${selectedClass}${disabledClass}"
+        class="settings-option${selectedClass}"
         type="button"
         data-group="${group}"
         data-value="${value}"
-        ${disabledAttribute}
       >
-        <span class="settings-option__marker" aria-hidden="true"></span>
+        <img class="settings-option__marker" src="${markerIcon}" alt="" aria-hidden="true" />
         <span class="settings-option__label">${label}</span>
         ${lineMarkup}
       </button>

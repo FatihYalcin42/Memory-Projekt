@@ -7,11 +7,21 @@ import type {
 import board16 from '../../../puplic/designs/theme_1/Code vibes theme_16.svg';
 import board24 from '../../../puplic/designs/theme_1/Code vibes theme_24.svg';
 import board36 from '../../../puplic/designs/theme_1/Code vibes theme_36.svg';
+import foodBoard16 from '../../../puplic/designs/theme2/Food_theme_16.svg';
+import foodBoard24 from '../../../puplic/designs/theme2/Food_theme_24.svg';
+import foodBoard36 from '../../../puplic/designs/theme2/Food_theme_36.svg';
 
-const BOARD_IMAGES: Record<BoardSizeOption, string> = {
-  '16': board16,
-  '24': board24,
-  '36': board36,
+const BOARD_IMAGES: Record<ThemeOption, Record<BoardSizeOption, string>> = {
+  'code-vibes': {
+    '16': board16,
+    '24': board24,
+    '36': board36,
+  },
+  foods: {
+    '16': foodBoard16,
+    '24': foodBoard24,
+    '36': foodBoard36,
+  },
 };
 
 export function createGameTemplate(settings: GameSettings): string {
@@ -20,7 +30,7 @@ export function createGameTemplate(settings: GameSettings): string {
       <div class="game-screen__canvas">
         <img
           class="game-screen__board"
-          src="${readBoardImage(settings.boardSize)}"
+          src="${readBoardImage(settings.theme, settings.boardSize)}"
           alt="Memory board"
         />
 
@@ -34,12 +44,13 @@ export function createGameTemplate(settings: GameSettings): string {
   `;
 }
 
-function readBoardImage(boardSize: BoardSizeOption | null): string {
-  if (!boardSize) {
-    return board16;
-  }
-
-  return BOARD_IMAGES[boardSize];
+function readBoardImage(
+  theme: ThemeOption | null,
+  boardSize: BoardSizeOption | null,
+): string {
+  const selectedTheme = theme ?? 'code-vibes';
+  const selectedBoardSize = boardSize ?? '16';
+  return BOARD_IMAGES[selectedTheme][selectedBoardSize];
 }
 
 function readMetaText(

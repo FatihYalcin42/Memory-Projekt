@@ -15,9 +15,9 @@
 }
 
 .settings-option__marker {
-  width: 20px;
-  height: 20px;
-  background-color: var(--settings-muted);
+  width: 24px;
+  height: 24px;
+  display: block;
 }
 
 .settings-option__label {
@@ -32,18 +32,6 @@
   margin-left: 6px;
 }
 
-.settings-option.is-selected .settings-option__marker {
-  background-color: var(--settings-active);
-}
-
 .settings-option.is-selected .settings-option__label {
   font-weight: 700;
-}
-
-.settings-option.is-disabled {
-  cursor: not-allowed;
-}
-
-.settings-option.is-disabled .settings-option__label {
-  color: #8a8a8a;
 }

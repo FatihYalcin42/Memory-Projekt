@@ -1,4 +1,4 @@
-export type ThemeOption = 'code-vibes' | 'gaming' | 'da-projects' | 'foods';
+export type ThemeOption = 'code-vibes' | 'foods';
 export type PlayerOption = 'blue' | 'orange';
 export type BoardSizeOption = '16' | '24' | '36';
 
@@ -15,8 +15,6 @@ export interface GameSettings {
 
 export const THEME_CHOICES: SettingsChoice<ThemeOption>[] = [
   { value: 'code-vibes', label: 'Code vibes theme' },
-  { value: 'gaming', label: 'Gaming theme' },
-  { value: 'da-projects', label: 'DA Projects theme' },
   { value: 'foods', label: 'Foods theme' },
 ];
 
