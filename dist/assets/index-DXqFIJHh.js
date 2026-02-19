@@ -58,8 +58,7 @@
         </aside>
 
         <section class="settings-footer">
-          ${C2(e)}
-          ${g2(t)}
+          ${C2(e,t)}
         </section>
       </div>
     </main>
@@ -96,11 +95,14 @@
         />
       </button>
     </li>
-  `}function C2(e){return`
+  `}function C2(e,t){return`
     <div class="settings-footer__summary" aria-live="polite">
-      ${u("theme",h2(e.theme),e.theme!==null,!0)}
-      ${u("player",f2(e.player),e.player!==null,!0)}
-      ${u("boardSize",p2(e.boardSize),e.boardSize!==null,!1)}
+      <div class="settings-footer__fields">
+        ${u("theme",h2(e.theme),e.theme!==null,!0)}
+        ${u("player",f2(e.player),e.player!==null,!0)}
+        ${u("boardSize",p2(e.boardSize),e.boardSize!==null,!1)}
+      </div>
+      ${g2(t)}
     </div>
   `}function u(e,t,s,a){const n=s?" is-selected":"",o=a?`<img
       class="settings-footer__separator"

@@ -43,8 +43,7 @@ export function createSettingsTemplate(settings: GameSettings): string {
         </aside>
 
         <section class="settings-footer">
-          ${createFooterSummary(settings)}
-          ${createStartButton(isComplete)}
+          ${createFooterSummary(settings, isComplete)}
         </section>
       </div>
     </main>
@@ -138,12 +137,15 @@ function createOptionButton(
   `;
 }
 
-function createFooterSummary(settings: GameSettings): string {
+function createFooterSummary(settings: GameSettings, isComplete: boolean): string {
   return `
     <div class="settings-footer__summary" aria-live="polite">
-      ${createFooterItem('theme', formatThemeSummary(settings.theme), settings.theme !== null, true)}
-      ${createFooterItem('player', formatPlayerSummary(settings.player), settings.player !== null, true)}
-      ${createFooterItem('boardSize', formatBoardSummary(settings.boardSize), settings.boardSize !== null, false)}
+      <div class="settings-footer__fields">
+        ${createFooterItem('theme', formatThemeSummary(settings.theme), settings.theme !== null, true)}
+        ${createFooterItem('player', formatPlayerSummary(settings.player), settings.player !== null, true)}
+        ${createFooterItem('boardSize', formatBoardSummary(settings.boardSize), settings.boardSize !== null, false)}
+      </div>
+      ${createStartButton(isComplete)}
     </div>
   `;
 }
