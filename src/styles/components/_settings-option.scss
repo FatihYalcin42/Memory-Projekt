@@ -21,9 +21,12 @@
 }
 
 .settings-option__label {
-  font-size: 33px;
-  font-weight: 500;
+  font-family: 'Almarai', sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  font-style: normal;
   line-height: 1;
+  letter-spacing: 0;
   transition: color 180ms ease;
 }
 
@@ -48,6 +51,10 @@
 .settings-option.is-selected .settings-option__label {
   font-weight: 700;
   animation: settings-option-label-in 200ms ease;
+}
+
+.settings-option:hover .settings-option__label {
+  font-weight: 700;
 }
 
 @keyframes settings-option-label-in {

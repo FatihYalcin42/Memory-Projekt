@@ -79,20 +79,19 @@
 
 .settings-footer__text {
   color: #9b9b9b;
-  font-size: 18px;
-  font-weight: 700;
+  font-family: 'Almarai', sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  font-style: normal;
   line-height: 1;
+  letter-spacing: 0;
+  font-synthesis: none;
   white-space: nowrap;
   transition: color 200ms ease;
 }
 
 .settings-footer__item.is-selected .settings-footer__text {
   color: var(--settings-text);
-  animation: settings-footer-text-in 220ms ease;
-}
-
-.settings-footer__item.is-selected.is-refreshing .settings-footer__text {
-  animation: settings-footer-text-in 220ms ease;
 }
 
 .settings-footer__separator {
@@ -119,18 +118,6 @@
 
 .settings-footer__item.is-selected.is-refreshing .settings-footer__separator {
   animation: settings-footer-separator-in 220ms ease;
-}
-
-@keyframes settings-footer-text-in {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 @keyframes settings-footer-separator-in {
