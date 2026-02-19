@@ -17,7 +17,8 @@ import playerIcon from '../../../puplic/designs/theme_1/chess_pawn.svg';
 import footerSeparatorActive from '../../../puplic/designs/theme_1/footer-separator-active.svg';
 import footerSeparatorLine from '../../../puplic/designs/theme_1/Line 6.svg';
 import selectedOptionLine from '../../../puplic/designs/theme_1/select-line.svg';
-import previewImage from '../../../puplic/designs/theme_1/setting-picture.svg';
+import codeVibesPreviewImage from '../../../puplic/designs/theme_1/setting-picture.svg';
+import foodsPreviewImage from '../../../puplic/designs/theme-visiual-food.svg';
 import startButtonImage from '../../../puplic/designs/theme_1/small button.svg';
 
 type SettingsGroup = 'boardSize' | 'player' | 'theme';
@@ -27,6 +28,9 @@ export function createSettingsTemplate(settings: GameSettings): string {
     settings.theme !== null &&
     settings.player !== null &&
     settings.boardSize !== null;
+  const previewImage = settings.theme === 'foods'
+    ? foodsPreviewImage
+    : codeVibesPreviewImage;
 
   return `
     <main class="settings-screen" aria-labelledby="settings-title">
@@ -39,7 +43,14 @@ export function createSettingsTemplate(settings: GameSettings): string {
         </section>
 
         <aside class="settings-preview">
-          <img src="${previewImage}" alt="Game preview" />
+          <img
+            class="settings-preview__image"
+            src="${previewImage}"
+            data-preview-default="${codeVibesPreviewImage}"
+            data-preview-code-vibes="${codeVibesPreviewImage}"
+            data-preview-foods="${foodsPreviewImage}"
+            alt="Game preview"
+          />
         </aside>
 
         <section class="settings-footer">
@@ -108,6 +119,9 @@ function createOptionButton(
   const selectedClass = isSelected ? ' is-selected' : '';
   const visibleLineClass = isSelected ? ' is-visible' : '';
   const markerIcon = isSelected ? activeOptionIcon : inactiveOptionIcon;
+  const previewThemeAttribute = group === 'theme'
+    ? ` data-preview-theme="${value}"`
+    : '';
 
   return `
     <li class="settings-option-item">
@@ -116,6 +130,7 @@ function createOptionButton(
         type="button"
         data-group="${group}"
         data-value="${value}"
+        ${previewThemeAttribute}
       >
         <img
           class="settings-option__marker"

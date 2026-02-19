@@ -12,9 +12,11 @@ import {
 import { createSettingsTemplate } from './settings-template';
 
 const OPTION_SELECTOR = '.settings-option';
+const THEME_OPTION_SELECTOR = '.settings-option[data-group="theme"]';
 const OPTION_LINE_SELECTOR = '.settings-option__line';
 const OPTION_MARKER_SELECTOR = '.settings-option__marker';
 const FOOTER_SEPARATOR_SELECTOR = '.settings-footer__separator';
+const PREVIEW_IMAGE_SELECTOR = '.settings-preview__image';
 const START_BUTTON_SELECTOR = '#start-game-button';
 const FOOTER_REFRESH_CLASS = 'is-refreshing';
 
@@ -23,7 +25,9 @@ type SettingsGroup = 'boardSize' | 'player' | 'theme';
 export function mountSettingsPage(target: HTMLElement): void {
   target.innerHTML = createSettingsTemplate(getGameSettings());
   bindOptionEvents(target);
+  bindThemePreviewEvents(target);
   bindStartButton(target);
+  syncPreviewImage(target, getGameSettings().theme);
 }
 
 function bindOptionEvents(target: HTMLElement): void {
@@ -68,6 +72,52 @@ function syncSettingsUi(target: HTMLElement, settings: GameSettings): void {
   syncOptions(target, settings);
   syncFooterSummary(target, settings);
   syncStartButtonState(target);
+  syncPreviewImage(target, settings.theme);
+}
+
+function bindThemePreviewEvents(target: HTMLElement): void {
+  const themeOptionButtons = target.querySelectorAll<HTMLButtonElement>(THEME_OPTION_SELECTOR);
+
+  themeOptionButtons.forEach((button) => {
+    button.addEventListener('mouseenter', () => {
+      syncHoveredThemePreview(target, button.dataset.previewTheme);
+    });
+
+    button.addEventListener('mouseleave', () => {
+      syncPreviewImage(target, getGameSettings().theme);
+    });
+
+    button.addEventListener('focus', () => {
+      syncHoveredThemePreview(target, button.dataset.previewTheme);
+    });
+
+    button.addEventListener('blur', () => {
+      syncPreviewImage(target, getGameSettings().theme);
+    });
+  });
+}
+
+function syncHoveredThemePreview(target: HTMLElement, hoveredTheme?: string): void {
+  if (!hoveredTheme || !isThemeOption(hoveredTheme)) {
+    return;
+  }
+
+  syncPreviewImage(target, hoveredTheme);
+}
+
+function syncPreviewImage(target: HTMLElement, theme: GameSettings['theme']): void {
+  const previewImage = target.querySelector<HTMLImageElement>(PREVIEW_IMAGE_SELECTOR);
+  if (!previewImage) {
+    return;
+  }
+
+  const previewSource = theme === 'foods'
+    ? previewImage.dataset.previewFoods
+    : previewImage.dataset.previewCodeVibes || previewImage.dataset.previewDefault;
+
+  if (previewSource) {
+    previewImage.src = previewSource;
+  }
 }
 
 function syncOptions(target: HTMLElement, settings: GameSettings): void {
