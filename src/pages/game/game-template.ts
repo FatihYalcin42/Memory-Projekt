@@ -1,42 +1,30 @@
 import type {
-  BoardSizeOption,
   GameSettings,
-  PlayerOption,
-  ThemeOption,
+  SettingsChoice,
 } from '../../app/game-settings';
-import board16 from '../../../puplic/designs/theme_1/Code vibes theme_16.svg';
-import board24 from '../../../puplic/designs/theme_1/Code vibes theme_24.svg';
-import board36 from '../../../puplic/designs/theme_1/Code vibes theme_36.svg';
-import foodBoard16 from '../../../puplic/designs/theme2/Food_theme_16.svg';
-import foodBoard24 from '../../../puplic/designs/theme2/Food_theme_24.svg';
-import foodBoard36 from '../../../puplic/designs/theme2/Food_theme_36.svg';
-
-const BOARD_IMAGES: Record<ThemeOption, Record<BoardSizeOption, string>> = {
-  'code-vibes': {
-    '16': board16,
-    '24': board24,
-    '36': board36,
-  },
-  foods: {
-    '16': foodBoard16,
-    '24': foodBoard24,
-    '36': foodBoard36,
-  },
-};
+import {
+  BOARD_SIZE_CHOICES,
+  PLAYER_CHOICES,
+  THEME_CHOICES,
+} from '../../app/game-settings';
+import { getBoardImage, getThemeModifierClass } from '../../app/theme-assets';
 
 export function createGameTemplate(settings: GameSettings): string {
+  const gameThemeClassName = getThemeModifierClass(settings.theme);
+  const boardImage = getBoardImage(settings.theme, settings.boardSize);
+
   return `
-    <main class="game-screen" aria-labelledby="game-title">
+    <main class="game-screen ${gameThemeClassName}" aria-labelledby="game-title">
       <div class="game-screen__canvas">
         <img
           class="game-screen__board"
-          src="${readBoardImage(settings.theme, settings.boardSize)}"
+          src="${boardImage}"
           alt="Memory board"
         />
 
         <header class="game-screen__overlay">
           <h1 id="game-title">Game</h1>
-          <p>${readMetaText(settings.theme, settings.player, settings.boardSize)}</p>
+          <p>${readMetaText(settings)}</p>
           <button id="game-back-button" type="button">Settings</button>
         </header>
       </div>
@@ -44,22 +32,22 @@ export function createGameTemplate(settings: GameSettings): string {
   `;
 }
 
-function readBoardImage(
-  theme: ThemeOption | null,
-  boardSize: BoardSizeOption | null,
-): string {
-  const selectedTheme = theme ?? 'code-vibes';
-  const selectedBoardSize = boardSize ?? '16';
-  return BOARD_IMAGES[selectedTheme][selectedBoardSize];
+function readMetaText(settings: GameSettings): string {
+  const themeLabel = readChoiceLabel(THEME_CHOICES, settings.theme);
+  const playerLabel = readChoiceLabel(PLAYER_CHOICES, settings.player);
+  const boardLabel = readChoiceLabel(BOARD_SIZE_CHOICES, settings.boardSize);
+
+  return `Theme: ${themeLabel} | Player: ${playerLabel} | Board: ${boardLabel}`;
 }
 
-function readMetaText(
-  theme: ThemeOption | null,
-  player: PlayerOption | null,
-  boardSize: BoardSizeOption | null,
+function readChoiceLabel<T extends string>(
+  choices: SettingsChoice<T>[],
+  value: T | null,
 ): string {
-  const themeLabel = theme ? theme : '-';
-  const playerLabel = player ? player : '-';
-  const boardLabel = boardSize ? `${boardSize} cards` : '-';
-  return `Theme: ${themeLabel} | Player: ${playerLabel} | Board: ${boardLabel}`;
+  if (!value) {
+    return '-';
+  }
+
+  const selectedChoice = choices.find((choice) => choice.value === value);
+  return selectedChoice ? selectedChoice.label : '-';
 }

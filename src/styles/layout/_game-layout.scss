@@ -1,8 +1,20 @@
 .game-screen {
+  --game-overlay-bg: rgba(236, 236, 236, 0.9);
+  --game-overlay-border: var(--settings-border);
+  --game-overlay-button-bg: var(--settings-accent);
+  --game-overlay-button-text: var(--settings-text);
   width: 100vw;
   height: 100vh;
   overflow: hidden;
   background-color: var(--settings-bg);
+}
+
+.game-screen--code-vibes {
+  --game-overlay-bg: rgba(236, 236, 236, 0.9);
+}
+
+.game-screen--foods {
+  --game-overlay-bg: rgba(246, 240, 227, 0.9);
 }
 
 .game-screen__canvas {
@@ -26,8 +38,8 @@
   align-items: center;
   gap: 12px;
   padding: 8px 12px;
-  border: 1px solid var(--settings-border);
-  background-color: rgba(236, 236, 236, 0.9);
+  border: 1px solid var(--game-overlay-border);
+  background-color: var(--game-overlay-bg);
 }
 
 .game-screen__overlay h1 {
@@ -41,9 +53,9 @@
 }
 
 .game-screen__overlay button {
-  border: 1px solid var(--settings-border);
-  background-color: var(--settings-accent);
-  color: var(--settings-text);
+  border: 1px solid var(--game-overlay-border);
+  background-color: var(--game-overlay-button-bg);
+  color: var(--game-overlay-button-text);
   font-size: 13px;
   font-weight: 700;
   padding: 6px 10px;
