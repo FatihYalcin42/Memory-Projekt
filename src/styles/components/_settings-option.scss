@@ -24,14 +24,52 @@
   font-size: 33px;
   font-weight: 500;
   line-height: 1;
+  transition: color 180ms ease;
 }
 
 .settings-option__line {
   width: 50px;
   height: 18px;
   margin-left: 10px;
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition:
+    opacity 200ms ease,
+    transform 200ms ease;
+}
+
+.settings-option__line.is-visible {
+  opacity: 1;
+  transform: scaleX(1);
+  animation: settings-option-line-in 200ms ease;
 }
 
 .settings-option.is-selected .settings-option__label {
   font-weight: 700;
+  animation: settings-option-label-in 200ms ease;
+}
+
+@keyframes settings-option-label-in {
+  from {
+    opacity: 0.75;
+    transform: translateX(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes settings-option-line-in {
+  from {
+    opacity: 0;
+    transform: scaleX(0.25);
+  }
+
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
 }

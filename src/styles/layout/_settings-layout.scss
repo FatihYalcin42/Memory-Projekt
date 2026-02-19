@@ -36,41 +36,101 @@
   position: absolute;
   right: 124px;
   bottom: 112px;
-  display: flex;
-  align-items: stretch;
-  gap: 16px;
-}
-
-.settings-footer__line {
-  width: 27px;
-  height: 56px;
-  align-self: flex-end;
-  margin-bottom: 4px;
-}
-
-.settings-summary {
+  width: 660px;
+  height: 81px;
   display: flex;
   align-items: center;
-  gap: 24px;
-  min-width: 420px;
-  padding: 16px 18px;
+  justify-content: space-between;
+}
+
+.settings-footer__summary {
+  width: 492px;
+  height: 81px;
+  padding: 0 14px;
   border: 1px solid var(--settings-border);
-  background-color: var(--settings-footer-bg);
-}
-
-.settings-summary__item {
+  background-color: #f6f6f6;
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  overflow: visible;
 }
 
-.settings-summary__label {
-  font-size: 15px;
-  font-weight: 600;
+.settings-footer__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  height: 100%;
 }
 
-.settings-summary__value {
-  color: #5b5b5b;
-  font-size: 13px;
+.settings-footer__item + .settings-footer__item {
+  padding-left: 22px;
+}
+
+.settings-footer__text {
+  color: #9b9b9b;
+  font-size: 18px;
+  font-weight: 700;
   line-height: 1;
+  white-space: nowrap;
+  transition: color 200ms ease;
+}
+
+.settings-footer__item.is-selected .settings-footer__text {
+  color: var(--settings-text);
+  animation: settings-footer-text-in 220ms ease;
+}
+
+.settings-footer__item.is-selected.is-refreshing .settings-footer__text {
+  animation: settings-footer-text-in 220ms ease;
+}
+
+.settings-footer__separator {
+  position: absolute;
+  top: 50%;
+  right: -15px;
+  width: 36px;
+  height: 60px;
+  display: block;
+  object-fit: contain;
+  transform: translateY(-50%) scale(1);
+  transform-origin: center;
+  opacity: 1;
+  transition:
+    transform 220ms ease,
+    opacity 220ms ease;
+}
+
+.settings-footer__item.is-selected .settings-footer__separator {
+  transform: translateY(-50%) scale(1.06);
+  opacity: 1;
+  animation: settings-footer-separator-in 220ms ease;
+}
+
+.settings-footer__item.is-selected.is-refreshing .settings-footer__separator {
+  animation: settings-footer-separator-in 220ms ease;
+}
+
+@keyframes settings-footer-text-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes settings-footer-separator-in {
+  from {
+    transform: translateY(-50%) scale(0.86);
+    opacity: 0.8;
+  }
+
+  to {
+    transform: translateY(-50%) scale(1.06);
+    opacity: 1;
+  }
 }
