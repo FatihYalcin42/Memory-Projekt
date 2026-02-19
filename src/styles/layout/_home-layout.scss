@@ -1,0 +1,28 @@
+.home-screen {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.home-screen__canvas {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: var(--home-bg);
+}
+
+.home-screen__content {
+  position: absolute;
+  top: 258px;
+  left: 232px;
+}
+
+.home-screen__controller {
+  position: absolute;
+  left: -59px;
+  top: 600px;
+  width: 363px;
+  height: 410px;
+  user-select: none;
+  pointer-events: none;
+}

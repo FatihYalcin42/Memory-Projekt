@@ -1,0 +1,7 @@
+@use '../abstract/variables' as vars;
+
+:root {
+  --home-bg: #{vars.$home-bg};
+  --home-text: #{vars.$home-text};
+  --home-focus-outline: #{vars.$home-focus-outline};
+}
