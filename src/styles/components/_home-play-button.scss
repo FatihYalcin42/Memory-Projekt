@@ -2,16 +2,42 @@
   position: absolute;
   top: 653px;
   left: 595px;
+  width: 250px;
+  height: 98px;
   padding: 0;
   border: 0;
   background: none;
+  overflow: hidden;
   cursor: pointer;
+  transform-origin: center;
+  transition: transform 220ms ease;
 }
 
-.home-screen__play-button img {
+.home-screen__play-button-base,
+.home-screen__play-button-controller {
+  position: absolute;
+  inset: 0;
   display: block;
-  width: 250px;
-  height: 98px;
+  width: 100%;
+  height: 100%;
+}
+
+.home-screen__play-button-controller {
+  clip-path: inset(23px 171px 23px 18px);
+  transform-origin: 48px 49px;
+  transform: rotate(0deg);
+  pointer-events: none;
+  transition: transform 240ms ease;
+}
+
+.home-screen__play-button:hover,
+.home-screen__play-button:focus-visible {
+  transform: scale(1.06);
+}
+
+.home-screen__play-button:hover .home-screen__play-button-controller,
+.home-screen__play-button:focus-visible .home-screen__play-button-controller {
+  transform: rotate(-9deg);
 }
 
 .home-screen__play-button:focus-visible {

@@ -30,7 +30,18 @@ function createPlayButton(): string {
       type="button"
       aria-label="Open settings"
     >
-      <img src="${playButtonIcon}" alt="" aria-hidden="true" />
+      <img
+        class="home-screen__play-button-base"
+        src="${playButtonIcon}"
+        alt=""
+        aria-hidden="true"
+      />
+      <img
+        class="home-screen__play-button-controller"
+        src="${playButtonIcon}"
+        alt=""
+        aria-hidden="true"
+      />
     </button>
   `;
 }
