@@ -2,6 +2,7 @@ import type { BoardSizeOption, GameSettings } from '../../app/game-settings';
 import { getThemeModifierClass } from '../../app/theme-assets';
 import playerLabelIconRaw from '../../../puplic/designs/theme_1/label.svg?raw';
 import exitButtonSprite from '../../../puplic/icons/icons_1/exitgame1.svg';
+import cardBackSprite from '../../../puplic/icons/icons_1/Cards 5.svg';
 
 export function createGameTemplate(settings: GameSettings): string {
   const gameThemeClassName = getThemeModifierClass(settings.theme);
@@ -22,6 +23,7 @@ export function createGameTemplate(settings: GameSettings): string {
             class="game-screen__board-grid"
             id="game-board"
             data-board-size="${boardSize}"
+            style="--game-card-back-image: url('${cardBackSprite}')"
           >
             ${boardCards}
           </div>
@@ -106,9 +108,7 @@ function createBoardCards(boardSize: BoardSizeOption): string {
     return `
       <button class="game-card" type="button" data-card-index="${index}">
         <span class="game-card__inner">
-          <span class="game-card__face game-card__face--front" aria-hidden="true">
-            <span class="game-card__code-icon">&lt;/&gt;</span>
-          </span>
+          <span class="game-card__face game-card__face--front" aria-hidden="true"></span>
           <span class="game-card__face game-card__face--back" aria-hidden="true"></span>
         </span>
       </button>

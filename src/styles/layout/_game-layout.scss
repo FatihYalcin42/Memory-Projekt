@@ -84,28 +84,14 @@
 }
 
 .game-card__face--front {
-  background: linear-gradient(136deg, #4dd5bc 19%, #2f8d7b 100%);
+  background:
+    center / cover no-repeat var(--game-card-back-image),
+    linear-gradient(136deg, #4dd5bc 19%, #2f8d7b 100%);
 }
 
 .game-card__face--back {
   transform: rotateY(180deg);
   background-color: #e8f3f0;
-}
-
-.game-card__code-icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  min-width: 2.3em;
-  padding: 0.13em 0.32em;
-  color: rgba(227, 243, 239, 0.45);
-  border: 0.08em solid rgba(227, 243, 239, 0.32);
-  font-family: 'Almarai', sans-serif;
-  font-size: clamp(14px, 1.65vw, 28px);
-  font-weight: 700;
-  line-height: 1;
-  text-align: center;
-  transform: translate(-50%, -50%);
 }
 
 .game-card.flipped .game-card__inner {
