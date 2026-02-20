@@ -1,12 +1,13 @@
-import type { GameSettings } from '../../app/game-settings';
-import { getBoardImage, getThemeModifierClass } from '../../app/theme-assets';
+import type { BoardSizeOption, GameSettings } from '../../app/game-settings';
+import { getThemeModifierClass } from '../../app/theme-assets';
 import playerLabelIcon from '../../../puplic/designs/theme_1/label.svg';
 import exitButtonSprite from '../../../puplic/icons/icons_1/exit-game-button.svg';
 
 export function createGameTemplate(settings: GameSettings): string {
   const gameThemeClassName = getThemeModifierClass(settings.theme);
-  const boardSizeClassName = readBoardSizeClassName(settings);
-  const boardImage = getBoardImage(settings.theme, settings.boardSize);
+  const boardSize = settings.boardSize ?? '16';
+  const boardSizeClassName = readBoardSizeClassName(boardSize);
+  const boardCards = createBoardCards(boardSize);
   const isCodeVibesTheme = settings.theme !== 'foods';
   const playerMarkerClassName = settings.player === 'orange'
     ? ' is-orange'
@@ -16,11 +17,15 @@ export function createGameTemplate(settings: GameSettings): string {
     <main class="game-screen ${gameThemeClassName} ${boardSizeClassName}" aria-labelledby="game-title">
       <h1 id="game-title" class="game-screen__sr-only">Game</h1>
       <div class="game-screen__canvas">
-        <img
-          class="game-screen__board"
-          src="${boardImage}"
-          alt="Memory board"
-        />
+        <section class="game-screen__board-area" aria-label="Game board">
+          <div
+            class="game-screen__board-grid"
+            id="game-board"
+            data-board-size="${boardSize}"
+          >
+            ${boardCards}
+          </div>
+        </section>
         ${isCodeVibesTheme
     ? createCodeVibesHud(playerMarkerClassName)
     : createFallbackHud()}
@@ -32,6 +37,19 @@ export function createGameTemplate(settings: GameSettings): string {
 function createCodeVibesHud(playerMarkerClassName: string): string {
   return `
     <div class="game-screen__hud">
+      <div class="game-screen__scoreboard" aria-label="Scoreboard">
+        <span class="game-screen__score game-screen__score--blue">
+          <span class="game-screen__score-icon" aria-hidden="true"></span>
+          <span>Blue</span>
+          <span class="game-screen__score-value">0</span>
+        </span>
+        <span class="game-screen__score game-screen__score--orange">
+          <span class="game-screen__score-icon" aria-hidden="true"></span>
+          <span>Orange</span>
+          <span class="game-screen__score-value">0</span>
+        </span>
+      </div>
+
       <span
         class="game-screen__current-player-marker${playerMarkerClassName}"
         style="--game-player-marker-image: url('${playerLabelIcon}')"
@@ -69,12 +87,28 @@ function createFallbackHud(): string {
   `;
 }
 
-function readBoardSizeClassName(settings: GameSettings): string {
-  if (settings.boardSize === '24') {
+function createBoardCards(boardSize: BoardSizeOption): string {
+  const cardCount = Number.parseInt(boardSize, 10);
+  return Array.from({ length: cardCount }, (_, index) => {
+    return `
+      <button class="game-card" type="button" data-card-index="${index}">
+        <span class="game-card__inner">
+          <span class="game-card__face game-card__face--front" aria-hidden="true">
+            <span class="game-card__code-icon">&lt;/&gt;</span>
+          </span>
+          <span class="game-card__face game-card__face--back" aria-hidden="true"></span>
+        </span>
+      </button>
+    `;
+  }).join('');
+}
+
+function readBoardSizeClassName(boardSize: BoardSizeOption): string {
+  if (boardSize === '24') {
     return 'game-screen--board-24';
   }
 
-  if (settings.boardSize === '36') {
+  if (boardSize === '36') {
     return 'game-screen--board-36';
   }
 
