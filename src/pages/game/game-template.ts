@@ -41,12 +41,16 @@ function createCodeVibesHud(playerMarkerClassName: string): string {
     <div class="game-screen__hud">
       <div class="game-screen__scoreboard" aria-label="Scoreboard">
         <span class="game-screen__score game-screen__score--blue">
-          <span class="game-screen__score-icon" aria-hidden="true"></span>
+          <span class="game-screen__score-icon" aria-hidden="true">
+            ${playerLabelIcon}
+          </span>
           <span>Blue</span>
           <span class="game-screen__score-value">0</span>
         </span>
         <span class="game-screen__score game-screen__score--orange">
-          <span class="game-screen__score-icon" aria-hidden="true"></span>
+          <span class="game-screen__score-icon" aria-hidden="true">
+            ${playerLabelIcon}
+          </span>
           <span>Orange</span>
           <span class="game-screen__score-value">0</span>
         </span>

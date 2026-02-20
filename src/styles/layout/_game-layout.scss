@@ -137,11 +137,11 @@
   height: var(--game-score-height);
   display: flex;
   align-items: center;
-  gap: calc(100% * 16 / 292);
-  padding: 0 calc(100% * 20 / 292);
+  gap: calc(100% * 10 / 292);
+  padding: 0 calc(100% * 14 / 292);
   background-color: #3f5958;
   font-family: 'Almarai', sans-serif;
-  font-size: clamp(12px, 1.72vw, 33px);
+  font-size: clamp(14px, 1.15vw, 22px);
   font-weight: 700;
   line-height: 1;
 }
@@ -149,15 +149,23 @@
 .game-screen__score {
   display: inline-flex;
   align-items: center;
-  gap: 0.3em;
+  gap: 0.26em;
+  white-space: nowrap;
 }
 
 .game-screen__score-icon {
-  width: 0.78em;
-  height: 0.78em;
-  display: inline-block;
-  background-color: currentColor;
-  clip-path: polygon(0 0, 78% 0, 100% 50%, 78% 100%, 0 100%);
+  width: 0.88em;
+  height: 0.7em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.game-screen__score-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 .game-screen__score--blue {
@@ -169,7 +177,7 @@
 }
 
 .game-screen__score-value {
-  min-width: 0.7em;
+  min-width: 0.55em;
 }
 
 .game-screen__current-player-marker {
