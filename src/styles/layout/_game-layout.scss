@@ -204,20 +204,16 @@
 }
 
 .game-screen__exit-button-image {
-  position: absolute;
-  width: calc(100% * 247 / 206);
-  height: calc(100% * 184 / 61);
-  top: calc(100% * -21 / 61);
-  left: calc(100% * -21 / 206);
-  transition:
-    top 150ms ease,
-    left 150ms ease;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  transition: transform 150ms ease;
 }
 
 .game-screen__exit-button:hover .game-screen__exit-button-image,
 .game-screen__exit-button:focus-visible .game-screen__exit-button-image {
-  top: calc(100% * -102 / 61);
-  left: calc(100% * -20 / 206);
+  transform: scale(1.01);
 }
 
 .game-screen__exit-button:focus-visible {

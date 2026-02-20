@@ -1,7 +1,7 @@
 import type { BoardSizeOption, GameSettings } from '../../app/game-settings';
 import { getThemeModifierClass } from '../../app/theme-assets';
 import playerLabelIcon from '../../../puplic/designs/theme_1/label.svg';
-import exitButtonSprite from '../../../puplic/icons/icons_1/exit-game-button.svg';
+import exitButtonSprite from '../../../puplic/icons/icons_1/exitgame1.svg';
 
 export function createGameTemplate(settings: GameSettings): string {
   const gameThemeClassName = getThemeModifierClass(settings.theme);
