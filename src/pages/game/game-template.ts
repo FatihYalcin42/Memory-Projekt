@@ -1,6 +1,6 @@
 import type { BoardSizeOption, GameSettings } from '../../app/game-settings';
 import { getThemeModifierClass } from '../../app/theme-assets';
-import playerLabelIcon from '../../../puplic/designs/theme_1/label.svg';
+import playerLabelIconRaw from '../../../puplic/designs/theme_1/label.svg?raw';
 import exitButtonSprite from '../../../puplic/icons/icons_1/exitgame1.svg';
 
 export function createGameTemplate(settings: GameSettings): string {
@@ -35,6 +35,8 @@ export function createGameTemplate(settings: GameSettings): string {
 }
 
 function createCodeVibesHud(playerMarkerClassName: string): string {
+  const playerLabelIcon = createPlayerLabelIconMarkup();
+
   return `
     <div class="game-screen__hud">
       <div class="game-screen__scoreboard" aria-label="Scoreboard">
@@ -52,9 +54,10 @@ function createCodeVibesHud(playerMarkerClassName: string): string {
 
       <span
         class="game-screen__current-player-marker${playerMarkerClassName}"
-        style="--game-player-marker-image: url('${playerLabelIcon}')"
         aria-hidden="true"
-      ></span>
+      >
+        ${playerLabelIcon}
+      </span>
 
       <button
         id="game-exit-button"
@@ -71,6 +74,12 @@ function createCodeVibesHud(playerMarkerClassName: string): string {
       </button>
     </div>
   `;
+}
+
+function createPlayerLabelIconMarkup(): string {
+  return playerLabelIconRaw
+    .replace(/fill="#2BB1FF"/gi, 'fill="currentColor"')
+    .trim();
 }
 
 function createFallbackHud(): string {
