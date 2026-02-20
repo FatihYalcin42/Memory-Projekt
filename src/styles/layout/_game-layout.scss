@@ -204,16 +204,21 @@
 }
 
 .game-screen__exit-button-image {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   display: block;
-  object-fit: contain;
-  transition: transform 150ms ease;
+  object-fit: fill;
+  transition:
+    transform 150ms ease,
+    filter 150ms ease;
 }
 
 .game-screen__exit-button:hover .game-screen__exit-button-image,
 .game-screen__exit-button:focus-visible .game-screen__exit-button-image {
-  transform: scale(1.01);
+  transform: scale(1.008);
+  filter: brightness(1.08) drop-shadow(0 0 8px rgba(255, 255, 255, 0.25));
 }
 
 .game-screen__exit-button:focus-visible {
