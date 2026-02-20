@@ -1,7 +1,7 @@
 import { getGameSettings } from '../../app/game-settings';
 import { createGameTemplate } from './game-template';
 
-const BACK_BUTTON_SELECTOR = '#game-back-button';
+const EXIT_BUTTON_SELECTOR = '#game-exit-button';
 
 export function mountGamePage(target: HTMLElement): void {
   target.innerHTML = createGameTemplate(getGameSettings());
@@ -9,12 +9,12 @@ export function mountGamePage(target: HTMLElement): void {
 }
 
 function bindGameEvents(target: HTMLElement): void {
-  const backButton = target.querySelector<HTMLButtonElement>(BACK_BUTTON_SELECTOR);
-  if (!backButton) {
+  const exitButton = target.querySelector<HTMLButtonElement>(EXIT_BUTTON_SELECTOR);
+  if (!exitButton) {
     return;
   }
 
-  backButton.addEventListener('click', () => {
+  exitButton.addEventListener('click', () => {
     window.location.hash = '#settings';
   });
 }

@@ -1,20 +1,22 @@
 .game-screen {
-  --game-overlay-bg: rgba(236, 236, 236, 0.9);
-  --game-overlay-border: var(--settings-border);
-  --game-overlay-button-bg: var(--settings-accent);
-  --game-overlay-button-text: var(--settings-text);
+  --game-exit-top: calc(100% * 41.5 / 1024);
+  --game-label-top: calc(100% * 75 / 1024);
+  --game-exit-left: calc(100% * 1122.5 / 1440);
+  --game-label-left: calc(100% * 772.974 / 1440);
   width: 100vw;
   height: 100vh;
   overflow: hidden;
   background-color: var(--settings-bg);
 }
 
-.game-screen--code-vibes {
-  --game-overlay-bg: rgba(236, 236, 236, 0.9);
+.game-screen--board-24 {
+  --game-exit-top: calc(100% * 38.5 / 1024);
+  --game-label-top: calc(100% * 72 / 1024);
 }
 
-.game-screen--foods {
-  --game-overlay-bg: rgba(246, 240, 227, 0.9);
+.game-screen--board-36 {
+  --game-exit-top: calc(100% * 10.5 / 1024);
+  --game-label-top: calc(100% * 44 / 1024);
 }
 
 .game-screen__canvas {
@@ -27,37 +29,97 @@
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: fill;
 }
 
-.game-screen__overlay {
+.game-screen__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.game-screen__hud {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.game-screen__current-player-marker {
+  position: absolute;
+  top: var(--game-label-top);
+  left: var(--game-label-left);
+  width: calc(100% * 29 / 1440);
+  height: calc(100% * 24 / 1024);
+  display: block;
+  background-color: #2bb1ff;
+  -webkit-mask: var(--game-player-marker-image) center / contain no-repeat;
+  mask: var(--game-player-marker-image) center / contain no-repeat;
+  pointer-events: none;
+}
+
+.game-screen__current-player-marker.is-orange {
+  background-color: #f58e39;
+}
+
+.game-screen__exit-button {
+  position: absolute;
+  top: var(--game-exit-top);
+  left: var(--game-exit-left);
+  width: calc(100% * 206 / 1440);
+  height: calc(100% * 61 / 1024);
+  padding: 0;
+  border: 0;
+  background: none;
+  overflow: hidden;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.game-screen__exit-button-image {
+  position: absolute;
+  width: calc(100% * 247 / 206);
+  height: calc(100% * 184 / 61);
+  top: calc(100% * -21 / 61);
+  left: calc(100% * -21 / 206);
+  transition:
+    top 150ms ease,
+    left 150ms ease;
+}
+
+.game-screen__exit-button:hover .game-screen__exit-button-image,
+.game-screen__exit-button:focus-visible .game-screen__exit-button-image {
+  top: calc(100% * -102 / 61);
+  left: calc(100% * -20 / 206);
+}
+
+.game-screen__exit-button:focus-visible {
+  outline: 2px solid #f0e5d9;
+  outline-offset: 2px;
+}
+
+.game-screen__exit-fallback {
   position: absolute;
   top: 18px;
-  left: 18px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 12px;
-  border: 1px solid var(--game-overlay-border);
-  background-color: var(--game-overlay-bg);
-}
-
-.game-screen__overlay h1 {
-  margin: 0;
-  font-size: 20px;
-}
-
-.game-screen__overlay p {
-  margin: 0;
-  font-size: 13px;
-}
-
-.game-screen__overlay button {
-  border: 1px solid var(--game-overlay-border);
-  background-color: var(--game-overlay-button-bg);
-  color: var(--game-overlay-button-text);
-  font-size: 13px;
+  right: 18px;
+  height: 40px;
+  padding: 0 16px;
+  border: 1px solid #2f2f2f;
+  background-color: #ececec;
+  color: #2f2f2f;
+  font-family: 'Almarai', sans-serif;
+  font-size: 18px;
   font-weight: 700;
-  padding: 6px 10px;
+  line-height: 1;
   cursor: pointer;
+  pointer-events: auto;
+}
+
+.game-screen__exit-fallback:focus-visible {
+  outline: 2px solid #2f2f2f;
+  outline-offset: 2px;
 }
