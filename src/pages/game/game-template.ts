@@ -23,7 +23,6 @@ export function createGameTemplate(settings: GameSettings): string {
             class="game-screen__board-grid"
             id="game-board"
             data-board-size="${boardSize}"
-            style="--game-card-back-image: url('${cardBackSprite}')"
           >
             ${boardCards}
           </div>
@@ -103,12 +102,20 @@ function createFallbackHud(): string {
 }
 
 function createBoardCards(boardSize: BoardSizeOption): string {
-  const cardCount = Number.parseInt(boardSize, 10);
+  const parsedCount = Number.parseInt(boardSize, 10);
+  const cardCount = Number.isFinite(parsedCount) && parsedCount > 0
+    ? parsedCount
+    : 16;
+
   return Array.from({ length: cardCount }, (_, index) => {
     return `
       <button class="game-card" type="button" data-card-index="${index}">
         <span class="game-card__inner">
-          <span class="game-card__face game-card__face--front" aria-hidden="true"></span>
+          <span
+            class="game-card__face game-card__face--front"
+            style="background-image: url('${cardBackSprite}')"
+            aria-hidden="true"
+          ></span>
           <span class="game-card__face game-card__face--back" aria-hidden="true"></span>
         </span>
       </button>

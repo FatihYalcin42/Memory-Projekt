@@ -56,6 +56,8 @@
 }
 
 .game-card {
+  display: block;
+  width: 100%;
   aspect-ratio: 1 / 1;
   padding: 0;
   border: 0;
@@ -70,6 +72,7 @@
 }
 
 .game-card__inner {
+  display: block;
   position: relative;
   width: 100%;
   height: 100%;
@@ -84,9 +87,12 @@
 }
 
 .game-card__face--front {
-  background:
-    center / cover no-repeat var(--game-card-back-image),
-    linear-gradient(136deg, #4dd5bc 19%, #2f8d7b 100%);
+  overflow: hidden;
+  background-color: #2f8d7b;
+  background-image: linear-gradient(136deg, #4dd5bc 19%, #2f8d7b 100%);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 .game-card__face--back {
