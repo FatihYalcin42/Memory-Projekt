@@ -198,42 +198,21 @@
     gap: 22px;
   }
 
-  .settings-footer__summary {
-    padding: 12px;
-    gap: 12px;
+  .settings-footer {
+    width: auto;
     height: auto;
-    flex-direction: column;
-    align-items: stretch;
   }
 
-  .settings-footer {
+  .settings-footer__summary {
+    width: auto;
     height: auto;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    display: block;
   }
 
   .settings-footer__fields {
-    width: 100%;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .settings-footer__item {
-    width: 100%;
-    min-height: 0;
-    height: auto;
-  }
-
-  .settings-footer__item + .settings-footer__item {
-    padding-left: 0;
-  }
-
-  .settings-footer__separator {
     display: none;
-  }
-
-  .settings-footer__text {
-    font-size: 18px;
   }
 }
