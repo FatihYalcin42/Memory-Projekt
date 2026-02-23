@@ -5,6 +5,9 @@ import confettiAsset from '../../../puplic/designs/theme_1/Confetti.svg?url';
 import codeVibesPlayerLabelIconRaw from '../../../puplic/designs/theme_1/label.svg?raw';
 import foodsPlayerLabelIconRaw from '../../../puplic/designs/theme2/Frame 614.svg?raw';
 import backToGameButtonSprite from '../../../puplic/designs/theme_1/back-to-game-button.svg';
+import foodsHomeButtonSprite from '../../../puplic/designs/theme2/home-button.svg';
+import foodsWinnerBluePlayerSprite from '../../../puplic/designs/theme2/player-blue.svg';
+import foodsWinnerOrangePlayerSprite from '../../../puplic/designs/theme2/player-orange.svg';
 
 export function createGameOverTemplate(
   result: GameResult,
@@ -24,6 +27,15 @@ export function createGameOverTemplate(
     playerLabelIcon,
     resolvedTheme,
   );
+  const winnerContentMarkup = isFoodsTheme
+    ? createFoodsWinnerContentMarkup(winner)
+    : createCodeVibesWinnerContentMarkup(winner, scoreSummary);
+  const backHomeButtonSprite = isFoodsTheme
+    ? foodsHomeButtonSprite
+    : backToGameButtonSprite;
+  const backHomeButtonImageClassName = isFoodsTheme
+    ? 'game-over-screen__back-home-button-image game-over-screen__back-home-button-image--foods'
+    : 'game-over-screen__back-home-button-image';
   const confettiMarkup = isFoodsTheme
     ? ''
     : `
@@ -53,13 +65,7 @@ export function createGameOverTemplate(
         ${confettiMarkup}
 
         <div class="game-over-screen__winner-content">
-          ${winner.isDraw ? '' : '<p class="game-over-screen__winner-prefix">the winner is</p>'}
-          <p class="game-over-screen__winner-player ${winner.className}">
-            ${winner.label}
-          </p>
-
-          <h2 class="game-over-screen__subtitle">Final score</h2>
-          ${scoreSummary}
+          ${winnerContentMarkup}
 
           <button
             type="button"
@@ -68,8 +74,8 @@ export function createGameOverTemplate(
             aria-label="Back to home"
           >
             <img
-              class="game-over-screen__back-home-button-image"
-              src="${backToGameButtonSprite}"
+              class="${backHomeButtonImageClassName}"
+              src="${backHomeButtonSprite}"
               alt=""
               aria-hidden="true"
             />
@@ -77,6 +83,56 @@ export function createGameOverTemplate(
         </div>
       </section>
     </main>
+  `;
+}
+
+function createCodeVibesWinnerContentMarkup(
+  winner: WinnerPresentation,
+  scoreSummary: string,
+): string {
+  return `
+    ${winner.isDraw ? '' : '<p class="game-over-screen__winner-prefix">the winner is</p>'}
+    <p class="game-over-screen__winner-player ${winner.className}">
+      ${winner.label}
+    </p>
+
+    <h2 class="game-over-screen__subtitle">Final score</h2>
+    ${scoreSummary}
+  `;
+}
+
+function createFoodsWinnerContentMarkup(winner: WinnerPresentation): string {
+  const playerIconMarkup = createFoodsWinnerPlayerIconMarkup(winner);
+
+  return `
+    ${winner.isDraw ? '' : '<p class="game-over-screen__winner-prefix">The winner is</p>'}
+    <p class="game-over-screen__winner-player ${winner.className}">
+      ${winner.label}
+    </p>
+    ${playerIconMarkup}
+  `;
+}
+
+function createFoodsWinnerPlayerIconMarkup(winner: WinnerPresentation): string {
+  if (winner.isDraw) {
+    return '';
+  }
+
+  const iconSource = winner.className === 'game-over-screen__winner-player--orange'
+    ? foodsWinnerOrangePlayerSprite
+    : foodsWinnerBluePlayerSprite;
+  const iconAlt = winner.className === 'game-over-screen__winner-player--orange'
+    ? 'Orange player icon'
+    : 'Blue player icon';
+
+  return `
+    <div class="game-over-screen__winner-icon">
+      <img
+        class="game-over-screen__winner-icon-image"
+        src="${iconSource}"
+        alt="${iconAlt}"
+      />
+    </div>
   `;
 }
 

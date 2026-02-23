@@ -309,36 +309,74 @@
 }
 
 .game-over-screen--foods .game-over-screen__winner-page {
-  background-color: #f3832d;
+  background-color: #f6f6f6;
+  padding: 84px 24px 40px;
 }
 
 .game-over-screen--foods .game-over-screen__winner-content {
+  width: min(960px, 100%);
   gap: 26px;
 }
 
 .game-over-screen--foods .game-over-screen__winner-prefix {
-  width: auto;
-  height: auto;
-  color: #ffffff;
+  width: min(253px, 100%);
+  min-height: 37px;
+  color: #a45212;
   font-family: 'Klee One', cursive;
-  font-size: clamp(28px, 4.2vw, 44px);
+  font-size: clamp(28px, 4.2vw, 40px);
   font-style: normal;
   font-weight: 600;
   line-height: 1;
+  letter-spacing: 0;
+  text-align: center;
 }
 
 .game-over-screen--foods .game-over-screen__winner-player {
-  width: auto;
-  height: auto;
+  width: min(426px, 100%);
+  min-height: 116px;
+  color: #a45212;
   font-family: 'Klee One', cursive;
-  font-size: clamp(44px, 6vw, 84px);
+  font-size: clamp(44px, 8.2vw, 80px);
   font-style: normal;
   font-weight: 600;
   line-height: 1;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.game-over-screen--foods .game-over-screen__winner-player--blue,
+.game-over-screen--foods .game-over-screen__winner-player--orange {
+  color: #a45212;
 }
 
 .game-over-screen--foods .game-over-screen__winner-player--draw {
-  color: #ffffff;
+  color: #a45212;
+}
+
+.game-over-screen--foods .game-over-screen__winner-icon {
+  width: min(272px, 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-over-screen--foods .game-over-screen__winner-icon-image {
+  width: min(272px, 100%);
+  height: auto;
+  display: block;
+}
+
+.game-over-screen--foods .game-over-screen__back-home-button {
+  margin-top: 4px;
+}
+
+.game-over-screen--foods .game-over-screen__back-home-button-image--foods {
+  width: 107px;
+  height: 55px;
+}
+
+.game-over-screen--foods .game-over-screen__back-home-button:focus-visible {
+  outline: 2px solid #a45212;
 }
 
 @keyframes winner-page-drop {
@@ -413,6 +451,26 @@
     padding: 24px 14px;
   }
 
+  .game-over-screen--foods .game-over-screen__winner-page {
+    padding: 72px 14px 24px;
+  }
+
+  .game-over-screen--foods .game-over-screen__winner-content {
+    gap: 20px;
+  }
+
+  .game-over-screen--foods .game-over-screen__winner-player {
+    min-height: 88px;
+  }
+
+  .game-over-screen--foods .game-over-screen__winner-icon {
+    width: min(220px, 100%);
+  }
+
+  .game-over-screen--foods .game-over-screen__winner-icon-image {
+    width: min(220px, 100%);
+  }
+
   .game-over-screen--foods .game-over-screen__summary {
     width: min(220px, 100%);
     height: 66px;
@@ -455,6 +513,33 @@
   .game-over-screen--foods .game-over-screen__title {
     min-height: 132px;
     font-size: clamp(52px, 16vw, 90px);
+  }
+
+  .game-over-screen--foods .game-over-screen__winner-page {
+    padding-top: 64px;
+  }
+
+  .game-over-screen--foods .game-over-screen__winner-prefix {
+    min-height: 30px;
+    font-size: 30px;
+  }
+
+  .game-over-screen--foods .game-over-screen__winner-player {
+    min-height: 72px;
+    font-size: clamp(36px, 11vw, 56px);
+  }
+
+  .game-over-screen--foods .game-over-screen__winner-icon {
+    width: min(182px, 100%);
+  }
+
+  .game-over-screen--foods .game-over-screen__winner-icon-image {
+    width: min(182px, 100%);
+  }
+
+  .game-over-screen--foods .game-over-screen__back-home-button-image--foods {
+    width: 100px;
+    height: auto;
   }
 
   .game-over-screen--foods .game-over-screen__subtitle {
