@@ -54,17 +54,39 @@ function handleOptionSelection(
 }
 
 function applySelection(group: string, value: string): void {
-  if (group === 'theme' && isThemeOption(value)) {
+  const handler = resolveSelectionHandler(group);
+  if (handler) {
+    handler(value);
+  }
+}
+
+function resolveSelectionHandler(group: string): ((value: string) => void) | null {
+  if (group === 'theme') {
+    return applyThemeSelection;
+  }
+  if (group === 'player') {
+    return applyPlayerSelection;
+  }
+  if (group === 'boardSize') {
+    return applyBoardSizeSelection;
+  }
+  return null;
+}
+
+function applyThemeSelection(value: string): void {
+  if (isThemeOption(value)) {
     setGameTheme(value);
-    return;
   }
+}
 
-  if (group === 'player' && isPlayerOption(value)) {
+function applyPlayerSelection(value: string): void {
+  if (isPlayerOption(value)) {
     setPlayer(value);
-    return;
   }
+}
 
-  if (group === 'boardSize' && isBoardSizeOption(value)) {
+function applyBoardSizeSelection(value: string): void {
+  if (isBoardSizeOption(value)) {
     setBoardSize(value);
   }
 }
@@ -78,24 +100,19 @@ function syncSettingsUi(target: HTMLElement, settings: GameSettings): void {
 
 function bindThemePreviewEvents(target: HTMLElement): void {
   const themeOptionButtons = target.querySelectorAll<HTMLButtonElement>(THEME_OPTION_SELECTOR);
-
   themeOptionButtons.forEach((button) => {
-    button.addEventListener('mouseenter', () => {
-      syncHoveredThemePreview(target, button.dataset.previewTheme);
-    });
-
-    button.addEventListener('mouseleave', () => {
-      syncPreviewImage(target, getGameSettings().theme);
-    });
-
-    button.addEventListener('focus', () => {
-      syncHoveredThemePreview(target, button.dataset.previewTheme);
-    });
-
-    button.addEventListener('blur', () => {
-      syncPreviewImage(target, getGameSettings().theme);
-    });
+    bindThemePreviewHandlers(target, button);
   });
+}
+
+function bindThemePreviewHandlers(target: HTMLElement, button: HTMLButtonElement): void {
+  const showPreview = (): void => syncHoveredThemePreview(target, button.dataset.previewTheme);
+  const resetPreview = (): void => syncPreviewImage(target, getGameSettings().theme);
+
+  button.addEventListener('mouseenter', showPreview);
+  button.addEventListener('mouseleave', resetPreview);
+  button.addEventListener('focus', showPreview);
+  button.addEventListener('blur', resetPreview);
 }
 
 function syncHoveredThemePreview(target: HTMLElement, hoveredTheme?: string): void {
@@ -123,113 +140,125 @@ function syncPreviewImage(target: HTMLElement, theme: GameSettings['theme']): vo
 
 function syncOptions(target: HTMLElement, settings: GameSettings): void {
   const optionButtons = target.querySelectorAll<HTMLButtonElement>(OPTION_SELECTOR);
-
   optionButtons.forEach((button) => {
-    const isSelected = isMatchingOption(settings, button.dataset.group, button.dataset.value);
-    button.classList.toggle('is-selected', isSelected);
-
-    const lineElement = button.querySelector<HTMLElement>(OPTION_LINE_SELECTOR);
-    lineElement?.classList.toggle('is-visible', isSelected);
-
-    const markerElement = button.querySelector<HTMLImageElement>(OPTION_MARKER_SELECTOR);
-    if (!markerElement) {
-      return;
-    }
-
-    const markerSource = isSelected
-      ? markerElement.dataset.activeIcon
-      : markerElement.dataset.inactiveIcon;
-
-    if (markerSource) {
-      markerElement.src = markerSource;
-    }
+    syncOptionButtonState(button, settings);
   });
 }
 
-function isMatchingOption(
-  settings: GameSettings,
-  group?: string,
-  value?: string,
-): boolean {
+function syncOptionButtonState(button: HTMLButtonElement, settings: GameSettings): void {
+  const isSelected = isMatchingOption(settings, button.dataset.group, button.dataset.value);
+  button.classList.toggle('is-selected', isSelected);
+  syncOptionLine(button, isSelected);
+  syncOptionMarker(button, isSelected);
+}
+
+function syncOptionLine(button: HTMLButtonElement, isSelected: boolean): void {
+  const lineElement = button.querySelector<HTMLElement>(OPTION_LINE_SELECTOR);
+  lineElement?.classList.toggle('is-visible', isSelected);
+}
+
+function syncOptionMarker(button: HTMLButtonElement, isSelected: boolean): void {
+  const markerElement = button.querySelector<HTMLImageElement>(OPTION_MARKER_SELECTOR);
+  if (!markerElement) {
+    return;
+  }
+
+  const markerSource = isSelected ? markerElement.dataset.activeIcon : markerElement.dataset.inactiveIcon;
+  if (markerSource) {
+    markerElement.src = markerSource;
+  }
+}
+
+function isMatchingOption(settings: GameSettings, group?: string, value?: string): boolean {
   if (!group || !value) {
     return false;
   }
 
+  return readSelectedValueByGroup(settings, group) === value;
+}
+
+function readSelectedValueByGroup(settings: GameSettings, group: string): string | null {
   if (group === 'theme') {
-    return settings.theme === value;
+    return settings.theme;
   }
-
   if (group === 'player') {
-    return settings.player === value;
+    return settings.player;
   }
-
   if (group === 'boardSize') {
-    return settings.boardSize === value;
+    return settings.boardSize;
   }
-
-  return false;
+  return null;
 }
 
 function syncFooterSummary(target: HTMLElement, settings: GameSettings): void {
-  updateFooterItem(
-    target,
-    'theme',
-    settings.theme !== null,
-    formatThemeSummary(settings.theme),
-  );
-  updateFooterItem(
-    target,
-    'player',
-    settings.player !== null,
-    formatPlayerSummary(settings.player),
-  );
-  updateFooterItem(
-    target,
-    'boardSize',
-    settings.boardSize !== null,
-    formatBoardSummary(settings.boardSize),
-  );
+  const summaryItems = createFooterSummaryItems(settings);
+  summaryItems.forEach(([group, isSelected, text]) => {
+    updateFooterItem(target, group, isSelected, text);
+  });
 }
 
-function updateFooterItem(
-  target: HTMLElement,
-  group: SettingsGroup,
-  isSelected: boolean,
-  text: string,
-): void {
-  const summaryItem = target.querySelector<HTMLElement>(
-    `[data-summary-group="${group}"]`,
-  );
+function createFooterSummaryItems(settings: GameSettings): [SettingsGroup, boolean, string][] {
+  return [
+    ['theme', settings.theme !== null, formatThemeSummary(settings.theme)],
+    ['player', settings.player !== null, formatPlayerSummary(settings.player)],
+    ['boardSize', settings.boardSize !== null, formatBoardSummary(settings.boardSize)],
+  ];
+}
+
+function updateFooterItem(target: HTMLElement, group: SettingsGroup, isSelected: boolean, text: string): void {
+  const summaryItem = target.querySelector<HTMLElement>(`[data-summary-group="${group}"]`);
   if (!summaryItem) {
     return;
   }
 
-  const wasSelected = summaryItem.classList.contains('is-selected');
-  summaryItem.classList.toggle('is-selected', isSelected);
-
-  const separator = summaryItem.querySelector<HTMLImageElement>(FOOTER_SEPARATOR_SELECTOR);
-  if (separator) {
-    const separatorSource = isSelected
-      ? separator.dataset.separatorActive
-      : separator.dataset.separatorInactive;
-
-    if (separatorSource) {
-      separator.src = separatorSource;
-    }
-  }
-
-  const summaryText = summaryItem.querySelector<HTMLElement>(
-    `[data-summary-text="${group}"]`,
-  );
-  let hasTextChanged = false;
-  if (summaryText && summaryText.textContent !== text) {
-    summaryText.textContent = text;
-    hasTextChanged = true;
-  }
-
-  if ((isSelected && !wasSelected) || hasTextChanged) {
+  const wasSelected = applySummarySelectionState(summaryItem, isSelected);
+  syncSummarySeparator(summaryItem, isSelected);
+  const hasTextChanged = syncSummaryText(summaryItem, group, text);
+  if (shouldReplaySummaryAnimation(isSelected, wasSelected, hasTextChanged)) {
     replayFooterAnimation(summaryItem);
   }
+}
+
+function applySummarySelectionState(summaryItem: HTMLElement, isSelected: boolean): boolean {
+  const wasSelected = summaryItem.classList.contains('is-selected');
+  summaryItem.classList.toggle('is-selected', isSelected);
+  return wasSelected;
+}
+
+function syncSummarySeparator(summaryItem: HTMLElement, isSelected: boolean): void {
+  const separator = summaryItem.querySelector<HTMLImageElement>(FOOTER_SEPARATOR_SELECTOR);
+  const source = resolveSummarySeparatorSource(separator, isSelected);
+  if (separator && source) {
+    separator.src = source;
+  }
+}
+
+function resolveSummarySeparatorSource(
+  separator: HTMLImageElement | null,
+  isSelected: boolean,
+): string | undefined {
+  if (!separator) {
+    return undefined;
+  }
+  return isSelected ? separator.dataset.separatorActive : separator.dataset.separatorInactive;
+}
+
+function syncSummaryText(summaryItem: HTMLElement, group: SettingsGroup, text: string): boolean {
+  const summaryText = summaryItem.querySelector<HTMLElement>(`[data-summary-text="${group}"]`);
+  if (!summaryText || summaryText.textContent === text) {
+    return false;
+  }
+
+  summaryText.textContent = text;
+  return true;
+}
+
+function shouldReplaySummaryAnimation(
+  isSelected: boolean,
+  wasSelected: boolean,
+  hasTextChanged: boolean,
+): boolean {
+  return (isSelected && !wasSelected) || hasTextChanged;
 }
 
 function replayFooterAnimation(summaryItem: HTMLElement): void {
@@ -287,12 +316,14 @@ function bindStartButton(target: HTMLElement): void {
     return;
   }
 
-  startButton.addEventListener('click', () => {
-    if (!hasCompleteSettings()) {
-      return;
-    }
+  startButton.addEventListener('click', handleStartButtonClick);
+}
 
-    clearGameResult();
-    window.location.hash = '#game';
-  });
+function handleStartButtonClick(): void {
+  if (!hasCompleteSettings()) {
+    return;
+  }
+
+  clearGameResult();
+  window.location.hash = '#game';
 }

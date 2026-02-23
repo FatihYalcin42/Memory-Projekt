@@ -9,30 +9,39 @@ const WINNER_VISIBLE_CLASS = 'is-winner-visible';
 
 export function mountGameOverPage(target: HTMLElement): void {
   const gameResult = getGameResult();
-  const settings = getGameSettings();
   if (!gameResult) {
     window.location.hash = '#game';
     return;
   }
 
-  target.innerHTML = createGameOverTemplate(gameResult, settings.theme);
+  target.innerHTML = createGameOverTemplate(gameResult, getGameSettings().theme);
+  bindBackHomeButton(target);
+  scheduleWinnerReveal(target);
+}
 
+function bindBackHomeButton(target: HTMLElement): void {
   const backHomeButton = target.querySelector<HTMLButtonElement>(BACK_HOME_BUTTON_SELECTOR);
   backHomeButton?.addEventListener('click', () => {
     clearGameResult();
     window.location.hash = '#home';
   });
+}
 
+function scheduleWinnerReveal(target: HTMLElement): void {
   const gameOverScreen = target.querySelector<HTMLElement>(GAME_OVER_SCREEN_SELECTOR);
   if (!gameOverScreen) {
     return;
   }
 
   window.setTimeout(() => {
-    if (!target.isConnected || window.location.hash !== '#game-over') {
-      return;
-    }
-
-    gameOverScreen.classList.add(WINNER_VISIBLE_CLASS);
+    revealWinnerScreenIfActive(target, gameOverScreen);
   }, WINNER_REVEAL_DELAY_MS);
+}
+
+function revealWinnerScreenIfActive(target: HTMLElement, gameOverScreen: HTMLElement): void {
+  if (!target.isConnected || window.location.hash !== '#game-over') {
+    return;
+  }
+
+  gameOverScreen.classList.add(WINNER_VISIBLE_CLASS);
 }

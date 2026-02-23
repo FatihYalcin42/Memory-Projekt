@@ -16,22 +16,8 @@ export function startRouter(target: HTMLElement): void {
 
 function renderRoute(target: HTMLElement): void {
   const routeName = readRoute();
-  if (routeName === 'home') {
-    mountHomePage(target);
-    return;
-  }
-
-  if (routeName === 'settings') {
-    mountSettingsPage(target);
-    return;
-  }
-
-  if (routeName === 'game-over') {
-    renderGameOverRoute(target);
-    return;
-  }
-
-  renderGameRoute(target);
+  const routeRenderer = ROUTE_RENDERERS[routeName];
+  routeRenderer(target);
 }
 
 function renderGameRoute(target: HTMLElement): void {
@@ -59,17 +45,19 @@ function renderGameOverRoute(target: HTMLElement): void {
 
 function readRoute(): RouteName {
   const hash = window.location.hash.toLowerCase();
-  if (hash === '#settings') {
-    return 'settings';
-  }
-
-  if (hash === '#game') {
-    return 'game';
-  }
-
-  if (hash === '#game-over') {
-    return 'game-over';
-  }
-
-  return 'home';
+  return ROUTE_HASH_MAP[hash] ?? 'home';
 }
+
+const ROUTE_HASH_MAP: Partial<Record<string, RouteName>> = {
+  '#game': 'game',
+  '#game-over': 'game-over',
+  '#home': 'home',
+  '#settings': 'settings',
+};
+
+const ROUTE_RENDERERS: Record<RouteName, (target: HTMLElement) => void> = {
+  game: renderGameRoute,
+  'game-over': renderGameOverRoute,
+  home: mountHomePage,
+  settings: mountSettingsPage,
+};
