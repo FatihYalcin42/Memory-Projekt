@@ -31,7 +31,7 @@ export function createGameOverTemplate(result: GameResult): string {
         />
 
         <div class="game-over-screen__winner-content">
-          <p class="game-over-screen__winner-prefix">the winner is</p>
+          ${winner.isDraw ? '' : '<p class="game-over-screen__winner-prefix">the winner is</p>'}
           <p class="game-over-screen__winner-player ${winner.className}">
             ${winner.label}
           </p>
@@ -83,6 +83,7 @@ function createScoreSummaryMarkup(result: GameResult, playerLabelIcon: string): 
 }
 
 interface WinnerPresentation {
+  isDraw: boolean;
   className: string;
   label: string;
 }
@@ -90,6 +91,7 @@ interface WinnerPresentation {
 function getWinnerPresentation(result: GameResult): WinnerPresentation {
   if (result.blueScore > result.orangeScore) {
     return {
+      isDraw: false,
       className: 'game-over-screen__winner-player--blue',
       label: 'BLUE PLAYER',
     };
@@ -97,12 +99,14 @@ function getWinnerPresentation(result: GameResult): WinnerPresentation {
 
   if (result.orangeScore > result.blueScore) {
     return {
+      isDraw: false,
       className: 'game-over-screen__winner-player--orange',
       label: 'ORANGE PLAYER',
     };
   }
 
   return {
+    isDraw: true,
     className: 'game-over-screen__winner-player--draw',
     label: 'DRAW',
   };
