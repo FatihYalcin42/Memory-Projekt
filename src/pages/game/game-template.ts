@@ -12,7 +12,9 @@ import exitGameButtonSprite from '../../../puplic/designs/theme_1/exit-game-butt
 import foodsExitHeaderButtonSprite from '../../../puplic/icons/icons_2/exit-game-button.svg';
 import foodsExitHeaderButtonHoverSprite from '../../../puplic/icons/icons_2/exit-game-button-hover.svg';
 import foodsBackToGameButtonSprite from '../../../puplic/icons/icons_2/back-to-game-button.svg';
+import foodsBackToGameButtonHoverSprite from '../../../puplic/icons/icons_2/back-to-game-button-hover.svg';
 import foodsExitOverlayButtonSprite from '../../../puplic/icons/icons_2/exit-game-button-overlay.svg';
+import foodsExitOverlayButtonHoverSprite from '../../../puplic/icons/icons_2/exit-game-button-overlay-hover.svg';
 import codeVibesCardBackSprite from '../../../puplic/icons/icons_1/Cards 5.svg';
 import angularCardIcon from '../../../puplic/icons/icons_1/angular-card.svg';
 import bootstrapCardIcon from '../../../puplic/icons/icons_1/bootstrap-card.svg';
@@ -339,8 +341,14 @@ function createFoodsExitModalMarkup(): string {
             aria-label="Back to game"
           >
             <img
-              class="game-screen__modal-button-image game-screen__modal-button-image--foods game-screen__modal-button-image--foods-back"
+              class="game-screen__modal-button-image game-screen__modal-button-image--foods game-screen__modal-button-image--foods-back game-screen__modal-button-image--foods-default"
               src="${foodsBackToGameButtonSprite}"
+              alt=""
+              aria-hidden="true"
+            />
+            <img
+              class="game-screen__modal-button-image game-screen__modal-button-image--foods game-screen__modal-button-image--foods-back game-screen__modal-button-image--foods-hover"
+              src="${foodsBackToGameButtonHoverSprite}"
               alt=""
               aria-hidden="true"
             />
@@ -353,8 +361,14 @@ function createFoodsExitModalMarkup(): string {
             aria-label="Exit game"
           >
             <img
-              class="game-screen__modal-button-image game-screen__modal-button-image--foods game-screen__modal-button-image--foods-exit"
+              class="game-screen__modal-button-image game-screen__modal-button-image--foods game-screen__modal-button-image--foods-exit game-screen__modal-button-image--foods-default"
               src="${foodsExitOverlayButtonSprite}"
+              alt=""
+              aria-hidden="true"
+            />
+            <img
+              class="game-screen__modal-button-image game-screen__modal-button-image--foods game-screen__modal-button-image--foods-exit game-screen__modal-button-image--foods-hover"
+              src="${foodsExitOverlayButtonHoverSprite}"
               alt=""
               aria-hidden="true"
             />
