@@ -98,10 +98,21 @@
 .game-card__face--back {
   transform: rotateY(180deg);
   background-color: #e8f3f0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 .game-card.flipped .game-card__inner {
   transform: rotateY(180deg);
+}
+
+.game-card.is-matched {
+  cursor: default;
+}
+
+.game-card.is-matched .game-card__face--back {
+  box-shadow: inset 0 0 0 2px rgba(240, 234, 110, 0.7);
 }
 
 .game-screen__sr-only {
