@@ -1,4 +1,5 @@
 .game-over-screen {
+  position: relative;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
@@ -6,7 +7,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 24px;
+  padding: 172px 24px 40px;
+}
+
+.game-over-screen__confetti {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 112px;
+  pointer-events: none;
+  object-fit: cover;
+  object-position: top center;
+  transform: translateY(-100%);
+  animation: game-over-confetti-drop 900ms ease-out forwards;
 }
 
 .game-over-screen__content {
@@ -14,25 +28,73 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 22px;
+  animation: game-over-content-drop 580ms ease-out 120ms both;
 }
 
-.game-over-screen__banner {
+.game-over-screen__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
+}
+
+.game-over-screen__winner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.game-over-screen__winner-prefix {
+  width: min(426px, 100%);
+  min-height: 50px;
+  margin: 0;
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: min(981.5048828125px, 100%);
-  height: 121.19993591308594px;
+  font-family: 'Red Rose', serif;
+  font-size: 40px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: center;
 }
 
-.game-over-screen__title {
+.game-over-screen__winner-player {
+  width: min(426px, 100%);
+  min-height: 75px;
   margin: 0;
-  color: #4dd5bc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: 'Red Rose', serif;
-  font-size: clamp(68px, 9.2vw, 138px);
+  font-size: clamp(42px, 4.3vw, 60px);
   font-weight: 700;
-  line-height: 0.86;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: 0;
   text-align: center;
+  border: 2px solid #7b5cc5;
+  text-transform: uppercase;
+}
+
+.game-over-screen__winner-player--blue {
+  color: #2bb1ff;
+}
+
+.game-over-screen__winner-player--orange {
+  color: #f58e39;
+}
+
+.game-over-screen__winner-player--draw {
+  color: #f3f4f6;
 }
 
 .game-over-screen__subtitle {
@@ -105,4 +167,26 @@
   font-size: 22px;
   font-weight: 700;
   text-align: right;
+}
+
+@keyframes game-over-confetti-drop {
+  from {
+    transform: translateY(-100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes game-over-content-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-48px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
