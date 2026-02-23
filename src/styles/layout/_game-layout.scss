@@ -588,16 +588,19 @@
   padding: 24px;
   border-radius: 10px;
   background-color: #f0e5d9;
+  position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas: 'score current exit';
   align-items: center;
   column-gap: 24px;
 }
 
 .game-screen--foods .game-screen__scoreboard {
-  grid-area: auto;
+  grid-area: score;
   position: static;
   width: auto;
+  min-width: 184px;
   height: 54px;
   padding: 0 16px;
   border-radius: 10px;
@@ -611,6 +614,7 @@
   font-weight: 700;
   line-height: 1;
   justify-self: start;
+  z-index: 2;
 }
 
 .game-screen--foods .game-screen__score {
@@ -642,9 +646,10 @@
 }
 
 .game-screen--foods .game-screen__current-player {
+  grid-area: current;
   position: static;
   transform: none;
-  width: 232px;
+  width: auto;
   min-width: 232px;
   height: 46px;
   justify-self: center;
@@ -669,6 +674,7 @@
 }
 
 .game-screen--foods .game-screen__exit-button {
+  grid-area: exit;
   position: relative;
   top: auto;
   left: auto;
@@ -680,6 +686,7 @@
   background: none;
   cursor: pointer;
   justify-self: end;
+  z-index: 2;
 }
 
 .game-screen--foods .game-screen__exit-button-image {
@@ -870,26 +877,37 @@
   .game-screen--foods .game-screen__foods-topbar {
     min-height: 76px;
     padding: 12px 14px;
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: 'score current exit';
     column-gap: 12px;
   }
 
   .game-screen--foods .game-screen__scoreboard {
-    height: 42px;
-    gap: 12px;
-    padding: 0 10px;
-    font-size: clamp(22px, 2.8vw, 34px);
+    height: 46px;
+    gap: 13px;
+    padding: 0 12px;
+    min-width: 160px;
+    font-size: clamp(26px, 3.3vw, 38px);
   }
 
   .game-screen--foods .game-screen__current-player {
-    width: auto;
+    grid-area: current;
+    position: static;
+    top: auto;
+    left: auto;
+    transform: none;
+    justify-self: center;
+    width: max-content;
+    max-width: 100%;
     min-width: 0;
     height: auto;
-    font-size: clamp(20px, 2.5vw, 34px);
+    font-size: clamp(24px, 2.9vw, 34px);
     gap: 10px;
+    z-index: auto;
   }
 
   .game-screen--foods .game-screen__exit-button {
+    grid-area: exit;
     padding: 0;
     width: 150px;
     height: 42px;
@@ -931,19 +949,25 @@
     grid-area: score;
     justify-self: start;
     height: 34px;
+    min-width: 122px;
     padding: 0 8px;
     gap: 8px;
-    font-size: 20px;
+    font-size: 22px;
   }
 
   .game-screen--foods .game-screen__current-player {
     grid-area: current;
+    position: static;
+    top: auto;
+    left: auto;
+    transform: none;
     justify-self: center;
     width: auto;
     min-width: 0;
     height: auto;
     font-size: 22px;
     gap: 8px;
+    z-index: auto;
   }
 
   .game-screen--foods .game-screen__exit-button {
