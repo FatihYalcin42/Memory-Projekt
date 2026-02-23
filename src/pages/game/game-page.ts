@@ -8,6 +8,7 @@ const CURRENT_PLAYER_MARKER_SELECTOR = '[data-current-player-marker]';
 const FLIPPED_CARD_CLASS = 'flipped';
 const MATCHED_CARD_CLASS = 'is-matched';
 const FLIP_BACK_DELAY_MS = 700;
+const MATCH_FINISH_DELAY_MS = 320;
 
 interface GameRuntimeState {
   currentPlayer: PlayerOption;
@@ -151,11 +152,13 @@ function finishMatchedTurn(
 
   const matchedCardsCount = target.querySelectorAll(`.${MATCHED_CARD_CLASS}`).length;
   if (matchedCardsCount === totalCards) {
-    setGameResult({
-      blueScore: state.scores.blue,
-      orangeScore: state.scores.orange,
-    });
-    window.location.hash = '#game-over';
+    window.setTimeout(() => {
+      setGameResult({
+        blueScore: state.scores.blue,
+        orangeScore: state.scores.orange,
+      });
+      window.location.hash = '#game-over';
+    }, MATCH_FINISH_DELAY_MS);
   }
 }
 
