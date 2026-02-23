@@ -28,3 +28,11 @@
   outline: 2px solid var(--settings-text);
   outline-offset: 2px;
 }
+
+@media (max-width: 700px) {
+  .settings-start-button {
+    width: 112px;
+    height: 47px;
+    flex-basis: 112px;
+  }
+}

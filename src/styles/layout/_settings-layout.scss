@@ -1,6 +1,6 @@
 .settings-screen {
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   background-color: var(--settings-bg);
   color: var(--settings-text);
@@ -131,5 +131,83 @@
   to {
     transform: translateY(-50%) scale(1.06);
     opacity: 1;
+  }
+}
+
+@media (max-width: 1200px) {
+  .settings-screen {
+    overflow-y: auto;
+  }
+
+  .settings-screen__canvas {
+    height: auto;
+    min-height: 100dvh;
+    padding: 44px 24px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 28px;
+  }
+
+  .settings-panel {
+    position: static;
+    width: min(660px, 100%);
+  }
+
+  .settings-preview {
+    display: none;
+  }
+
+  .settings-footer {
+    position: static;
+    width: min(660px, 100%);
+    height: auto;
+  }
+
+  .settings-footer__summary {
+    height: auto;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .settings-footer__fields {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .settings-footer__item {
+    width: 100%;
+    min-height: 0;
+  }
+
+  .settings-footer__item + .settings-footer__item {
+    padding-left: 0;
+  }
+
+  .settings-footer__separator {
+    display: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .settings-screen__canvas {
+    padding: 28px 16px 22px;
+    gap: 22px;
+  }
+
+  .settings-footer__summary {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .settings-footer__text {
+    font-size: 18px;
   }
 }

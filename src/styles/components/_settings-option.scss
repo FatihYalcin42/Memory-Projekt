@@ -57,6 +57,25 @@
   font-weight: 700;
 }
 
+@media (max-width: 700px) {
+  .settings-option {
+    min-height: 30px;
+  }
+
+  .settings-option__marker {
+    width: 20px;
+    height: 20px;
+  }
+
+  .settings-option__label {
+    font-size: 18px;
+  }
+
+  .settings-option__line {
+    display: none;
+  }
+}
+
 @keyframes settings-option-label-in {
   from {
     opacity: 0.75;

@@ -1,7 +1,7 @@
 .home-screen__eyebrow {
   margin: 0;
   font-family: 'Almarai', sans-serif;
-  font-size: 48px;
+  font-size: clamp(28px, 3.5vw, 48px);
   font-weight: 400;
   font-style: normal;
   line-height: 1;
@@ -11,9 +11,15 @@
 .home-screen__title {
   margin: 18px 0 0;
   font-family: 'Red Rose', serif;
-  font-size: 140px;
+  font-size: clamp(58px, 10vw, 140px);
   font-weight: 700;
   font-style: normal;
   line-height: 1;
   letter-spacing: 0;
+}
+
+@media (max-width: 900px) {
+  .home-screen__title {
+    margin-top: 10px;
+  }
 }

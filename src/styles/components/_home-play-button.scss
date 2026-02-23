@@ -44,3 +44,38 @@
   outline: 3px solid var(--home-focus-outline);
   outline-offset: 4px;
 }
+
+@media (max-width: 1200px) {
+  .home-screen__play-button {
+    top: clamp(470px, 63vw, 620px);
+    left: clamp(320px, 48vw, 530px);
+    width: clamp(210px, 22vw, 250px);
+    height: clamp(82px, 8.6vw, 98px);
+  }
+
+  .home-screen__play-button-controller {
+    clip-path: inset(22px 143px 21px 17px);
+    transform-origin: 48px 43px;
+  }
+}
+
+@media (max-width: 900px) {
+  .home-screen__play-button {
+    position: static;
+    margin-top: 22px;
+    width: 226px;
+    height: 88px;
+  }
+}
+
+@media (max-width: 600px) {
+  .home-screen__play-button {
+    width: 204px;
+    height: 80px;
+  }
+
+  .home-screen__play-button-controller {
+    clip-path: inset(19px 116px 19px 16px);
+    transform-origin: 42px 39px;
+  }
+}
