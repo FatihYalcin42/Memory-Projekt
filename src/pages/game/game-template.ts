@@ -1,10 +1,15 @@
-import type { BoardSizeOption, GameSettings } from '../../app/game-settings';
-import { getThemeModifierClass } from '../../app/theme-assets';
-import playerLabelIconRaw from '../../../puplic/designs/theme_1/label.svg?raw';
+import type {
+  BoardSizeOption,
+  GameSettings,
+  ThemeOption,
+} from '../../app/game-settings';
+import { getThemeModifierClass, resolveTheme } from '../../app/theme-assets';
+import codeVibesPlayerLabelIconRaw from '../../../puplic/designs/theme_1/label.svg?raw';
+import foodsPlayerMarkerIconRaw from '../../../puplic/designs/theme2/Frame 614.svg?raw';
 import exitButtonSprite from '../../../puplic/icons/icons_1/exitgame1.svg';
 import backToGameButtonSprite from '../../../puplic/designs/theme_1/back-to-game-button.svg';
 import exitGameButtonSprite from '../../../puplic/designs/theme_1/exit-game-button.svg';
-import cardBackSprite from '../../../puplic/icons/icons_1/Cards 5.svg';
+import codeVibesCardBackSprite from '../../../puplic/icons/icons_1/Cards 5.svg';
 import angularCardIcon from '../../../puplic/icons/icons_1/angular-card.svg';
 import bootstrapCardIcon from '../../../puplic/icons/icons_1/bootstrap-card.svg';
 import cssCardIcon from '../../../puplic/icons/icons_1/css-card.svg';
@@ -22,8 +27,32 @@ import terminalCardIcon from '../../../puplic/icons/icons_1/terminal-card.svg';
 import tsCardIcon from '../../../puplic/icons/icons_1/ts-card.svg';
 import vscodeCardIcon from '../../../puplic/icons/icons_1/vscode-card.svg';
 import vueCardIcon from '../../../puplic/icons/icons_1/vue-card.svg';
+import foodsCardBackSprite from '../../../puplic/icons/icons_2/back-card.svg';
+import brezelCardIcon from '../../../puplic/icons/icons_2/brezel-card.svg';
+import cakeCardIcon from '../../../puplic/icons/icons_2/cake-card.svg';
+import chickenCardIcon from '../../../puplic/icons/icons_2/chicken-card.svg';
+import chocolateCardIcon from '../../../puplic/icons/icons_2/chocolate-card.svg';
+import corndogCardIcon from '../../../puplic/icons/icons_2/corndog-card.svg';
+import donutCardIcon from '../../../puplic/icons/icons_2/donut-card.svg';
+import hamburgerCardIcon from '../../../puplic/icons/icons_2/hamburger-card.svg';
+import icecreamCardIcon from '../../../puplic/icons/icons_2/icecream-card.svg';
+import macronCardIcon from '../../../puplic/icons/icons_2/macron-card.svg';
+import muffinCardIcon from '../../../puplic/icons/icons_2/muffin-card.svg';
+import pizzaCardIcon from '../../../puplic/icons/icons_2/pizza-card.svg';
+import pommesCardIcon from '../../../puplic/icons/icons_2/pommes-card.svg';
+import puddingCardIcon from '../../../puplic/icons/icons_2/pudding-card.svg';
+import saladCardIcon from '../../../puplic/icons/icons_2/salad-card.svg';
+import sandwichCardIcon from '../../../puplic/icons/icons_2/sandwich-card.svg';
+import sushiCardIcon from '../../../puplic/icons/icons_2/sushi-card.svg';
+import taccoCardIcon from '../../../puplic/icons/icons_2/tacco-card.svg';
+import wraoCardIcon from '../../../puplic/icons/icons_2/wrao-card.svg';
 
-const CARD_FACE_ICONS: string[] = [
+interface ThemeCardAssets {
+  backCardSprite: string;
+  faceIcons: string[];
+}
+
+const CODE_VIBES_CARD_FACE_ICONS: string[] = [
   angularCardIcon,
   bootstrapCardIcon,
   cssCardIcon,
@@ -43,15 +72,50 @@ const CARD_FACE_ICONS: string[] = [
   vueCardIcon,
 ];
 
+const FOODS_CARD_FACE_ICONS: string[] = [
+  brezelCardIcon,
+  cakeCardIcon,
+  chickenCardIcon,
+  chocolateCardIcon,
+  corndogCardIcon,
+  donutCardIcon,
+  hamburgerCardIcon,
+  icecreamCardIcon,
+  macronCardIcon,
+  muffinCardIcon,
+  pizzaCardIcon,
+  pommesCardIcon,
+  puddingCardIcon,
+  saladCardIcon,
+  sandwichCardIcon,
+  sushiCardIcon,
+  taccoCardIcon,
+  wraoCardIcon,
+];
+
+const THEME_CARD_ASSETS: Record<ThemeOption, ThemeCardAssets> = {
+  'code-vibes': {
+    backCardSprite: codeVibesCardBackSprite,
+    faceIcons: CODE_VIBES_CARD_FACE_ICONS,
+  },
+  foods: {
+    backCardSprite: foodsCardBackSprite,
+    faceIcons: FOODS_CARD_FACE_ICONS,
+  },
+};
+
 export function createGameTemplate(settings: GameSettings): string {
+  const selectedTheme = resolveTheme(settings.theme);
   const gameThemeClassName = getThemeModifierClass(settings.theme);
   const boardSize = settings.boardSize ?? '16';
   const boardSizeClassName = readBoardSizeClassName(boardSize);
-  const boardCards = createBoardCards(boardSize);
-  const isCodeVibesTheme = settings.theme !== 'foods';
+  const boardCards = createBoardCards(boardSize, selectedTheme);
   const playerMarkerClassName = settings.player === 'orange'
     ? ' is-orange'
     : ' is-blue';
+  const hudMarkup = selectedTheme === 'foods'
+    ? createFoodsHud(playerMarkerClassName)
+    : createCodeVibesHud(playerMarkerClassName);
 
   return `
     <main class="game-screen ${gameThemeClassName} ${boardSizeClassName}" aria-labelledby="game-title">
@@ -66,9 +130,7 @@ export function createGameTemplate(settings: GameSettings): string {
             ${boardCards}
           </div>
         </section>
-        ${isCodeVibesTheme
-    ? createCodeVibesHud(playerMarkerClassName)
-    : createFallbackHud()}
+        ${hudMarkup}
 
         ${createExitModalMarkup()}
       </div>
@@ -77,7 +139,7 @@ export function createGameTemplate(settings: GameSettings): string {
 }
 
 function createCodeVibesHud(playerMarkerClassName: string): string {
-  const playerLabelIcon = createPlayerLabelIconMarkup();
+  const playerLabelIcon = createCodeVibesPlayerLabelIconMarkup();
 
   return `
     <div class="game-screen__hud">
@@ -126,24 +188,62 @@ function createCodeVibesHud(playerMarkerClassName: string): string {
   `;
 }
 
-function createPlayerLabelIconMarkup(): string {
-  return playerLabelIconRaw
+function createCodeVibesPlayerLabelIconMarkup(): string {
+  return codeVibesPlayerLabelIconRaw
     .replace(/fill="#2BB1FF"/gi, 'fill="currentColor"')
     .trim();
 }
 
-function createFallbackHud(): string {
+function createFoodsHud(playerMarkerClassName: string): string {
+  const playerMarkerIcon = createFoodsPlayerMarkerIconMarkup();
+
   return `
-    <div class="game-screen__hud">
-      <button
-        id="game-exit-button"
-        class="game-screen__exit-fallback"
-        type="button"
-      >
-        Exit game
-      </button>
+    <div class="game-screen__hud game-screen__hud--foods">
+      <div class="game-screen__foods-topbar">
+        <div class="game-screen__scoreboard" aria-label="Scoreboard">
+          <span class="game-screen__score game-screen__score--orange">
+            <span class="game-screen__score-icon" aria-hidden="true">
+              ${playerMarkerIcon}
+            </span>
+            <span class="game-screen__score-value" data-score-player="orange">0</span>
+          </span>
+          <span class="game-screen__score game-screen__score--blue">
+            <span class="game-screen__score-icon" aria-hidden="true">
+              ${playerMarkerIcon}
+            </span>
+            <span class="game-screen__score-value" data-score-player="blue">0</span>
+          </span>
+        </div>
+
+        <div class="game-screen__current-player" aria-label="Current player">
+          <span class="game-screen__current-player-text">Current player:</span>
+          <span
+            class="game-screen__current-player-marker${playerMarkerClassName}"
+            data-current-player-marker
+            aria-hidden="true"
+          >
+            ${playerMarkerIcon}
+          </span>
+        </div>
+
+        <button
+          id="game-exit-button"
+          class="game-screen__exit-button game-screen__exit-button--foods"
+          type="button"
+          aria-label="Exit game"
+        >
+          <span class="game-screen__foods-exit-icon" aria-hidden="true"></span>
+          <span class="game-screen__foods-exit-text">Exit game</span>
+        </button>
+      </div>
     </div>
   `;
+}
+
+function createFoodsPlayerMarkerIconMarkup(): string {
+  return foodsPlayerMarkerIconRaw
+    .replace(/fill="#097FC5"/gi, 'fill="currentColor"')
+    .trim();
 }
 
 function createExitModalMarkup(): string {
@@ -192,13 +292,17 @@ function createExitModalMarkup(): string {
   `;
 }
 
-function createBoardCards(boardSize: BoardSizeOption): string {
+function createBoardCards(
+  boardSize: BoardSizeOption,
+  theme: ThemeOption,
+): string {
   const parsedCount = Number.parseInt(boardSize, 10);
   const cardCount = Number.isFinite(parsedCount) && parsedCount > 0
     ? parsedCount
     : 16;
+  const themeCardAssets = THEME_CARD_ASSETS[theme];
   const pairCount = Math.floor(cardCount / 2);
-  const pairIcons = createPairIcons(pairCount);
+  const pairIcons = createPairIcons(pairCount, theme);
   const cardIconsDeck = shuffleArray([...pairIcons, ...pairIcons]);
 
   return cardIconsDeck.map((cardIcon, index) => {
@@ -212,7 +316,7 @@ function createBoardCards(boardSize: BoardSizeOption): string {
         <span class="game-card__inner">
           <span
             class="game-card__face game-card__face--front"
-            style="background-image: url('${cardBackSprite}')"
+            style="background-image: url('${themeCardAssets.backCardSprite}')"
             aria-hidden="true"
           ></span>
           <span
@@ -226,9 +330,11 @@ function createBoardCards(boardSize: BoardSizeOption): string {
   }).join('');
 }
 
-function createPairIcons(pairCount: number): string[] {
+function createPairIcons(pairCount: number, theme: ThemeOption): string[] {
+  const faceIcons = THEME_CARD_ASSETS[theme].faceIcons;
+
   return Array.from({ length: pairCount }, (_, index) => {
-    return CARD_FACE_ICONS[index % CARD_FACE_ICONS.length];
+    return faceIcons[index % faceIcons.length];
   });
 }
 
