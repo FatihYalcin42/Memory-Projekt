@@ -1,34 +1,56 @@
 import type { GameResult } from '../../app/game-result';
+import type { ThemeOption } from '../../app/game-settings';
+import { resolveTheme } from '../../app/theme-assets';
 import confettiAsset from '../../../puplic/designs/theme_1/Confetti.svg?url';
-import playerLabelIconRaw from '../../../puplic/designs/theme_1/label.svg?raw';
+import codeVibesPlayerLabelIconRaw from '../../../puplic/designs/theme_1/label.svg?raw';
+import foodsPlayerLabelIconRaw from '../../../puplic/designs/theme2/Frame 614.svg?raw';
 import backToGameButtonSprite from '../../../puplic/designs/theme_1/back-to-game-button.svg';
 
-export function createGameOverTemplate(result: GameResult): string {
-  const playerLabelIcon = createPlayerLabelIconMarkup();
+export function createGameOverTemplate(
+  result: GameResult,
+  theme: ThemeOption | null,
+): string {
+  const resolvedTheme = resolveTheme(theme);
+  const isFoodsTheme = resolvedTheme === 'foods';
+  const themeClassName = isFoodsTheme
+    ? 'game-over-screen--foods'
+    : 'game-over-screen--code-vibes';
+  const playerLabelIcon = isFoodsTheme
+    ? createFoodsPlayerLabelIconMarkup()
+    : createCodeVibesPlayerLabelIconMarkup();
   const winner = getWinnerPresentation(result);
-  const scoreSummary = createScoreSummaryMarkup(result, playerLabelIcon);
-
-  return `
-    <main
-      class="game-over-screen"
-      data-game-over-screen
-      aria-labelledby="game-over-title"
-    >
-      <section class="game-over-screen__intro">
-        <div class="game-over-screen__banner">
-          <h1 id="game-over-title" class="game-over-screen__title">Game over</h1>
-        </div>
-        <h2 class="game-over-screen__subtitle">Final score</h2>
-        ${scoreSummary}
-      </section>
-
-      <section class="game-over-screen__winner-page" aria-live="polite">
+  const scoreSummary = createScoreSummaryMarkup(
+    result,
+    playerLabelIcon,
+    resolvedTheme,
+  );
+  const confettiMarkup = isFoodsTheme
+    ? ''
+    : `
         <img
           class="game-over-screen__confetti"
           src="${confettiAsset}"
           alt=""
           aria-hidden="true"
         />
+      `;
+
+  return `
+    <main
+      class="game-over-screen ${themeClassName}"
+      data-game-over-screen
+      aria-labelledby="game-over-title"
+    >
+      <section class="game-over-screen__intro">
+        <div class="game-over-screen__banner">
+          <h1 id="game-over-title" class="game-over-screen__title">Game Over</h1>
+        </div>
+        <h2 class="game-over-screen__subtitle">Final score</h2>
+        ${scoreSummary}
+      </section>
+
+      <section class="game-over-screen__winner-page" aria-live="polite">
+        ${confettiMarkup}
 
         <div class="game-over-screen__winner-content">
           ${winner.isDraw ? '' : '<p class="game-over-screen__winner-prefix">the winner is</p>'}
@@ -58,13 +80,39 @@ export function createGameOverTemplate(result: GameResult): string {
   `;
 }
 
-function createPlayerLabelIconMarkup(): string {
-  return playerLabelIconRaw
+function createCodeVibesPlayerLabelIconMarkup(): string {
+  return codeVibesPlayerLabelIconRaw
     .replace(/fill="#2BB1FF"/gi, 'fill="currentColor"')
     .trim();
 }
 
-function createScoreSummaryMarkup(result: GameResult, playerLabelIcon: string): string {
+function createFoodsPlayerLabelIconMarkup(): string {
+  return foodsPlayerLabelIconRaw
+    .replace(/fill="#097FC5"/gi, 'fill="currentColor"')
+    .trim();
+}
+
+function createScoreSummaryMarkup(
+  result: GameResult,
+  playerLabelIcon: string,
+  theme: ThemeOption,
+): string {
+  if (theme === 'foods') {
+    return `
+      <div class="game-over-screen__summary game-over-screen__summary--foods" aria-label="Final score">
+        <div class="game-over-screen__foods-score game-over-screen__foods-score--orange">
+          <span class="game-over-screen__icon" aria-hidden="true">${playerLabelIcon}</span>
+          <span class="game-over-screen__value">${result.orangeScore}</span>
+        </div>
+
+        <div class="game-over-screen__foods-score game-over-screen__foods-score--blue">
+          <span class="game-over-screen__icon" aria-hidden="true">${playerLabelIcon}</span>
+          <span class="game-over-screen__value">${result.blueScore}</span>
+        </div>
+      </div>
+    `;
+  }
+
   return `
     <div class="game-over-screen__summary" aria-label="Final score">
       <div class="game-over-screen__player game-over-screen__player--blue">

@@ -222,6 +222,125 @@
   outline-offset: 4px;
 }
 
+.game-over-screen--foods {
+  background-color: #f3832d;
+  padding: 32px 24px;
+}
+
+.game-over-screen--foods .game-over-screen__intro {
+  width: min(1080px, 100%);
+  gap: 24px;
+}
+
+.game-over-screen--foods .game-over-screen__banner {
+  width: min(1080px, 100%);
+  height: auto;
+}
+
+.game-over-screen--foods .game-over-screen__title {
+  width: min(770px, 100%);
+  min-height: 188px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-family: 'Klee One', cursive;
+  font-size: clamp(66px, 9vw, 130px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.game-over-screen--foods .game-over-screen__subtitle {
+  width: min(223px, 100%);
+  height: auto;
+  color: #ffffff;
+  font-family: 'Klee One', cursive;
+  font-size: clamp(30px, 3.6vw, 42px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.game-over-screen--foods .game-over-screen__summary {
+  width: 220px;
+  height: 76px;
+  padding: 0 16px;
+  gap: 40px;
+  justify-content: center;
+  background-color: #ffffff;
+}
+
+.game-over-screen--foods .game-over-screen__summary--foods {
+  font-family: 'Klee One', cursive;
+}
+
+.game-over-screen--foods .game-over-screen__foods-score {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.game-over-screen--foods .game-over-screen__foods-score--orange {
+  color: #ea6900;
+}
+
+.game-over-screen--foods .game-over-screen__foods-score--blue {
+  color: #097fc5;
+}
+
+.game-over-screen--foods .game-over-screen__icon {
+  width: 28px;
+  height: 28px;
+}
+
+.game-over-screen--foods .game-over-screen__value {
+  min-width: 0;
+  font-family: 'Klee One', cursive;
+  font-size: 42px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.game-over-screen--foods .game-over-screen__winner-page {
+  background-color: #f3832d;
+}
+
+.game-over-screen--foods .game-over-screen__winner-content {
+  gap: 26px;
+}
+
+.game-over-screen--foods .game-over-screen__winner-prefix {
+  width: auto;
+  height: auto;
+  color: #ffffff;
+  font-family: 'Klee One', cursive;
+  font-size: clamp(28px, 4.2vw, 44px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.game-over-screen--foods .game-over-screen__winner-player {
+  width: auto;
+  height: auto;
+  font-family: 'Klee One', cursive;
+  font-size: clamp(44px, 6vw, 84px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.game-over-screen--foods .game-over-screen__winner-player--draw {
+  color: #ffffff;
+}
+
 @keyframes winner-page-drop {
   from {
     transform: translateY(-110%);
@@ -289,6 +408,25 @@
   .game-over-screen__value {
     font-size: 20px;
   }
+
+  .game-over-screen--foods {
+    padding: 24px 14px;
+  }
+
+  .game-over-screen--foods .game-over-screen__summary {
+    width: min(220px, 100%);
+    height: 66px;
+    gap: 20px;
+  }
+
+  .game-over-screen--foods .game-over-screen__value {
+    font-size: 34px;
+  }
+
+  .game-over-screen--foods .game-over-screen__icon {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 @media (max-width: 560px) {
@@ -312,5 +450,29 @@
   .game-over-screen__back-home-button-image {
     width: 160px;
     height: 50px;
+  }
+
+  .game-over-screen--foods .game-over-screen__title {
+    min-height: 132px;
+    font-size: clamp(52px, 16vw, 90px);
+  }
+
+  .game-over-screen--foods .game-over-screen__subtitle {
+    font-size: 30px;
+  }
+
+  .game-over-screen--foods .game-over-screen__summary {
+    height: 58px;
+    padding: 0 10px;
+    gap: 14px;
+  }
+
+  .game-over-screen--foods .game-over-screen__value {
+    font-size: 28px;
+  }
+
+  .game-over-screen--foods .game-over-screen__icon {
+    width: 20px;
+    height: 20px;
   }
 }

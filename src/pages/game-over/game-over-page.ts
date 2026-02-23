@@ -1,4 +1,5 @@
 import { clearGameResult, getGameResult } from '../../app/game-result';
+import { getGameSettings } from '../../app/game-settings';
 import { createGameOverTemplate } from './game-over-template';
 
 const WINNER_REVEAL_DELAY_MS = 2200;
@@ -8,12 +9,13 @@ const WINNER_VISIBLE_CLASS = 'is-winner-visible';
 
 export function mountGameOverPage(target: HTMLElement): void {
   const gameResult = getGameResult();
+  const settings = getGameSettings();
   if (!gameResult) {
     window.location.hash = '#game';
     return;
   }
 
-  target.innerHTML = createGameOverTemplate(gameResult);
+  target.innerHTML = createGameOverTemplate(gameResult, settings.theme);
 
   const backHomeButton = target.querySelector<HTMLButtonElement>(BACK_HOME_BUTTON_SELECTOR);
   backHomeButton?.addEventListener('click', () => {
