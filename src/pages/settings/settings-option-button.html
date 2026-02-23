@@ -1,0 +1,24 @@
+<li class="settings-option-item">
+  <button
+    class="settings-option{{SELECTED_CLASS}}"
+    type="button"
+    data-group="{{OPTION_GROUP}}"
+    data-value="{{OPTION_VALUE}}"{{PREVIEW_THEME_ATTRIBUTE}}
+  >
+    <img
+      class="settings-option__marker"
+      src="{{MARKER_ICON_SRC}}"
+      data-active-icon="{{MARKER_ACTIVE_ICON_SRC}}"
+      data-inactive-icon="{{MARKER_INACTIVE_ICON_SRC}}"
+      alt=""
+      aria-hidden="true"
+    />
+    <span class="settings-option__label">{{OPTION_LABEL}}</span>
+    <img
+      class="settings-option__line{{VISIBLE_LINE_CLASS}}"
+      src="{{SELECTED_LINE_ICON_SRC}}"
+      alt=""
+      aria-hidden="true"
+    />
+  </button>
+</li>

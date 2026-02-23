@@ -9,6 +9,7 @@ import {
   PLAYER_CHOICES,
   THEME_CHOICES,
 } from '../../app/game-settings';
+import { applyTemplateTokens } from '../../app/template-utils';
 import boardSizeIcon from '../../../puplic/designs/theme_1/style.svg';
 import inactiveOptionIcon from '../../../puplic/designs/theme_1/fiber_manual_record.svg';
 import activeOptionIcon from '../../../puplic/designs/theme_1/mode_standby.svg';
@@ -20,6 +21,13 @@ import selectedOptionLine from '../../../puplic/designs/theme_1/select-line.svg'
 import codeVibesPreviewImage from '../../../puplic/designs/theme_1/setting-picture.svg';
 import foodsPreviewImage from '../../../puplic/designs/theme-visiual-food.svg';
 import startButtonImage from '../../../puplic/designs/theme_1/small button.svg';
+import settingsTemplateMarkup from './settings-template.html?raw';
+import settingsGroupMarkup from './settings-group.html?raw';
+import settingsOptionButtonMarkup from './settings-option-button.html?raw';
+import settingsFooterSummaryMarkup from './settings-footer-summary.html?raw';
+import settingsFooterItemMarkup from './settings-footer-item.html?raw';
+import settingsFooterSeparatorMarkup from './settings-footer-separator.html?raw';
+import settingsStartButtonMarkup from './settings-start-button.html?raw';
 
 type SettingsGroup = 'boardSize' | 'player' | 'theme';
 
@@ -38,49 +46,36 @@ export function createSettingsTemplate(settings: GameSettings): string {
     ? foodsPreviewImage
     : codeVibesPreviewImage;
 
-  return `
-    <main class="settings-screen" aria-labelledby="settings-title">
-      <div class="settings-screen__canvas">
-        <section class="settings-panel">
-          <h1 id="settings-title" class="settings-panel__title">Settings</h1>
-          ${createSettingsGroup('Game themes', gameThemeIcon, createThemeOptions(settings.theme))}
-          ${createSettingsGroup('Choose player', playerIcon, createPlayerOptions(settings.player))}
-          ${createSettingsGroup('Board size', boardSizeIcon, createBoardSizeOptions(settings.boardSize))}
-        </section>
-
-        <aside class="settings-preview">
-          <img
-            class="settings-preview__image"
-            src="${previewImage}"
-            data-preview-default="${codeVibesPreviewImage}"
-            data-preview-code-vibes="${codeVibesPreviewImage}"
-            data-preview-foods="${foodsPreviewImage}"
-            alt="Game preview"
-          />
-        </aside>
-
-        <section class="settings-footer">
-          ${createFooterSummary(settings, isComplete)}
-        </section>
-      </div>
-    </main>
-  `;
+  return applyTemplateTokens(settingsTemplateMarkup, {
+    BOARD_SIZE_GROUP_MARKUP: createSettingsGroup(
+      'Board size',
+      boardSizeIcon,
+      createBoardSizeOptions(settings.boardSize),
+    ),
+    FOOTER_SUMMARY_MARKUP: createFooterSummary(settings, isComplete),
+    PLAYER_GROUP_MARKUP: createSettingsGroup(
+      'Choose player',
+      playerIcon,
+      createPlayerOptions(settings.player),
+    ),
+    PREVIEW_CODE_VIBES_SRC: codeVibesPreviewImage,
+    PREVIEW_DEFAULT_SRC: codeVibesPreviewImage,
+    PREVIEW_FOODS_SRC: foodsPreviewImage,
+    PREVIEW_IMAGE_SRC: previewImage,
+    THEME_GROUP_MARKUP: createSettingsGroup(
+      'Game themes',
+      gameThemeIcon,
+      createThemeOptions(settings.theme),
+    ),
+  });
 }
 
-function createSettingsGroup(
-  title: string,
-  icon: string,
-  optionsMarkup: string,
-): string {
-  return `
-    <section class="settings-group">
-      <h2 class="settings-group__title">
-        <img src="${icon}" alt="" aria-hidden="true" />
-        <span>${title}</span>
-      </h2>
-      <ul class="settings-group__options">${optionsMarkup}</ul>
-    </section>
-  `;
+function createSettingsGroup(title: string, icon: string, optionsMarkup: string): string {
+  return applyTemplateTokens(settingsGroupMarkup, {
+    GROUP_ICON_SRC: icon,
+    GROUP_TITLE: title,
+    OPTIONS_MARKUP: optionsMarkup,
+  });
 }
 
 function createThemeOptions(selectedTheme: ThemeOption | null): string {
@@ -122,53 +117,37 @@ function createOptionButton(
   label: string,
   isSelected: boolean,
 ): string {
-  const selectedClass = isSelected ? ' is-selected' : '';
-  const visibleLineClass = isSelected ? ' is-visible' : '';
-  const markerIcon = isSelected ? activeOptionIcon : inactiveOptionIcon;
   const previewThemeAttribute = group === 'theme'
     ? ` data-preview-theme="${value}"`
     : '';
 
-  return `
-    <li class="settings-option-item">
-      <button
-        class="settings-option${selectedClass}"
-        type="button"
-        data-group="${group}"
-        data-value="${value}"
-        ${previewThemeAttribute}
-      >
-        <img
-          class="settings-option__marker"
-          src="${markerIcon}"
-          data-active-icon="${activeOptionIcon}"
-          data-inactive-icon="${inactiveOptionIcon}"
-          alt=""
-          aria-hidden="true"
-        />
-        <span class="settings-option__label">${label}</span>
-        <img
-          class="settings-option__line${visibleLineClass}"
-          src="${selectedOptionLine}"
-          alt=""
-          aria-hidden="true"
-        />
-      </button>
-    </li>
-  `;
+  return applyTemplateTokens(settingsOptionButtonMarkup, {
+    MARKER_ACTIVE_ICON_SRC: activeOptionIcon,
+    MARKER_ICON_SRC: isSelected ? activeOptionIcon : inactiveOptionIcon,
+    MARKER_INACTIVE_ICON_SRC: inactiveOptionIcon,
+    OPTION_GROUP: group,
+    OPTION_LABEL: label,
+    OPTION_VALUE: value,
+    PREVIEW_THEME_ATTRIBUTE: previewThemeAttribute,
+    SELECTED_CLASS: isSelected ? ' is-selected' : '',
+    SELECTED_LINE_ICON_SRC: selectedOptionLine,
+    VISIBLE_LINE_CLASS: isSelected ? ' is-visible' : '',
+  });
 }
 
 function createFooterSummary(settings: GameSettings, isComplete: boolean): string {
-  return `
-    <div class="settings-footer__summary" aria-live="polite">
-      <div class="settings-footer__fields">
-        ${createFooterItem('theme', formatThemeSummary(settings.theme), settings.theme !== null, true)}
-        ${createFooterItem('player', formatPlayerSummary(settings.player), settings.player !== null, true)}
-        ${createFooterItem('boardSize', formatBoardSummary(settings.boardSize), settings.boardSize !== null, false)}
-      </div>
-      ${createStartButton(isComplete)}
-    </div>
-  `;
+  return applyTemplateTokens(settingsFooterSummaryMarkup, {
+    FOOTER_FIELDS_MARKUP: createFooterFields(settings),
+    START_BUTTON_MARKUP: createStartButton(isComplete),
+  });
+}
+
+function createFooterFields(settings: GameSettings): string {
+  return [
+    createFooterItem('theme', formatThemeSummary(settings.theme), settings.theme !== null, true),
+    createFooterItem('player', formatPlayerSummary(settings.player), settings.player !== null, true),
+    createFooterItem('boardSize', formatBoardSummary(settings.boardSize), settings.boardSize !== null, false),
+  ].join('');
 }
 
 function createFooterItem(
@@ -177,24 +156,19 @@ function createFooterItem(
   isSelected: boolean,
   withSeparator: boolean,
 ): string {
-  const selectedClass = isSelected ? ' is-selected' : '';
-  const separatorMarkup = withSeparator
-    ? `<img
-      class="settings-footer__separator"
-      src="${footerSeparatorLine}"
-      data-separator-inactive="${footerSeparatorLine}"
-      data-separator-active="${footerSeparatorActive}"
-      alt=""
-      aria-hidden="true"
-    />`
-    : '';
+  return applyTemplateTokens(settingsFooterItemMarkup, {
+    SELECTED_CLASS: isSelected ? ' is-selected' : '',
+    SEPARATOR_MARKUP: withSeparator ? createFooterSeparator() : '',
+    SUMMARY_GROUP: group,
+    SUMMARY_TEXT: text,
+  });
+}
 
-  return `
-    <div class="settings-footer__item${selectedClass}" data-summary-group="${group}">
-      <span class="settings-footer__text" data-summary-text="${group}">${text}</span>
-      ${separatorMarkup}
-    </div>
-  `;
+function createFooterSeparator(): string {
+  return applyTemplateTokens(settingsFooterSeparatorMarkup, {
+    SEPARATOR_ACTIVE_SRC: footerSeparatorActive,
+    SEPARATOR_LINE_SRC: footerSeparatorLine,
+  });
 }
 
 function formatThemeSummary(theme: ThemeOption | null): string {
@@ -226,23 +200,9 @@ function formatBoardSummary(boardSize: BoardSizeOption | null): string {
 }
 
 function createStartButton(isComplete: boolean): string {
-  const readyClassName = isComplete ? ' is-ready' : '';
-  const disabledAttribute = isComplete ? '' : 'disabled';
-
-  return `
-    <button
-      id="start-game-button"
-      class="settings-start-button${readyClassName}"
-      type="button"
-      aria-label="Start game"
-      ${disabledAttribute}
-    >
-      <img
-        class="settings-start-button__image"
-        src="${startButtonImage}"
-        alt=""
-        aria-hidden="true"
-      />
-    </button>
-  `;
+  return applyTemplateTokens(settingsStartButtonMarkup, {
+    DISABLED_ATTRIBUTE: isComplete ? '' : ' disabled',
+    READY_CLASS: isComplete ? ' is-ready' : '',
+    START_BUTTON_IMAGE_SRC: startButtonImage,
+  });
 }

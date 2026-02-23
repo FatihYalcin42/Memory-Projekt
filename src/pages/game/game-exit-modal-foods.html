@@ -1,0 +1,54 @@
+<div class="game-screen__exit-modal game-screen__exit-modal--foods" data-exit-modal hidden>
+  <div
+    class="game-screen__exit-modal-panel game-screen__exit-modal-panel--foods"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="exit-modal-title"
+  >
+    <h2 id="exit-modal-title" class="game-screen__exit-modal-title game-screen__exit-modal-title--foods">
+      Are you sure you want to quit the game?
+    </h2>
+
+    <div class="game-screen__exit-modal-actions game-screen__exit-modal-actions--foods">
+      <button
+        type="button"
+        class="game-screen__modal-button game-screen__modal-button--foods game-screen__modal-button--back"
+        data-exit-cancel
+        aria-label="Back to game"
+      >
+        <img
+          class="game-screen__modal-button-image game-screen__modal-button-image--foods game-screen__modal-button-image--foods-back game-screen__modal-button-image--foods-default"
+          src="{{FOODS_BACK_TO_GAME_BUTTON_SRC}}"
+          alt=""
+          aria-hidden="true"
+        />
+        <img
+          class="game-screen__modal-button-image game-screen__modal-button-image--foods game-screen__modal-button-image--foods-back game-screen__modal-button-image--foods-hover"
+          src="{{FOODS_BACK_TO_GAME_BUTTON_HOVER_SRC}}"
+          alt=""
+          aria-hidden="true"
+        />
+      </button>
+
+      <button
+        type="button"
+        class="game-screen__modal-button game-screen__modal-button--foods game-screen__modal-button--exit"
+        data-exit-confirm
+        aria-label="Exit game"
+      >
+        <img
+          class="game-screen__modal-button-image game-screen__modal-button-image--foods game-screen__modal-button-image--foods-exit game-screen__modal-button-image--foods-default"
+          src="{{FOODS_EXIT_OVERLAY_BUTTON_SRC}}"
+          alt=""
+          aria-hidden="true"
+        />
+        <img
+          class="game-screen__modal-button-image game-screen__modal-button-image--foods game-screen__modal-button-image--foods-exit game-screen__modal-button-image--foods-hover"
+          src="{{FOODS_EXIT_OVERLAY_BUTTON_HOVER_SRC}}"
+          alt=""
+          aria-hidden="true"
+        />
+      </button>
+    </div>
+  </div>
+</div>

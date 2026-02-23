@@ -1,5 +1,6 @@
 import type { GameResult } from '../../app/game-result';
 import type { ThemeOption } from '../../app/game-settings';
+import { applyTemplateTokens } from '../../app/template-utils';
 import { resolveTheme } from '../../app/theme-assets';
 import confettiAsset from '../../../puplic/designs/theme_1/Confetti.svg?url';
 import codeVibesPlayerLabelIconRaw from '../../../puplic/designs/theme_1/label.svg?raw';
@@ -8,6 +9,15 @@ import backToGameButtonSprite from '../../../puplic/designs/theme_1/back-to-game
 import foodsHomeButtonSprite from '../../../puplic/designs/theme2/home-button.svg';
 import foodsWinnerBluePlayerSprite from '../../../puplic/designs/theme2/player-blue.svg';
 import foodsWinnerOrangePlayerSprite from '../../../puplic/designs/theme2/player-orange.svg';
+import gameOverTemplateMarkup from './game-over-template.html?raw';
+import gameOverConfettiMarkup from './game-over-confetti.html?raw';
+import gameOverWinnerCodeVibesMarkup from './game-over-winner-code-vibes.html?raw';
+import gameOverWinnerFoodsMarkup from './game-over-winner-foods.html?raw';
+import gameOverFoodsWinnerIconMarkup from './game-over-winner-player-icon-foods.html?raw';
+import gameOverSummaryFoodsMarkup from './game-over-summary-foods.html?raw';
+import gameOverSummaryCodeVibesMarkup from './game-over-summary-code-vibes.html?raw';
+import gameOverSummaryFoodsRowMarkup from './game-over-summary-foods-row.html?raw';
+import gameOverSummaryCodeVibesRowMarkup from './game-over-summary-code-vibes-row.html?raw';
 
 /**
  * Builds the game-over and winner markup for the selected theme.
@@ -22,102 +32,64 @@ export function createGameOverTemplate(
 ): string {
   const resolvedTheme = resolveTheme(theme);
   const isFoodsTheme = resolvedTheme === 'foods';
-  const themeClassName = isFoodsTheme
-    ? 'game-over-screen--foods'
-    : 'game-over-screen--code-vibes';
-  const playerLabelIcon = isFoodsTheme
-    ? createFoodsPlayerLabelIconMarkup()
-    : createCodeVibesPlayerLabelIconMarkup();
   const winner = getWinnerPresentation(result);
-  const scoreSummary = createScoreSummaryMarkup(
-    result,
-    playerLabelIcon,
-    resolvedTheme,
-  );
-  const winnerContentMarkup = isFoodsTheme
-    ? createFoodsWinnerContentMarkup(winner)
-    : createCodeVibesWinnerContentMarkup(winner, scoreSummary);
-  const backHomeButtonSprite = isFoodsTheme
-    ? foodsHomeButtonSprite
-    : backToGameButtonSprite;
-  const backHomeButtonImageClassName = isFoodsTheme
-    ? 'game-over-screen__back-home-button-image game-over-screen__back-home-button-image--foods'
-    : 'game-over-screen__back-home-button-image';
-  const confettiMarkup = isFoodsTheme
-    ? ''
-    : `
-        <img
-          class="game-over-screen__confetti"
-          src="${confettiAsset}"
-          alt=""
-          aria-hidden="true"
-        />
-      `;
+  const scoreSummary = createScoreSummaryMarkup(result, resolvedTheme);
 
-  return `
-    <main
-      class="game-over-screen ${themeClassName}"
-      data-game-over-screen
-      aria-labelledby="game-over-title"
-    >
-      <section class="game-over-screen__intro">
-        <div class="game-over-screen__banner">
-          <h1 id="game-over-title" class="game-over-screen__title">Game Over</h1>
-        </div>
-        <h2 class="game-over-screen__subtitle">Final score</h2>
-        ${scoreSummary}
-      </section>
+  return applyTemplateTokens(gameOverTemplateMarkup, {
+    BACK_HOME_BUTTON_IMAGE_CLASS_NAME: readBackHomeButtonImageClassName(isFoodsTheme),
+    BACK_HOME_BUTTON_SRC: readBackHomeButtonSprite(isFoodsTheme),
+    CONFETTI_MARKUP: isFoodsTheme ? '' : createConfettiMarkup(),
+    SCORE_SUMMARY_MARKUP: scoreSummary,
+    THEME_CLASS_NAME: isFoodsTheme ? 'game-over-screen--foods' : 'game-over-screen--code-vibes',
+    WINNER_CONTENT_MARKUP: createWinnerContentMarkup(
+      winner,
+      isFoodsTheme,
+      scoreSummary,
+    ),
+  });
+}
 
-      <section class="game-over-screen__winner-page" aria-live="polite">
-        ${confettiMarkup}
+function createWinnerContentMarkup(
+  winner: WinnerPresentation,
+  isFoodsTheme: boolean,
+  scoreSummary: string,
+): string {
+  if (isFoodsTheme) {
+    return createFoodsWinnerContentMarkup(winner);
+  }
 
-        <div class="game-over-screen__winner-content">
-          ${winnerContentMarkup}
+  return createCodeVibesWinnerContentMarkup(winner, scoreSummary);
+}
 
-          <button
-            type="button"
-            class="game-over-screen__back-home-button"
-            data-back-home-button
-            aria-label="Back to home"
-          >
-            <img
-              class="${backHomeButtonImageClassName}"
-              src="${backHomeButtonSprite}"
-              alt=""
-              aria-hidden="true"
-            />
-          </button>
-        </div>
-      </section>
-    </main>
-  `;
+function createConfettiMarkup(): string {
+  return applyTemplateTokens(gameOverConfettiMarkup, {
+    CONFETTI_SRC: confettiAsset,
+  });
 }
 
 function createCodeVibesWinnerContentMarkup(
   winner: WinnerPresentation,
   scoreSummary: string,
 ): string {
-  return `
-    ${winner.isDraw ? '' : '<p class="game-over-screen__winner-prefix">the winner is</p>'}
-    <p class="game-over-screen__winner-player ${winner.className}">
-      ${winner.label}
-    </p>
-
-    <h2 class="game-over-screen__subtitle">Final score</h2>
-    ${scoreSummary}
-  `;
+  return applyTemplateTokens(gameOverWinnerCodeVibesMarkup, {
+    SCORE_SUMMARY_MARKUP: scoreSummary,
+    WINNER_LABEL: winner.label,
+    WINNER_PLAYER_CLASS_NAME: winner.className,
+    WINNER_PREFIX_MARKUP: winner.isDraw
+      ? ''
+      : '<p class="game-over-screen__winner-prefix">the winner is</p>',
+  });
 }
 
 function createFoodsWinnerContentMarkup(winner: WinnerPresentation): string {
-  const playerIconMarkup = createFoodsWinnerPlayerIconMarkup(winner);
-
-  return `
-    ${winner.isDraw ? '' : '<p class="game-over-screen__winner-prefix">The winner is</p>'}
-    <p class="game-over-screen__winner-player ${winner.className}">
-      ${winner.label}
-    </p>
-    ${playerIconMarkup}
-  `;
+  return applyTemplateTokens(gameOverWinnerFoodsMarkup, {
+    PLAYER_ICON_MARKUP: createFoodsWinnerPlayerIconMarkup(winner),
+    WINNER_LABEL: winner.label,
+    WINNER_PLAYER_CLASS_NAME: winner.className,
+    WINNER_PREFIX_MARKUP: winner.isDraw
+      ? ''
+      : '<p class="game-over-screen__winner-prefix">The winner is</p>',
+  });
 }
 
 function createFoodsWinnerPlayerIconMarkup(winner: WinnerPresentation): string {
@@ -125,22 +97,13 @@ function createFoodsWinnerPlayerIconMarkup(winner: WinnerPresentation): string {
     return '';
   }
 
-  const iconSource = winner.className === 'game-over-screen__winner-player--orange'
-    ? foodsWinnerOrangePlayerSprite
-    : foodsWinnerBluePlayerSprite;
-  const iconAlt = winner.className === 'game-over-screen__winner-player--orange'
-    ? 'Orange player icon'
-    : 'Blue player icon';
-
-  return `
-    <div class="game-over-screen__winner-icon">
-      <img
-        class="game-over-screen__winner-icon-image"
-        src="${iconSource}"
-        alt="${iconAlt}"
-      />
-    </div>
-  `;
+  const isOrangeWinner = winner.className === 'game-over-screen__winner-player--orange';
+  return applyTemplateTokens(gameOverFoodsWinnerIconMarkup, {
+    WINNER_ICON_ALT: isOrangeWinner ? 'Orange player icon' : 'Blue player icon',
+    WINNER_ICON_SRC: isOrangeWinner
+      ? foodsWinnerOrangePlayerSprite
+      : foodsWinnerBluePlayerSprite,
+  });
 }
 
 function createCodeVibesPlayerLabelIconMarkup(): string {
@@ -157,40 +120,77 @@ function createFoodsPlayerLabelIconMarkup(): string {
 
 function createScoreSummaryMarkup(
   result: GameResult,
-  playerLabelIcon: string,
   theme: ThemeOption,
 ): string {
   if (theme === 'foods') {
-    return `
-      <div class="game-over-screen__summary game-over-screen__summary--foods" aria-label="Final score">
-        <div class="game-over-screen__foods-score game-over-screen__foods-score--orange">
-          <span class="game-over-screen__icon" aria-hidden="true">${playerLabelIcon}</span>
-          <span class="game-over-screen__value">${result.orangeScore}</span>
-        </div>
-
-        <div class="game-over-screen__foods-score game-over-screen__foods-score--blue">
-          <span class="game-over-screen__icon" aria-hidden="true">${playerLabelIcon}</span>
-          <span class="game-over-screen__value">${result.blueScore}</span>
-        </div>
-      </div>
-    `;
+    return createFoodsScoreSummaryMarkup(result);
   }
 
-  return `
-    <div class="game-over-screen__summary" aria-label="Final score">
-      <div class="game-over-screen__player game-over-screen__player--blue">
-        <span class="game-over-screen__icon" aria-hidden="true">${playerLabelIcon}</span>
-        <span class="game-over-screen__name">Blue</span>
-        <span class="game-over-screen__value">${result.blueScore}</span>
-      </div>
+  return createCodeVibesScoreSummaryMarkup(result);
+}
 
-      <div class="game-over-screen__player game-over-screen__player--orange">
-        <span class="game-over-screen__icon" aria-hidden="true">${playerLabelIcon}</span>
-        <span class="game-over-screen__name">Orange</span>
-        <span class="game-over-screen__value">${result.orangeScore}</span>
-      </div>
-    </div>
-  `;
+function createFoodsScoreSummaryMarkup(result: GameResult): string {
+  const playerLabelIcon = createFoodsPlayerLabelIconMarkup();
+  return applyTemplateTokens(gameOverSummaryFoodsMarkup, {
+    FOODS_BLUE_SCORE_ROW: createFoodsScoreRow('blue', result.blueScore, playerLabelIcon),
+    FOODS_ORANGE_SCORE_ROW: createFoodsScoreRow('orange', result.orangeScore, playerLabelIcon),
+  });
+}
+
+function createFoodsScoreRow(
+  playerColor: 'blue' | 'orange',
+  playerScore: number,
+  playerLabelIcon: string,
+): string {
+  return applyTemplateTokens(gameOverSummaryFoodsRowMarkup, {
+    PLAYER_COLOR: playerColor,
+    PLAYER_LABEL_ICON: playerLabelIcon,
+    PLAYER_SCORE: String(playerScore),
+  });
+}
+
+function createCodeVibesScoreSummaryMarkup(result: GameResult): string {
+  const playerLabelIcon = createCodeVibesPlayerLabelIconMarkup();
+  return applyTemplateTokens(gameOverSummaryCodeVibesMarkup, {
+    CODE_VIBES_BLUE_SCORE_ROW: createCodeVibesScoreRow(
+      'blue',
+      'Blue',
+      result.blueScore,
+      playerLabelIcon,
+    ),
+    CODE_VIBES_ORANGE_SCORE_ROW: createCodeVibesScoreRow(
+      'orange',
+      'Orange',
+      result.orangeScore,
+      playerLabelIcon,
+    ),
+  });
+}
+
+function createCodeVibesScoreRow(
+  playerColor: 'blue' | 'orange',
+  playerName: string,
+  playerScore: number,
+  playerLabelIcon: string,
+): string {
+  return applyTemplateTokens(gameOverSummaryCodeVibesRowMarkup, {
+    PLAYER_COLOR: playerColor,
+    PLAYER_LABEL_ICON: playerLabelIcon,
+    PLAYER_NAME: playerName,
+    PLAYER_SCORE: String(playerScore),
+  });
+}
+
+function readBackHomeButtonSprite(isFoodsTheme: boolean): string {
+  return isFoodsTheme ? foodsHomeButtonSprite : backToGameButtonSprite;
+}
+
+function readBackHomeButtonImageClassName(isFoodsTheme: boolean): string {
+  if (isFoodsTheme) {
+    return 'game-over-screen__back-home-button-image game-over-screen__back-home-button-image--foods';
+  }
+
+  return 'game-over-screen__back-home-button-image';
 }
 
 interface WinnerPresentation {

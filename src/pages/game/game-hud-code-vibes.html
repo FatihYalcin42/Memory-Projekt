@@ -1,0 +1,39 @@
+<div class="game-screen__hud">
+  <div class="game-screen__scoreboard" aria-label="Scoreboard">
+    <span class="game-screen__score game-screen__score--blue">
+      <span class="game-screen__score-icon" aria-hidden="true">{{PLAYER_LABEL_ICON}}</span>
+      <span>Blue</span>
+      <span class="game-screen__score-value" data-score-player="blue">0</span>
+    </span>
+    <span class="game-screen__score game-screen__score--orange">
+      <span class="game-screen__score-icon" aria-hidden="true">{{PLAYER_LABEL_ICON}}</span>
+      <span>Orange</span>
+      <span class="game-screen__score-value" data-score-player="orange">0</span>
+    </span>
+  </div>
+
+  <div class="game-screen__current-player" aria-label="Current player">
+    <span class="game-screen__current-player-text">Current player:</span>
+    <span
+      class="game-screen__current-player-marker{{PLAYER_MARKER_CLASS_NAME}}"
+      data-current-player-marker
+      aria-hidden="true"
+    >
+      {{PLAYER_LABEL_ICON}}
+    </span>
+  </div>
+
+  <button
+    id="game-exit-button"
+    class="game-screen__exit-button"
+    type="button"
+    aria-label="Exit game"
+  >
+    <img
+      class="game-screen__exit-button-image"
+      src="{{EXIT_BUTTON_SRC}}"
+      alt=""
+      aria-hidden="true"
+    />
+  </button>
+</div>

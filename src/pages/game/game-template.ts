@@ -3,6 +3,7 @@ import type {
   GameSettings,
   ThemeOption,
 } from '../../app/game-settings';
+import { applyTemplateTokens } from '../../app/template-utils';
 import { getThemeModifierClass, resolveTheme } from '../../app/theme-assets';
 import codeVibesPlayerLabelIconRaw from '../../../puplic/designs/theme_1/label.svg?raw';
 import foodsPlayerMarkerIconRaw from '../../../puplic/designs/theme2/Frame 614.svg?raw';
@@ -52,6 +53,12 @@ import sandwichCardIcon from '../../../puplic/icons/icons_2/sandwich-card.svg';
 import sushiCardIcon from '../../../puplic/icons/icons_2/sushi-card.svg';
 import taccoCardIcon from '../../../puplic/icons/icons_2/tacco-card.svg';
 import wraoCardIcon from '../../../puplic/icons/icons_2/wrao-card.svg';
+import gameTemplateMarkup from './game-template.html?raw';
+import gameHudCodeVibesMarkup from './game-hud-code-vibes.html?raw';
+import gameHudFoodsMarkup from './game-hud-foods.html?raw';
+import gameExitModalCodeVibesMarkup from './game-exit-modal-code-vibes.html?raw';
+import gameExitModalFoodsMarkup from './game-exit-modal-foods.html?raw';
+import gameCardMarkup from './game-card.html?raw';
 
 interface ThemeCardAssets {
   backCardSprite: string;
@@ -129,75 +136,23 @@ export function createGameTemplate(settings: GameSettings): string {
     ? createFoodsHud(playerMarkerClassName)
     : createCodeVibesHud(playerMarkerClassName);
 
-  return `
-    <main class="game-screen ${gameThemeClassName} ${boardSizeClassName}" aria-labelledby="game-title">
-      <h1 id="game-title" class="game-screen__sr-only">Game</h1>
-      <div class="game-screen__canvas">
-        <section class="game-screen__board-area" aria-label="Game board">
-          <div
-            class="game-screen__board-grid"
-            id="game-board"
-            data-board-size="${boardSize}"
-          >
-            ${boardCards}
-          </div>
-        </section>
-        ${hudMarkup}
-
-        ${createExitModalMarkup(selectedTheme)}
-      </div>
-    </main>
-  `;
+  return applyTemplateTokens(gameTemplateMarkup, {
+    BOARD_CARDS: boardCards,
+    BOARD_SIZE: boardSize,
+    BOARD_SIZE_CLASS_NAME: boardSizeClassName,
+    EXIT_MODAL_MARKUP: createExitModalMarkup(selectedTheme),
+    GAME_THEME_CLASS_NAME: gameThemeClassName,
+    HUD_MARKUP: hudMarkup,
+  });
 }
 
 function createCodeVibesHud(playerMarkerClassName: string): string {
   const playerLabelIcon = createCodeVibesPlayerLabelIconMarkup();
-
-  return `
-    <div class="game-screen__hud">
-      <div class="game-screen__scoreboard" aria-label="Scoreboard">
-        <span class="game-screen__score game-screen__score--blue">
-          <span class="game-screen__score-icon" aria-hidden="true">
-            ${playerLabelIcon}
-          </span>
-          <span>Blue</span>
-          <span class="game-screen__score-value" data-score-player="blue">0</span>
-        </span>
-        <span class="game-screen__score game-screen__score--orange">
-          <span class="game-screen__score-icon" aria-hidden="true">
-            ${playerLabelIcon}
-          </span>
-          <span>Orange</span>
-          <span class="game-screen__score-value" data-score-player="orange">0</span>
-        </span>
-      </div>
-
-      <div class="game-screen__current-player" aria-label="Current player">
-        <span class="game-screen__current-player-text">Current player:</span>
-        <span
-          class="game-screen__current-player-marker${playerMarkerClassName}"
-          data-current-player-marker
-          aria-hidden="true"
-        >
-          ${playerLabelIcon}
-        </span>
-      </div>
-
-      <button
-        id="game-exit-button"
-        class="game-screen__exit-button"
-        type="button"
-        aria-label="Exit game"
-      >
-        <img
-          class="game-screen__exit-button-image"
-          src="${exitButtonSprite}"
-          alt=""
-          aria-hidden="true"
-        />
-      </button>
-    </div>
-  `;
+  return applyTemplateTokens(gameHudCodeVibesMarkup, {
+    EXIT_BUTTON_SRC: exitButtonSprite,
+    PLAYER_LABEL_ICON: playerLabelIcon,
+    PLAYER_MARKER_CLASS_NAME: playerMarkerClassName,
+  });
 }
 
 function createCodeVibesPlayerLabelIconMarkup(): string {
@@ -209,58 +164,13 @@ function createCodeVibesPlayerLabelIconMarkup(): string {
 function createFoodsHud(playerMarkerClassName: string): string {
   const scoreIcon = createFoodsScoreIconMarkup();
   const playerMarkerIcon = createFoodsPlayerMarkerIconMarkup();
-
-  return `
-    <div class="game-screen__hud game-screen__hud--foods">
-      <div class="game-screen__foods-topbar">
-        <div class="game-screen__scoreboard" aria-label="Scoreboard">
-          <span class="game-screen__score game-screen__score--orange">
-            <span class="game-screen__score-icon" aria-hidden="true">
-              ${scoreIcon}
-            </span>
-            <span class="game-screen__score-value" data-score-player="orange">0</span>
-          </span>
-          <span class="game-screen__score game-screen__score--blue">
-            <span class="game-screen__score-icon" aria-hidden="true">
-              ${scoreIcon}
-            </span>
-            <span class="game-screen__score-value" data-score-player="blue">0</span>
-          </span>
-        </div>
-
-        <div class="game-screen__current-player" aria-label="Current player">
-          <span class="game-screen__current-player-text">Current player:</span>
-          <span
-            class="game-screen__current-player-marker${playerMarkerClassName}"
-            data-current-player-marker
-            aria-hidden="true"
-          >
-            ${playerMarkerIcon}
-          </span>
-        </div>
-
-        <button
-          id="game-exit-button"
-          class="game-screen__exit-button game-screen__exit-button--foods"
-          type="button"
-          aria-label="Exit game"
-        >
-          <img
-            class="game-screen__exit-button-image game-screen__exit-button-image--foods game-screen__exit-button-image--foods-default"
-            src="${foodsExitHeaderButtonSprite}"
-            alt=""
-            aria-hidden="true"
-          />
-          <img
-            class="game-screen__exit-button-image game-screen__exit-button-image--foods game-screen__exit-button-image--foods-hover"
-            src="${foodsExitHeaderButtonHoverSprite}"
-            alt=""
-            aria-hidden="true"
-          />
-        </button>
-      </div>
-    </div>
-  `;
+  return applyTemplateTokens(gameHudFoodsMarkup, {
+    FOODS_EXIT_HEADER_BUTTON_HOVER_SRC: foodsExitHeaderButtonHoverSprite,
+    FOODS_EXIT_HEADER_BUTTON_SRC: foodsExitHeaderButtonSprite,
+    FOODS_PLAYER_MARKER_ICON: playerMarkerIcon,
+    FOODS_SCORE_ICON: scoreIcon,
+    PLAYER_MARKER_CLASS_NAME: playerMarkerClassName,
+  });
 }
 
 function createFoodsScoreIconMarkup(): string {
@@ -285,112 +195,19 @@ function createExitModalMarkup(theme: ThemeOption): string {
 }
 
 function createCodeVibesExitModalMarkup(): string {
-  return `
-    <div
-      class="game-screen__exit-modal"
-      data-exit-modal
-      hidden
-    >
-      <div class="game-screen__exit-modal-panel" role="dialog" aria-modal="true" aria-labelledby="exit-modal-title">
-        <h2 id="exit-modal-title" class="game-screen__exit-modal-title">
-          Are you sure you want to quit the game?
-        </h2>
-
-        <div class="game-screen__exit-modal-actions">
-          <button
-            type="button"
-            class="game-screen__modal-button game-screen__modal-button--back"
-            data-exit-cancel
-            aria-label="Back to game"
-          >
-            <img
-              class="game-screen__modal-button-image"
-              src="${backToGameButtonSprite}"
-              alt=""
-              aria-hidden="true"
-            />
-          </button>
-
-          <button
-            type="button"
-            class="game-screen__modal-button game-screen__modal-button--exit"
-            data-exit-confirm
-            aria-label="Exit game"
-          >
-            <img
-              class="game-screen__modal-button-image"
-              src="${exitGameButtonSprite}"
-              alt=""
-              aria-hidden="true"
-            />
-          </button>
-        </div>
-      </div>
-    </div>
-  `;
+  return applyTemplateTokens(gameExitModalCodeVibesMarkup, {
+    BACK_TO_GAME_BUTTON_SRC: backToGameButtonSprite,
+    EXIT_GAME_BUTTON_SRC: exitGameButtonSprite,
+  });
 }
 
 function createFoodsExitModalMarkup(): string {
-  return `
-    <div
-      class="game-screen__exit-modal game-screen__exit-modal--foods"
-      data-exit-modal
-      hidden
-    >
-      <div
-        class="game-screen__exit-modal-panel game-screen__exit-modal-panel--foods"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="exit-modal-title"
-      >
-        <h2 id="exit-modal-title" class="game-screen__exit-modal-title game-screen__exit-modal-title--foods">
-          Are you sure you want to quit the game?
-        </h2>
-
-        <div class="game-screen__exit-modal-actions game-screen__exit-modal-actions--foods">
-          <button
-            type="button"
-            class="game-screen__modal-button game-screen__modal-button--foods game-screen__modal-button--back"
-            data-exit-cancel
-            aria-label="Back to game"
-          >
-            <img
-              class="game-screen__modal-button-image game-screen__modal-button-image--foods game-screen__modal-button-image--foods-back game-screen__modal-button-image--foods-default"
-              src="${foodsBackToGameButtonSprite}"
-              alt=""
-              aria-hidden="true"
-            />
-            <img
-              class="game-screen__modal-button-image game-screen__modal-button-image--foods game-screen__modal-button-image--foods-back game-screen__modal-button-image--foods-hover"
-              src="${foodsBackToGameButtonHoverSprite}"
-              alt=""
-              aria-hidden="true"
-            />
-          </button>
-
-          <button
-            type="button"
-            class="game-screen__modal-button game-screen__modal-button--foods game-screen__modal-button--exit"
-            data-exit-confirm
-            aria-label="Exit game"
-          >
-            <img
-              class="game-screen__modal-button-image game-screen__modal-button-image--foods game-screen__modal-button-image--foods-exit game-screen__modal-button-image--foods-default"
-              src="${foodsExitOverlayButtonSprite}"
-              alt=""
-              aria-hidden="true"
-            />
-            <img
-              class="game-screen__modal-button-image game-screen__modal-button-image--foods game-screen__modal-button-image--foods-exit game-screen__modal-button-image--foods-hover"
-              src="${foodsExitOverlayButtonHoverSprite}"
-              alt=""
-              aria-hidden="true"
-            />
-          </button>
-        </div>
-      </div>
-    </div>
-  `;
+  return applyTemplateTokens(gameExitModalFoodsMarkup, {
+    FOODS_BACK_TO_GAME_BUTTON_HOVER_SRC: foodsBackToGameButtonHoverSprite,
+    FOODS_BACK_TO_GAME_BUTTON_SRC: foodsBackToGameButtonSprite,
+    FOODS_EXIT_OVERLAY_BUTTON_HOVER_SRC: foodsExitOverlayButtonHoverSprite,
+    FOODS_EXIT_OVERLAY_BUTTON_SRC: foodsExitOverlayButtonSprite,
+  });
 }
 
 function createBoardCards(
@@ -407,27 +224,11 @@ function createBoardCards(
   const cardIconsDeck = shuffleArray([...pairIcons, ...pairIcons]);
 
   return cardIconsDeck.map((cardIcon, index) => {
-    return `
-      <button
-        class="game-card"
-        type="button"
-        data-card-index="${index}"
-        data-card-icon="${cardIcon}"
-      >
-        <span class="game-card__inner">
-          <span
-            class="game-card__face game-card__face--front"
-            style="background-image: url('${themeCardAssets.backCardSprite}')"
-            aria-hidden="true"
-          ></span>
-          <span
-            class="game-card__face game-card__face--back"
-            style="background-image: url('${cardIcon}')"
-            aria-hidden="true"
-          ></span>
-        </span>
-      </button>
-    `;
+    return applyTemplateTokens(gameCardMarkup, {
+      BACK_CARD_SPRITE: themeCardAssets.backCardSprite,
+      CARD_ICON: cardIcon,
+      CARD_INDEX: String(index),
+    });
   }).join('');
 }
 
