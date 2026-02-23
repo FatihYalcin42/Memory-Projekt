@@ -1,6 +1,6 @@
 import type { GameResult } from '../../app/game-result';
 import type { ThemeOption } from '../../app/game-settings';
-import { applyTemplateTokens } from '../../app/template-utils';
+import { applyTemplateTokens, readTemplatePartial } from '../../app/template-utils';
 import { resolveTheme } from '../../app/theme-assets';
 import confettiAsset from '../../../puplic/designs/theme_1/Confetti.svg?url';
 import codeVibesPlayerLabelIconRaw from '../../../puplic/designs/theme_1/label.svg?raw';
@@ -10,14 +10,36 @@ import foodsHomeButtonSprite from '../../../puplic/designs/theme2/home-button.sv
 import foodsWinnerBluePlayerSprite from '../../../puplic/designs/theme2/player-blue.svg';
 import foodsWinnerOrangePlayerSprite from '../../../puplic/designs/theme2/player-orange.svg';
 import gameOverTemplateMarkup from './game-over-template.html?raw';
-import gameOverConfettiMarkup from './game-over-confetti.html?raw';
-import gameOverWinnerCodeVibesMarkup from './game-over-winner-code-vibes.html?raw';
-import gameOverWinnerFoodsMarkup from './game-over-winner-foods.html?raw';
-import gameOverFoodsWinnerIconMarkup from './game-over-winner-player-icon-foods.html?raw';
-import gameOverSummaryFoodsMarkup from './game-over-summary-foods.html?raw';
-import gameOverSummaryCodeVibesMarkup from './game-over-summary-code-vibes.html?raw';
-import gameOverSummaryFoodsRowMarkup from './game-over-summary-foods-row.html?raw';
-import gameOverSummaryCodeVibesRowMarkup from './game-over-summary-code-vibes-row.html?raw';
+import gameOverPartialsMarkup from './game-over-partials.html?raw';
+const GAME_OVER_CONFETTI_TEMPLATE = readTemplatePartial(gameOverPartialsMarkup, 'game-over-confetti');
+const GAME_OVER_WINNER_CODE_VIBES_TEMPLATE = readTemplatePartial(
+  gameOverPartialsMarkup,
+  'game-over-winner-code-vibes',
+);
+const GAME_OVER_WINNER_FOODS_TEMPLATE = readTemplatePartial(
+  gameOverPartialsMarkup,
+  'game-over-winner-foods',
+);
+const GAME_OVER_WINNER_PLAYER_ICON_FOODS_TEMPLATE = readTemplatePartial(
+  gameOverPartialsMarkup,
+  'game-over-winner-player-icon-foods',
+);
+const GAME_OVER_SUMMARY_FOODS_TEMPLATE = readTemplatePartial(
+  gameOverPartialsMarkup,
+  'game-over-summary-foods',
+);
+const GAME_OVER_SUMMARY_CODE_VIBES_TEMPLATE = readTemplatePartial(
+  gameOverPartialsMarkup,
+  'game-over-summary-code-vibes',
+);
+const GAME_OVER_SUMMARY_FOODS_ROW_TEMPLATE = readTemplatePartial(
+  gameOverPartialsMarkup,
+  'game-over-summary-foods-row',
+);
+const GAME_OVER_SUMMARY_CODE_VIBES_ROW_TEMPLATE = readTemplatePartial(
+  gameOverPartialsMarkup,
+  'game-over-summary-code-vibes-row',
+);
 
 /**
  * Builds the game-over and winner markup for the selected theme.
@@ -62,7 +84,7 @@ function createWinnerContentMarkup(
 }
 
 function createConfettiMarkup(): string {
-  return applyTemplateTokens(gameOverConfettiMarkup, {
+  return applyTemplateTokens(GAME_OVER_CONFETTI_TEMPLATE, {
     CONFETTI_SRC: confettiAsset,
   });
 }
@@ -71,7 +93,7 @@ function createCodeVibesWinnerContentMarkup(
   winner: WinnerPresentation,
   scoreSummary: string,
 ): string {
-  return applyTemplateTokens(gameOverWinnerCodeVibesMarkup, {
+  return applyTemplateTokens(GAME_OVER_WINNER_CODE_VIBES_TEMPLATE, {
     SCORE_SUMMARY_MARKUP: scoreSummary,
     WINNER_LABEL: winner.label,
     WINNER_PLAYER_CLASS_NAME: winner.className,
@@ -82,7 +104,7 @@ function createCodeVibesWinnerContentMarkup(
 }
 
 function createFoodsWinnerContentMarkup(winner: WinnerPresentation): string {
-  return applyTemplateTokens(gameOverWinnerFoodsMarkup, {
+  return applyTemplateTokens(GAME_OVER_WINNER_FOODS_TEMPLATE, {
     PLAYER_ICON_MARKUP: createFoodsWinnerPlayerIconMarkup(winner),
     WINNER_LABEL: winner.label,
     WINNER_PLAYER_CLASS_NAME: winner.className,
@@ -98,7 +120,7 @@ function createFoodsWinnerPlayerIconMarkup(winner: WinnerPresentation): string {
   }
 
   const isOrangeWinner = winner.className === 'game-over-screen__winner-player--orange';
-  return applyTemplateTokens(gameOverFoodsWinnerIconMarkup, {
+  return applyTemplateTokens(GAME_OVER_WINNER_PLAYER_ICON_FOODS_TEMPLATE, {
     WINNER_ICON_ALT: isOrangeWinner ? 'Orange player icon' : 'Blue player icon',
     WINNER_ICON_SRC: isOrangeWinner
       ? foodsWinnerOrangePlayerSprite
@@ -131,7 +153,7 @@ function createScoreSummaryMarkup(
 
 function createFoodsScoreSummaryMarkup(result: GameResult): string {
   const playerLabelIcon = createFoodsPlayerLabelIconMarkup();
-  return applyTemplateTokens(gameOverSummaryFoodsMarkup, {
+  return applyTemplateTokens(GAME_OVER_SUMMARY_FOODS_TEMPLATE, {
     FOODS_BLUE_SCORE_ROW: createFoodsScoreRow('blue', result.blueScore, playerLabelIcon),
     FOODS_ORANGE_SCORE_ROW: createFoodsScoreRow('orange', result.orangeScore, playerLabelIcon),
   });
@@ -142,7 +164,7 @@ function createFoodsScoreRow(
   playerScore: number,
   playerLabelIcon: string,
 ): string {
-  return applyTemplateTokens(gameOverSummaryFoodsRowMarkup, {
+  return applyTemplateTokens(GAME_OVER_SUMMARY_FOODS_ROW_TEMPLATE, {
     PLAYER_COLOR: playerColor,
     PLAYER_LABEL_ICON: playerLabelIcon,
     PLAYER_SCORE: String(playerScore),
@@ -151,7 +173,7 @@ function createFoodsScoreRow(
 
 function createCodeVibesScoreSummaryMarkup(result: GameResult): string {
   const playerLabelIcon = createCodeVibesPlayerLabelIconMarkup();
-  return applyTemplateTokens(gameOverSummaryCodeVibesMarkup, {
+  return applyTemplateTokens(GAME_OVER_SUMMARY_CODE_VIBES_TEMPLATE, {
     CODE_VIBES_BLUE_SCORE_ROW: createCodeVibesScoreRow(
       'blue',
       'Blue',
@@ -173,7 +195,7 @@ function createCodeVibesScoreRow(
   playerScore: number,
   playerLabelIcon: string,
 ): string {
-  return applyTemplateTokens(gameOverSummaryCodeVibesRowMarkup, {
+  return applyTemplateTokens(GAME_OVER_SUMMARY_CODE_VIBES_ROW_TEMPLATE, {
     PLAYER_COLOR: playerColor,
     PLAYER_LABEL_ICON: playerLabelIcon,
     PLAYER_NAME: playerName,

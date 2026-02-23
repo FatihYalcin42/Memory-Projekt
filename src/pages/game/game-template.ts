@@ -3,7 +3,7 @@ import type {
   GameSettings,
   ThemeOption,
 } from '../../app/game-settings';
-import { applyTemplateTokens } from '../../app/template-utils';
+import { applyTemplateTokens, readTemplatePartial } from '../../app/template-utils';
 import { getThemeModifierClass, resolveTheme } from '../../app/theme-assets';
 import codeVibesPlayerLabelIconRaw from '../../../puplic/designs/theme_1/label.svg?raw';
 import foodsPlayerMarkerIconRaw from '../../../puplic/designs/theme2/Frame 614.svg?raw';
@@ -54,11 +54,7 @@ import sushiCardIcon from '../../../puplic/icons/icons_2/sushi-card.svg';
 import taccoCardIcon from '../../../puplic/icons/icons_2/tacco-card.svg';
 import wraoCardIcon from '../../../puplic/icons/icons_2/wrao-card.svg';
 import gameTemplateMarkup from './game-template.html?raw';
-import gameHudCodeVibesMarkup from './game-hud-code-vibes.html?raw';
-import gameHudFoodsMarkup from './game-hud-foods.html?raw';
-import gameExitModalCodeVibesMarkup from './game-exit-modal-code-vibes.html?raw';
-import gameExitModalFoodsMarkup from './game-exit-modal-foods.html?raw';
-import gameCardMarkup from './game-card.html?raw';
+import gamePartialsMarkup from './game-partials.html?raw';
 
 interface ThemeCardAssets {
   backCardSprite: string;
@@ -116,6 +112,17 @@ const THEME_CARD_ASSETS: Record<ThemeOption, ThemeCardAssets> = {
     faceIcons: FOODS_CARD_FACE_ICONS,
   },
 };
+const GAME_HUD_CODE_VIBES_TEMPLATE = readTemplatePartial(gamePartialsMarkup, 'game-hud-code-vibes');
+const GAME_HUD_FOODS_TEMPLATE = readTemplatePartial(gamePartialsMarkup, 'game-hud-foods');
+const GAME_EXIT_MODAL_CODE_VIBES_TEMPLATE = readTemplatePartial(
+  gamePartialsMarkup,
+  'game-exit-modal-code-vibes',
+);
+const GAME_EXIT_MODAL_FOODS_TEMPLATE = readTemplatePartial(
+  gamePartialsMarkup,
+  'game-exit-modal-foods',
+);
+const GAME_CARD_TEMPLATE = readTemplatePartial(gamePartialsMarkup, 'game-card');
 
 /**
  * Builds the game screen markup for the active settings.
@@ -148,7 +155,7 @@ export function createGameTemplate(settings: GameSettings): string {
 
 function createCodeVibesHud(playerMarkerClassName: string): string {
   const playerLabelIcon = createCodeVibesPlayerLabelIconMarkup();
-  return applyTemplateTokens(gameHudCodeVibesMarkup, {
+  return applyTemplateTokens(GAME_HUD_CODE_VIBES_TEMPLATE, {
     EXIT_BUTTON_SRC: exitButtonSprite,
     PLAYER_LABEL_ICON: playerLabelIcon,
     PLAYER_MARKER_CLASS_NAME: playerMarkerClassName,
@@ -164,7 +171,7 @@ function createCodeVibesPlayerLabelIconMarkup(): string {
 function createFoodsHud(playerMarkerClassName: string): string {
   const scoreIcon = createFoodsScoreIconMarkup();
   const playerMarkerIcon = createFoodsPlayerMarkerIconMarkup();
-  return applyTemplateTokens(gameHudFoodsMarkup, {
+  return applyTemplateTokens(GAME_HUD_FOODS_TEMPLATE, {
     FOODS_EXIT_HEADER_BUTTON_HOVER_SRC: foodsExitHeaderButtonHoverSprite,
     FOODS_EXIT_HEADER_BUTTON_SRC: foodsExitHeaderButtonSprite,
     FOODS_PLAYER_MARKER_ICON: playerMarkerIcon,
@@ -195,14 +202,14 @@ function createExitModalMarkup(theme: ThemeOption): string {
 }
 
 function createCodeVibesExitModalMarkup(): string {
-  return applyTemplateTokens(gameExitModalCodeVibesMarkup, {
+  return applyTemplateTokens(GAME_EXIT_MODAL_CODE_VIBES_TEMPLATE, {
     BACK_TO_GAME_BUTTON_SRC: backToGameButtonSprite,
     EXIT_GAME_BUTTON_SRC: exitGameButtonSprite,
   });
 }
 
 function createFoodsExitModalMarkup(): string {
-  return applyTemplateTokens(gameExitModalFoodsMarkup, {
+  return applyTemplateTokens(GAME_EXIT_MODAL_FOODS_TEMPLATE, {
     FOODS_BACK_TO_GAME_BUTTON_HOVER_SRC: foodsBackToGameButtonHoverSprite,
     FOODS_BACK_TO_GAME_BUTTON_SRC: foodsBackToGameButtonSprite,
     FOODS_EXIT_OVERLAY_BUTTON_HOVER_SRC: foodsExitOverlayButtonHoverSprite,
@@ -224,7 +231,7 @@ function createBoardCards(
   const cardIconsDeck = shuffleArray([...pairIcons, ...pairIcons]);
 
   return cardIconsDeck.map((cardIcon, index) => {
-    return applyTemplateTokens(gameCardMarkup, {
+    return applyTemplateTokens(GAME_CARD_TEMPLATE, {
       BACK_CARD_SPRITE: themeCardAssets.backCardSprite,
       CARD_ICON: cardIcon,
       CARD_INDEX: String(index),

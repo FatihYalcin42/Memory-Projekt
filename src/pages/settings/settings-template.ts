@@ -9,7 +9,7 @@ import {
   PLAYER_CHOICES,
   THEME_CHOICES,
 } from '../../app/game-settings';
-import { applyTemplateTokens } from '../../app/template-utils';
+import { applyTemplateTokens, readTemplatePartial } from '../../app/template-utils';
 import boardSizeIcon from '../../../puplic/designs/theme_1/style.svg';
 import inactiveOptionIcon from '../../../puplic/designs/theme_1/fiber_manual_record.svg';
 import activeOptionIcon from '../../../puplic/designs/theme_1/mode_standby.svg';
@@ -22,14 +22,15 @@ import codeVibesPreviewImage from '../../../puplic/designs/theme_1/setting-pictu
 import foodsPreviewImage from '../../../puplic/designs/theme-visiual-food.svg';
 import startButtonImage from '../../../puplic/designs/theme_1/small button.svg';
 import settingsTemplateMarkup from './settings-template.html?raw';
-import settingsGroupMarkup from './settings-group.html?raw';
-import settingsOptionButtonMarkup from './settings-option-button.html?raw';
-import settingsFooterSummaryMarkup from './settings-footer-summary.html?raw';
-import settingsFooterItemMarkup from './settings-footer-item.html?raw';
-import settingsFooterSeparatorMarkup from './settings-footer-separator.html?raw';
-import settingsStartButtonMarkup from './settings-start-button.html?raw';
+import settingsPartialsMarkup from './settings-partials.html?raw';
 
 type SettingsGroup = 'boardSize' | 'player' | 'theme';
+const SETTINGS_GROUP_TEMPLATE = readTemplatePartial(settingsPartialsMarkup, 'settings-group');
+const SETTINGS_OPTION_BUTTON_TEMPLATE = readTemplatePartial(settingsPartialsMarkup, 'settings-option-button');
+const SETTINGS_FOOTER_SUMMARY_TEMPLATE = readTemplatePartial(settingsPartialsMarkup, 'settings-footer-summary');
+const SETTINGS_FOOTER_ITEM_TEMPLATE = readTemplatePartial(settingsPartialsMarkup, 'settings-footer-item');
+const SETTINGS_FOOTER_SEPARATOR_TEMPLATE = readTemplatePartial(settingsPartialsMarkup, 'settings-footer-separator');
+const SETTINGS_START_BUTTON_TEMPLATE = readTemplatePartial(settingsPartialsMarkup, 'settings-start-button');
 
 /**
  * Builds the settings screen markup for the current settings state.
@@ -71,7 +72,7 @@ export function createSettingsTemplate(settings: GameSettings): string {
 }
 
 function createSettingsGroup(title: string, icon: string, optionsMarkup: string): string {
-  return applyTemplateTokens(settingsGroupMarkup, {
+  return applyTemplateTokens(SETTINGS_GROUP_TEMPLATE, {
     GROUP_ICON_SRC: icon,
     GROUP_TITLE: title,
     OPTIONS_MARKUP: optionsMarkup,
@@ -121,7 +122,7 @@ function createOptionButton(
     ? ` data-preview-theme="${value}"`
     : '';
 
-  return applyTemplateTokens(settingsOptionButtonMarkup, {
+  return applyTemplateTokens(SETTINGS_OPTION_BUTTON_TEMPLATE, {
     MARKER_ACTIVE_ICON_SRC: activeOptionIcon,
     MARKER_ICON_SRC: isSelected ? activeOptionIcon : inactiveOptionIcon,
     MARKER_INACTIVE_ICON_SRC: inactiveOptionIcon,
@@ -136,7 +137,7 @@ function createOptionButton(
 }
 
 function createFooterSummary(settings: GameSettings, isComplete: boolean): string {
-  return applyTemplateTokens(settingsFooterSummaryMarkup, {
+  return applyTemplateTokens(SETTINGS_FOOTER_SUMMARY_TEMPLATE, {
     FOOTER_FIELDS_MARKUP: createFooterFields(settings),
     START_BUTTON_MARKUP: createStartButton(isComplete),
   });
@@ -156,7 +157,7 @@ function createFooterItem(
   isSelected: boolean,
   withSeparator: boolean,
 ): string {
-  return applyTemplateTokens(settingsFooterItemMarkup, {
+  return applyTemplateTokens(SETTINGS_FOOTER_ITEM_TEMPLATE, {
     SELECTED_CLASS: isSelected ? ' is-selected' : '',
     SEPARATOR_MARKUP: withSeparator ? createFooterSeparator() : '',
     SUMMARY_GROUP: group,
@@ -165,7 +166,7 @@ function createFooterItem(
 }
 
 function createFooterSeparator(): string {
-  return applyTemplateTokens(settingsFooterSeparatorMarkup, {
+  return applyTemplateTokens(SETTINGS_FOOTER_SEPARATOR_TEMPLATE, {
     SEPARATOR_ACTIVE_SRC: footerSeparatorActive,
     SEPARATOR_LINE_SRC: footerSeparatorLine,
   });
@@ -200,7 +201,7 @@ function formatBoardSummary(boardSize: BoardSizeOption | null): string {
 }
 
 function createStartButton(isComplete: boolean): string {
-  return applyTemplateTokens(settingsStartButtonMarkup, {
+  return applyTemplateTokens(SETTINGS_START_BUTTON_TEMPLATE, {
     DISABLED_ATTRIBUTE: isComplete ? '' : ' disabled',
     READY_CLASS: isComplete ? ' is-ready' : '',
     START_BUTTON_IMAGE_SRC: startButtonImage,

@@ -15,3 +15,17 @@ export function applyTemplateTokens(
   });
   return resolvedTemplate;
 }
+
+/**
+ * Reads one `<template id="...">` fragment from a partials file.
+ *
+ * @param partialsMarkup Raw partials file content.
+ * @param templateId Requested template id.
+ * @returns Inner HTML of the template or an empty string.
+ */
+export function readTemplatePartial(partialsMarkup: string, templateId: string): string {
+  const escapedId = templateId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = new RegExp(`<template\\s+id="${escapedId}"[^>]*>([\\s\\S]*?)<\\/template>`);
+  const match = partialsMarkup.match(pattern);
+  return match ? match[1].trim() : '';
+}
