@@ -2,6 +2,8 @@ import type { BoardSizeOption, GameSettings } from '../../app/game-settings';
 import { getThemeModifierClass } from '../../app/theme-assets';
 import playerLabelIconRaw from '../../../puplic/designs/theme_1/label.svg?raw';
 import exitButtonSprite from '../../../puplic/icons/icons_1/exitgame1.svg';
+import backToGameButtonSprite from '../../../puplic/designs/theme_1/back-to-game-button.svg';
+import exitGameButtonSprite from '../../../puplic/designs/theme_1/exit-game-button.svg';
 import cardBackSprite from '../../../puplic/icons/icons_1/Cards 5.svg';
 import angularCardIcon from '../../../puplic/icons/icons_1/angular-card.svg';
 import bootstrapCardIcon from '../../../puplic/icons/icons_1/bootstrap-card.svg';
@@ -67,6 +69,8 @@ export function createGameTemplate(settings: GameSettings): string {
         ${isCodeVibesTheme
     ? createCodeVibesHud(playerMarkerClassName)
     : createFallbackHud()}
+
+        ${createExitModalMarkup()}
       </div>
     </main>
   `;
@@ -135,6 +139,52 @@ function createFallbackHud(): string {
       >
         Exit game
       </button>
+    </div>
+  `;
+}
+
+function createExitModalMarkup(): string {
+  return `
+    <div
+      class="game-screen__exit-modal"
+      data-exit-modal
+      hidden
+    >
+      <div class="game-screen__exit-modal-panel" role="dialog" aria-modal="true" aria-labelledby="exit-modal-title">
+        <h2 id="exit-modal-title" class="game-screen__exit-modal-title">
+          Are you sure you want to quit the game?
+        </h2>
+
+        <div class="game-screen__exit-modal-actions">
+          <button
+            type="button"
+            class="game-screen__modal-button game-screen__modal-button--back"
+            data-exit-cancel
+            aria-label="Back to game"
+          >
+            <img
+              class="game-screen__modal-button-image"
+              src="${backToGameButtonSprite}"
+              alt=""
+              aria-hidden="true"
+            />
+          </button>
+
+          <button
+            type="button"
+            class="game-screen__modal-button game-screen__modal-button--exit"
+            data-exit-confirm
+            aria-label="Exit game"
+          >
+            <img
+              class="game-screen__modal-button-image"
+              src="${exitGameButtonSprite}"
+              alt=""
+              aria-hidden="true"
+            />
+          </button>
+        </div>
+      </div>
     </div>
   `;
 }

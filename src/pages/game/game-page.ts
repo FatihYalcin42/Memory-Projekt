@@ -3,6 +3,11 @@ import { setGameResult } from '../../app/game-result';
 import { createGameTemplate } from './game-template';
 
 const EXIT_BUTTON_SELECTOR = '#game-exit-button';
+const EXIT_MODAL_SELECTOR = '[data-exit-modal]';
+const EXIT_MODAL_CANCEL_SELECTOR = '[data-exit-cancel]';
+const EXIT_MODAL_CONFIRM_SELECTOR = '[data-exit-confirm]';
+const GAME_SCREEN_SELECTOR = '.game-screen';
+const EXIT_MODAL_OPEN_CLASS = 'is-exit-modal-open';
 const CARD_SELECTOR = '.game-card';
 const CURRENT_PLAYER_MARKER_SELECTOR = '[data-current-player-marker]';
 const FLIPPED_CARD_CLASS = 'flipped';
@@ -21,17 +26,46 @@ interface GameRuntimeState {
 export function mountGamePage(target: HTMLElement): void {
   const settings = getGameSettings();
   target.innerHTML = createGameTemplate(settings);
-  bindExitButton(target);
+  bindExitFlow(target);
   bindMemoryGame(target, settings.player ?? 'blue');
 }
 
-function bindExitButton(target: HTMLElement): void {
+function bindExitFlow(target: HTMLElement): void {
   const exitButton = target.querySelector<HTMLButtonElement>(EXIT_BUTTON_SELECTOR);
-  if (!exitButton) {
+  const exitModal = target.querySelector<HTMLElement>(EXIT_MODAL_SELECTOR);
+  const backToGameButton = target.querySelector<HTMLButtonElement>(EXIT_MODAL_CANCEL_SELECTOR);
+  const confirmExitButton = target.querySelector<HTMLButtonElement>(EXIT_MODAL_CONFIRM_SELECTOR);
+  const gameScreen = target.querySelector<HTMLElement>(GAME_SCREEN_SELECTOR);
+
+  if (
+    !exitButton ||
+    !exitModal ||
+    !backToGameButton ||
+    !confirmExitButton ||
+    !gameScreen
+  ) {
     return;
   }
 
+  const openExitModal = (): void => {
+    exitModal.hidden = false;
+    gameScreen.classList.add(EXIT_MODAL_OPEN_CLASS);
+  };
+
+  const closeExitModal = (): void => {
+    exitModal.hidden = true;
+    gameScreen.classList.remove(EXIT_MODAL_OPEN_CLASS);
+  };
+
   exitButton.addEventListener('click', () => {
+    openExitModal();
+  });
+
+  backToGameButton.addEventListener('click', () => {
+    closeExitModal();
+  });
+
+  confirmExitButton.addEventListener('click', () => {
     window.location.hash = '#settings';
   });
 }

@@ -264,3 +264,107 @@
   outline: 2px solid #2f2f2f;
   outline-offset: 2px;
 }
+
+.game-screen__exit-modal {
+  position: absolute;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background-color: rgba(48, 49, 49, 0.64);
+  pointer-events: auto;
+}
+
+.game-screen__exit-modal[hidden] {
+  display: none;
+}
+
+.game-screen__exit-modal-panel {
+  width: min(889px, 100%);
+  min-height: 443px;
+  padding: 72px 40px 66px;
+  background-color: #ececed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 92px;
+}
+
+.game-screen__exit-modal-title {
+  width: min(459px, 100%);
+  min-height: 79px;
+  margin: 0;
+  color: #303131;
+  font-family: 'Red Rose', serif;
+  font-size: 32px;
+  font-weight: 700;
+  font-style: normal;
+  line-height: 40px;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.game-screen__exit-modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.game-screen__modal-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  transition: transform 140ms ease;
+}
+
+.game-screen__modal-button-image {
+  display: block;
+  width: auto;
+  height: 57px;
+  transition:
+    filter 150ms ease,
+    background-color 150ms ease;
+}
+
+.game-screen__modal-button--back .game-screen__modal-button-image {
+  width: 182px;
+}
+
+.game-screen__modal-button--exit {
+  background-color: rgba(134, 233, 214, 0.16);
+}
+
+.game-screen__modal-button--exit .game-screen__modal-button-image {
+  width: 148px;
+}
+
+.game-screen__modal-button:hover,
+.game-screen__modal-button:focus-visible {
+  transform: translateY(-1px);
+}
+
+.game-screen__modal-button--back:hover .game-screen__modal-button-image,
+.game-screen__modal-button--back:focus-visible .game-screen__modal-button-image {
+  filter: brightness(1.08);
+}
+
+.game-screen__modal-button--exit:hover,
+.game-screen__modal-button--exit:focus-visible {
+  background-color: rgba(102, 207, 188, 0.3);
+}
+
+.game-screen__modal-button--exit:hover .game-screen__modal-button-image,
+.game-screen__modal-button--exit:focus-visible .game-screen__modal-button-image {
+  filter: saturate(1.08) brightness(1.03);
+}
+
+.game-screen__modal-button:focus-visible {
+  outline: 2px solid #f0e5d9;
+  outline-offset: 4px;
+}
