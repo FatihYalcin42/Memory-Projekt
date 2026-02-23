@@ -685,6 +685,8 @@
   display: block;
   width: 176px;
   height: 49px;
+  position: static;
+  inset: auto;
   object-fit: contain;
   transition:
     transform 140ms ease,
