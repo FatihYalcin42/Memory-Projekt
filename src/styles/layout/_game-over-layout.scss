@@ -1,0 +1,95 @@
+.game-over-screen {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #303131;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
+.game-over-screen__content {
+  width: min(981.5048828125px, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 34px;
+}
+
+.game-over-screen__banner {
+  position: relative;
+  width: min(981.5048828125px, 100%);
+  height: 121.19993591308594px;
+}
+
+.game-over-screen__title {
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  margin: 0;
+  color: #ffffff;
+  font-family: 'Red Rose', serif;
+  font-size: clamp(68px, 9.2vw, 138px);
+  font-weight: 700;
+  line-height: 0.86;
+  text-shadow: -7px 0 8px rgba(77, 213, 188, 0.5);
+}
+
+.game-over-screen__summary {
+  width: 324px;
+  height: 62px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background-color: rgba(134, 233, 214, 0.2);
+  font-family: 'Almarai', sans-serif;
+}
+
+.game-over-screen__player {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.game-over-screen__player--blue {
+  color: #2bb1ff;
+}
+
+.game-over-screen__player--orange {
+  color: #f58e39;
+}
+
+.game-over-screen__icon {
+  width: 18px;
+  height: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.game-over-screen__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.game-over-screen__name {
+  font-size: 18px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.game-over-screen__value {
+  min-width: 1ch;
+  font-size: 22px;
+  font-weight: 700;
+  text-align: right;
+}

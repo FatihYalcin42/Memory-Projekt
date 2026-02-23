@@ -1,4 +1,5 @@
 import { getGameSettings, type PlayerOption } from '../../app/game-settings';
+import { setGameResult } from '../../app/game-result';
 import { createGameTemplate } from './game-template';
 
 const EXIT_BUTTON_SELECTOR = '#game-exit-button';
@@ -150,7 +151,11 @@ function finishMatchedTurn(
 
   const matchedCardsCount = target.querySelectorAll(`.${MATCHED_CARD_CLASS}`).length;
   if (matchedCardsCount === totalCards) {
-    target.classList.add('game-screen--finished');
+    setGameResult({
+      blueScore: state.scores.blue,
+      orangeScore: state.scores.orange,
+    });
+    window.location.hash = '#game-over';
   }
 }
 
@@ -179,12 +184,14 @@ function setScoreValue(
   player: PlayerOption,
   score: number,
 ): void {
-  const scoreElement = target.querySelector<HTMLElement>(
+  const scoreElements = target.querySelectorAll<HTMLElement>(
     `[data-score-player="${player}"]`,
   );
-  if (!scoreElement) {
+  if (scoreElements.length === 0) {
     return;
   }
 
-  scoreElement.textContent = String(score);
+  scoreElements.forEach((scoreElement) => {
+    scoreElement.textContent = String(score);
+  });
 }

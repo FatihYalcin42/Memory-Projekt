@@ -9,6 +9,7 @@ import {
   setGameTheme,
   setPlayer,
 } from '../../app/game-settings';
+import { clearGameResult } from '../../app/game-result';
 import { createSettingsTemplate } from './settings-template';
 
 const OPTION_SELECTOR = '.settings-option';
@@ -291,6 +292,7 @@ function bindStartButton(target: HTMLElement): void {
       return;
     }
 
+    clearGameResult();
     window.location.hash = '#game';
   });
 }
