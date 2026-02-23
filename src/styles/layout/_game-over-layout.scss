@@ -14,26 +14,39 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 34px;
+  gap: 16px;
 }
 
 .game-over-screen__banner {
-  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: min(981.5048828125px, 100%);
   height: 121.19993591308594px;
 }
 
 .game-over-screen__title {
-  position: absolute;
-  top: 2px;
-  left: 5px;
   margin: 0;
-  color: #ffffff;
+  color: #4dd5bc;
   font-family: 'Red Rose', serif;
   font-size: clamp(68px, 9.2vw, 138px);
   font-weight: 700;
   line-height: 0.86;
-  text-shadow: -7px 0 8px rgba(77, 213, 188, 0.5);
+  text-align: center;
+}
+
+.game-over-screen__subtitle {
+  width: 324px;
+  height: 32px;
+  margin: 0;
+  color: #ffffff;
+  font-family: 'Red Rose', serif;
+  font-size: 26px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: center;
 }
 
 .game-over-screen__summary {

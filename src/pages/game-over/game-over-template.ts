@@ -11,6 +11,8 @@ export function createGameOverTemplate(result: GameResult): string {
           <h1 id="game-over-title" class="game-over-screen__title">Game over</h1>
         </div>
 
+        <h2 class="game-over-screen__subtitle">Final score</h2>
+
         <div class="game-over-screen__summary" aria-label="Final score">
           <div class="game-over-screen__player game-over-screen__player--blue">
             <span class="game-over-screen__icon" aria-hidden="true">${playerLabelIcon}</span>
