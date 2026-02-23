@@ -201,6 +201,7 @@ function createCodeVibesPlayerLabelIconMarkup(): string {
 }
 
 function createFoodsHud(playerMarkerClassName: string): string {
+  const scoreIcon = createFoodsScoreIconMarkup();
   const playerMarkerIcon = createFoodsPlayerMarkerIconMarkup();
 
   return `
@@ -209,13 +210,13 @@ function createFoodsHud(playerMarkerClassName: string): string {
         <div class="game-screen__scoreboard" aria-label="Scoreboard">
           <span class="game-screen__score game-screen__score--orange">
             <span class="game-screen__score-icon" aria-hidden="true">
-              ${playerMarkerIcon}
+              ${scoreIcon}
             </span>
             <span class="game-screen__score-value" data-score-player="orange">0</span>
           </span>
           <span class="game-screen__score game-screen__score--blue">
             <span class="game-screen__score-icon" aria-hidden="true">
-              ${playerMarkerIcon}
+              ${scoreIcon}
             </span>
             <span class="game-screen__score-value" data-score-player="blue">0</span>
           </span>
@@ -254,6 +255,13 @@ function createFoodsHud(playerMarkerClassName: string): string {
       </div>
     </div>
   `;
+}
+
+function createFoodsScoreIconMarkup(): string {
+  return foodsPlayerMarkerIconRaw
+    .replace(/<rect[^>]*fill="#097FC5"[^>]*\/>\s*/gi, '')
+    .replace(/fill="white"/gi, 'fill="currentColor"')
+    .trim();
 }
 
 function createFoodsPlayerMarkerIconMarkup(): string {
