@@ -10,6 +10,7 @@ import exitButtonSprite from '../../../puplic/icons/icons_1/exitgame1.svg';
 import backToGameButtonSprite from '../../../puplic/designs/theme_1/back-to-game-button.svg';
 import exitGameButtonSprite from '../../../puplic/designs/theme_1/exit-game-button.svg';
 import foodsExitHeaderButtonSprite from '../../../puplic/icons/icons_2/exit-game-button.svg';
+import foodsExitHeaderButtonHoverSprite from '../../../puplic/icons/icons_2/exit-game-button-hover.svg';
 import foodsBackToGameButtonSprite from '../../../puplic/icons/icons_2/back-to-game-button.svg';
 import foodsExitOverlayButtonSprite from '../../../puplic/icons/icons_2/exit-game-button-overlay.svg';
 import codeVibesCardBackSprite from '../../../puplic/icons/icons_1/Cards 5.svg';
@@ -236,8 +237,14 @@ function createFoodsHud(playerMarkerClassName: string): string {
           aria-label="Exit game"
         >
           <img
-            class="game-screen__exit-button-image game-screen__exit-button-image--foods"
+            class="game-screen__exit-button-image game-screen__exit-button-image--foods game-screen__exit-button-image--foods-default"
             src="${foodsExitHeaderButtonSprite}"
+            alt=""
+            aria-hidden="true"
+          />
+          <img
+            class="game-screen__exit-button-image game-screen__exit-button-image--foods game-screen__exit-button-image--foods-hover"
+            src="${foodsExitHeaderButtonHoverSprite}"
             alt=""
             aria-hidden="true"
           />

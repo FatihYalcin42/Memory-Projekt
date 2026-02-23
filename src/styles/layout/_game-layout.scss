@@ -669,7 +669,7 @@
 }
 
 .game-screen--foods .game-screen__exit-button {
-  position: static;
+  position: relative;
   top: auto;
   left: auto;
   width: 176px;
@@ -682,15 +682,21 @@
 }
 
 .game-screen--foods .game-screen__exit-button-image {
+  position: absolute;
+  inset: 0;
   display: block;
-  width: 176px;
-  height: 49px;
-  position: static;
-  inset: auto;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-  transition:
-    transform 140ms ease,
-    filter 140ms ease;
+  transition: opacity 160ms ease;
+}
+
+.game-screen--foods .game-screen__exit-button-image--foods-default {
+  opacity: 1;
+}
+
+.game-screen--foods .game-screen__exit-button-image--foods-hover {
+  opacity: 0;
 }
 
 .game-screen--foods .game-screen__exit-button:hover,
@@ -701,8 +707,18 @@
 
 .game-screen--foods .game-screen__exit-button:hover .game-screen__exit-button-image,
 .game-screen--foods .game-screen__exit-button:focus-visible .game-screen__exit-button-image {
-  filter: brightness(1.04);
+  filter: none;
   transform: none;
+}
+
+.game-screen--foods .game-screen__exit-button:hover .game-screen__exit-button-image--foods-default,
+.game-screen--foods .game-screen__exit-button:focus-visible .game-screen__exit-button-image--foods-default {
+  opacity: 0;
+}
+
+.game-screen--foods .game-screen__exit-button:hover .game-screen__exit-button-image--foods-hover,
+.game-screen--foods .game-screen__exit-button:focus-visible .game-screen__exit-button-image--foods-hover {
+  opacity: 1;
 }
 
 .game-screen--foods .game-screen__exit-button:focus-visible {
@@ -855,7 +871,7 @@
   }
 
   .game-screen--foods .game-screen__exit-button {
-    padding: 8px 12px;
+    padding: 0;
     width: 150px;
     height: 42px;
   }
