@@ -1,6 +1,7 @@
 import type { GameResult } from '../../app/game-result';
 import confettiAsset from '../../../puplic/designs/theme_1/Confetti.svg?url';
 import playerLabelIconRaw from '../../../puplic/designs/theme_1/label.svg?raw';
+import backToGameButtonSprite from '../../../puplic/designs/theme_1/back-to-game-button.svg';
 
 export function createGameOverTemplate(result: GameResult): string {
   const playerLabelIcon = createPlayerLabelIconMarkup();
@@ -37,6 +38,20 @@ export function createGameOverTemplate(result: GameResult): string {
 
           <h2 class="game-over-screen__subtitle">Final score</h2>
           ${scoreSummary}
+
+          <button
+            type="button"
+            class="game-over-screen__back-home-button"
+            data-back-home-button
+            aria-label="Back to home"
+          >
+            <img
+              class="game-over-screen__back-home-button-image"
+              src="${backToGameButtonSprite}"
+              alt=""
+              aria-hidden="true"
+            />
+          </button>
         </div>
       </section>
     </main>

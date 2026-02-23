@@ -191,6 +191,37 @@
   text-align: right;
 }
 
+.game-over-screen__back-home-button {
+  margin-top: 8px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  transition: transform 140ms ease;
+}
+
+.game-over-screen__back-home-button-image {
+  width: 182px;
+  height: 57px;
+  display: block;
+  transition: filter 150ms ease;
+}
+
+.game-over-screen__back-home-button:hover,
+.game-over-screen__back-home-button:focus-visible {
+  transform: translateY(-1px);
+}
+
+.game-over-screen__back-home-button:hover .game-over-screen__back-home-button-image,
+.game-over-screen__back-home-button:focus-visible .game-over-screen__back-home-button-image {
+  filter: brightness(1.08);
+}
+
+.game-over-screen__back-home-button:focus-visible {
+  outline: 2px solid #f0e5d9;
+  outline-offset: 4px;
+}
+
 @keyframes winner-page-drop {
   from {
     transform: translateY(-110%);
