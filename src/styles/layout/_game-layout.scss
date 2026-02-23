@@ -672,62 +672,105 @@
   position: static;
   top: auto;
   left: auto;
-  width: auto;
-  height: auto;
-  border: 3px solid #f3832d;
-  border-radius: 14px;
-  background-color: #fff9f2;
-  color: #f3832d;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 11px 16px;
-  font-family: 'Red Rose', serif;
-  font-size: clamp(24px, 1.65vw, 32px);
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: 0;
+  width: 176px;
+  height: 49px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
   cursor: pointer;
-  transition:
-    background-color 140ms ease,
-    color 140ms ease,
-    border-color 140ms ease;
 }
 
 .game-screen--foods .game-screen__exit-button-image {
-  display: none;
-}
-
-.game-screen--foods .game-screen__foods-exit-icon {
-  width: 0.86em;
-  height: 0.86em;
-  background-color: #d9d9d9;
-  flex-shrink: 0;
-  transition: background-color 140ms ease;
-}
-
-.game-screen--foods .game-screen__foods-exit-text {
-  white-space: nowrap;
+  display: block;
+  width: 176px;
+  height: 49px;
+  object-fit: contain;
+  transition:
+    transform 140ms ease,
+    filter 140ms ease;
 }
 
 .game-screen--foods .game-screen__exit-button:hover,
 .game-screen--foods .game-screen__exit-button:focus-visible {
-  background-color: #f3832d;
-  border-color: #f3832d;
-  color: #fff9f2;
-  transform: none;
-  filter: none;
+  background: none;
+  border: 0;
 }
 
-.game-screen--foods .game-screen__exit-button:hover .game-screen__foods-exit-icon,
-.game-screen--foods .game-screen__exit-button:focus-visible .game-screen__foods-exit-icon {
-  background-color: #ececec;
+.game-screen--foods .game-screen__exit-button:hover .game-screen__exit-button-image,
+.game-screen--foods .game-screen__exit-button:focus-visible .game-screen__exit-button-image {
+  filter: brightness(1.04);
+  transform: none;
 }
 
 .game-screen--foods .game-screen__exit-button:focus-visible {
   outline: 2px solid #f3832d;
   outline-offset: 2px;
+}
+
+.game-screen--foods .game-screen__exit-modal {
+  background-color: rgba(48, 49, 49, 0.3);
+}
+
+.game-screen--foods .game-screen__exit-modal-panel--foods {
+  width: min(692px, 100%);
+  min-height: 387px;
+  padding: 58px 28px 28px;
+  border-radius: 30px;
+  background-color: #fff9f2;
+  gap: 78px;
+}
+
+.game-screen--foods .game-screen__exit-modal-title--foods {
+  width: min(376px, 100%);
+  min-height: 76px;
+  margin: 0;
+  color: #a45212;
+  font-family: 'Klee One', sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 40px;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.game-screen--foods .game-screen__exit-modal-actions--foods {
+  gap: 36px;
+}
+
+.game-screen--foods .game-screen__modal-button--foods {
+  background: none;
+}
+
+.game-screen--foods .game-screen__modal-button--foods .game-screen__modal-button-image {
+  height: auto;
+}
+
+.game-screen--foods .game-screen__modal-button-image--foods-back {
+  width: 214px;
+}
+
+.game-screen--foods .game-screen__modal-button-image--foods-exit {
+  width: 144px;
+}
+
+.game-screen--foods .game-screen__modal-button--foods.game-screen__modal-button--exit {
+  background: none;
+}
+
+.game-screen--foods .game-screen__modal-button--foods:hover,
+.game-screen--foods .game-screen__modal-button--foods:focus-visible {
+  transform: translateY(-1px);
+}
+
+.game-screen--foods .game-screen__modal-button--foods:hover .game-screen__modal-button-image,
+.game-screen--foods .game-screen__modal-button--foods:focus-visible .game-screen__modal-button-image {
+  filter: brightness(1.06);
+}
+
+.game-screen--foods .game-screen__modal-button--foods:focus-visible {
+  outline: 2px solid #f3832d;
+  outline-offset: 3px;
 }
 
 .game-screen--foods .game-screen__board-area {
@@ -811,9 +854,13 @@
 
   .game-screen--foods .game-screen__exit-button {
     padding: 8px 12px;
-    border-width: 2px;
-    font-size: clamp(18px, 1.8vw, 26px);
-    gap: 8px;
+    width: 150px;
+    height: 42px;
+  }
+
+  .game-screen--foods .game-screen__exit-button-image {
+    width: 150px;
+    height: 42px;
   }
 
   .game-screen--foods .game-screen__board-grid {
@@ -865,10 +912,14 @@
   .game-screen--foods .game-screen__exit-button {
     grid-area: exit;
     justify-self: end;
-    padding: 6px 10px;
-    border-radius: 10px;
-    font-size: 18px;
-    gap: 6px;
+    width: 122px;
+    height: 34px;
+    padding: 0;
+  }
+
+  .game-screen--foods .game-screen__exit-button-image {
+    width: 122px;
+    height: 34px;
   }
 
   .game-screen--foods.game-screen--board-16 .game-screen__board-grid {
@@ -880,5 +931,33 @@
   .game-screen--foods.game-screen--board-36 .game-screen__board-grid {
     grid-template-columns: repeat(6, 54px);
     gap: 4px;
+  }
+
+  .game-screen--foods .game-screen__exit-modal-panel--foods {
+    min-height: 0;
+    padding: 26px 16px 20px;
+    border-radius: 20px;
+    gap: 28px;
+  }
+
+  .game-screen--foods .game-screen__exit-modal-title--foods {
+    width: min(376px, 100%);
+    min-height: 0;
+    font-size: 22px;
+    line-height: 30px;
+  }
+
+  .game-screen--foods .game-screen__exit-modal-actions--foods {
+    gap: 12px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .game-screen--foods .game-screen__modal-button-image--foods-back {
+    width: 178px;
+  }
+
+  .game-screen--foods .game-screen__modal-button-image--foods-exit {
+    width: 122px;
   }
 }

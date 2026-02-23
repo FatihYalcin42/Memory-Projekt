@@ -9,6 +9,9 @@ import foodsPlayerMarkerIconRaw from '../../../puplic/designs/theme2/Frame 614.s
 import exitButtonSprite from '../../../puplic/icons/icons_1/exitgame1.svg';
 import backToGameButtonSprite from '../../../puplic/designs/theme_1/back-to-game-button.svg';
 import exitGameButtonSprite from '../../../puplic/designs/theme_1/exit-game-button.svg';
+import foodsExitHeaderButtonSprite from '../../../puplic/icons/icons_2/exit-game-button.svg';
+import foodsBackToGameButtonSprite from '../../../puplic/icons/icons_2/back-to-game-button.svg';
+import foodsExitOverlayButtonSprite from '../../../puplic/icons/icons_2/exit-game-button-overlay.svg';
 import codeVibesCardBackSprite from '../../../puplic/icons/icons_1/Cards 5.svg';
 import angularCardIcon from '../../../puplic/icons/icons_1/angular-card.svg';
 import bootstrapCardIcon from '../../../puplic/icons/icons_1/bootstrap-card.svg';
@@ -132,7 +135,7 @@ export function createGameTemplate(settings: GameSettings): string {
         </section>
         ${hudMarkup}
 
-        ${createExitModalMarkup()}
+        ${createExitModalMarkup(selectedTheme)}
       </div>
     </main>
   `;
@@ -232,8 +235,12 @@ function createFoodsHud(playerMarkerClassName: string): string {
           type="button"
           aria-label="Exit game"
         >
-          <span class="game-screen__foods-exit-icon" aria-hidden="true"></span>
-          <span class="game-screen__foods-exit-text">Exit game</span>
+          <img
+            class="game-screen__exit-button-image game-screen__exit-button-image--foods"
+            src="${foodsExitHeaderButtonSprite}"
+            alt=""
+            aria-hidden="true"
+          />
         </button>
       </div>
     </div>
@@ -246,7 +253,15 @@ function createFoodsPlayerMarkerIconMarkup(): string {
     .trim();
 }
 
-function createExitModalMarkup(): string {
+function createExitModalMarkup(theme: ThemeOption): string {
+  if (theme === 'foods') {
+    return createFoodsExitModalMarkup();
+  }
+
+  return createCodeVibesExitModalMarkup();
+}
+
+function createCodeVibesExitModalMarkup(): string {
   return `
     <div
       class="game-screen__exit-modal"
@@ -282,6 +297,57 @@ function createExitModalMarkup(): string {
             <img
               class="game-screen__modal-button-image"
               src="${exitGameButtonSprite}"
+              alt=""
+              aria-hidden="true"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function createFoodsExitModalMarkup(): string {
+  return `
+    <div
+      class="game-screen__exit-modal game-screen__exit-modal--foods"
+      data-exit-modal
+      hidden
+    >
+      <div
+        class="game-screen__exit-modal-panel game-screen__exit-modal-panel--foods"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="exit-modal-title"
+      >
+        <h2 id="exit-modal-title" class="game-screen__exit-modal-title game-screen__exit-modal-title--foods">
+          Are you sure you want to quit the game?
+        </h2>
+
+        <div class="game-screen__exit-modal-actions game-screen__exit-modal-actions--foods">
+          <button
+            type="button"
+            class="game-screen__modal-button game-screen__modal-button--foods game-screen__modal-button--back"
+            data-exit-cancel
+            aria-label="Back to game"
+          >
+            <img
+              class="game-screen__modal-button-image game-screen__modal-button-image--foods game-screen__modal-button-image--foods-back"
+              src="${foodsBackToGameButtonSprite}"
+              alt=""
+              aria-hidden="true"
+            />
+          </button>
+
+          <button
+            type="button"
+            class="game-screen__modal-button game-screen__modal-button--foods game-screen__modal-button--exit"
+            data-exit-confirm
+            aria-label="Exit game"
+          >
+            <img
+              class="game-screen__modal-button-image game-screen__modal-button-image--foods game-screen__modal-button-image--foods-exit"
+              src="${foodsExitOverlayButtonSprite}"
               alt=""
               aria-hidden="true"
             />
