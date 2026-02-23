@@ -98,13 +98,16 @@ function createCodeVibesHud(playerMarkerClassName: string): string {
         </span>
       </div>
 
-      <span
-        class="game-screen__current-player-marker${playerMarkerClassName}"
-        data-current-player-marker
-        aria-hidden="true"
-      >
-        ${playerLabelIcon}
-      </span>
+      <div class="game-screen__current-player" aria-label="Current player">
+        <span class="game-screen__current-player-text">Current player:</span>
+        <span
+          class="game-screen__current-player-marker${playerMarkerClassName}"
+          data-current-player-marker
+          aria-hidden="true"
+        >
+          ${playerLabelIcon}
+        </span>
+      </div>
 
       <button
         id="game-exit-button"
