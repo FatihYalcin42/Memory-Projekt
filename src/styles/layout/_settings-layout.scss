@@ -8,7 +8,9 @@
 
 .settings-screen__canvas {
   position: relative;
-  width: 100%;
+  width: min(100%, 1440px);
+  margin-right: auto;
+  margin-left: 0;
   height: 100%;
 }
 
