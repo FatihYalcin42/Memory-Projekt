@@ -161,16 +161,53 @@
   .settings-footer {
     position: static;
     width: min(660px, 100%);
-    height: auto;
+    height: 81px;
   }
 
   .settings-footer__summary {
-    height: auto;
-    padding: 14px;
+    height: 100%;
+    padding: 0 10px 0 14px;
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .settings-footer__fields {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .settings-footer__item {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+  }
+
+  .settings-footer__item + .settings-footer__item {
+    padding-left: 22px;
+  }
+}
+
+@media (max-width: 700px) {
+  .settings-screen__canvas {
+    padding: 28px 16px 22px;
+    gap: 22px;
+  }
+
+  .settings-footer__summary {
+    padding: 12px;
+    gap: 12px;
+    height: auto;
     flex-direction: column;
     align-items: stretch;
-    gap: 16px;
+  }
+
+  .settings-footer {
+    height: auto;
   }
 
   .settings-footer__fields {
@@ -185,6 +222,7 @@
   .settings-footer__item {
     width: 100%;
     min-height: 0;
+    height: auto;
   }
 
   .settings-footer__item + .settings-footer__item {
@@ -193,18 +231,6 @@
 
   .settings-footer__separator {
     display: none;
-  }
-}
-
-@media (max-width: 700px) {
-  .settings-screen__canvas {
-    padding: 28px 16px 22px;
-    gap: 22px;
-  }
-
-  .settings-footer__summary {
-    padding: 12px;
-    gap: 12px;
   }
 
   .settings-footer__text {

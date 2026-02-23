@@ -410,7 +410,9 @@
   }
 
   .game-screen__exit-button {
-    position: static;
+    position: relative;
+    top: auto;
+    left: auto;
     width: 152px;
     height: 44px;
     justify-self: end;
