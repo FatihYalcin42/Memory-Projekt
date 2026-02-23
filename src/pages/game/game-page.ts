@@ -31,6 +31,11 @@ interface ExitFlowElements {
   gameScreen: HTMLElement;
 }
 
+/**
+ * Mounts the game page and wires game interactions.
+ *
+ * @param target Root element that receives the game markup.
+ */
 export function mountGamePage(target: HTMLElement): void {
   const settings = getGameSettings();
   target.innerHTML = createGameTemplate(settings);

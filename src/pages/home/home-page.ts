@@ -2,6 +2,11 @@ import { createHomeTemplate } from './home-template';
 
 const PLAY_BUTTON_SELECTOR = '#play-button';
 
+/**
+ * Mounts the home page and binds the play action.
+ *
+ * @param target Root element that receives the home markup.
+ */
 export function mountHomePage(target: HTMLElement): void {
   target.innerHTML = createHomeTemplate();
   bindHomeEvents(target);

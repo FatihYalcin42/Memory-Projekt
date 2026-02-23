@@ -110,6 +110,12 @@ const THEME_CARD_ASSETS: Record<ThemeOption, ThemeCardAssets> = {
   },
 };
 
+/**
+ * Builds the game screen markup for the active settings.
+ *
+ * @param settings Selected game settings.
+ * @returns Game screen HTML string.
+ */
 export function createGameTemplate(settings: GameSettings): string {
   const selectedTheme = resolveTheme(settings.theme);
   const gameThemeClassName = getThemeModifierClass(settings.theme);

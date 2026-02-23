@@ -23,6 +23,11 @@ const FOOTER_REFRESH_CLASS = 'is-refreshing';
 
 type SettingsGroup = 'boardSize' | 'player' | 'theme';
 
+/**
+ * Mounts the settings page and wires selection interactions.
+ *
+ * @param target Root element that receives the settings markup.
+ */
 export function mountSettingsPage(target: HTMLElement): void {
   target.innerHTML = createSettingsTemplate(getGameSettings());
   bindOptionEvents(target);

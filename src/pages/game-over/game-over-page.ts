@@ -7,6 +7,11 @@ const GAME_OVER_SCREEN_SELECTOR = '[data-game-over-screen]';
 const BACK_HOME_BUTTON_SELECTOR = '[data-back-home-button]';
 const WINNER_VISIBLE_CLASS = 'is-winner-visible';
 
+/**
+ * Mounts the game-over screen and schedules winner reveal.
+ *
+ * @param target Root element that receives the game-over markup.
+ */
 export function mountGameOverPage(target: HTMLElement): void {
   const gameResult = getGameResult();
   if (!gameResult) {

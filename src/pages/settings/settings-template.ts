@@ -23,6 +23,12 @@ import startButtonImage from '../../../puplic/designs/theme_1/small button.svg';
 
 type SettingsGroup = 'boardSize' | 'player' | 'theme';
 
+/**
+ * Builds the settings screen markup for the current settings state.
+ *
+ * @param settings Current game settings.
+ * @returns Settings screen HTML string.
+ */
 export function createSettingsTemplate(settings: GameSettings): string {
   const isComplete =
     settings.theme !== null &&

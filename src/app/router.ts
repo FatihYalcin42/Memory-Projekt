@@ -7,6 +7,11 @@ import { mountSettingsPage } from '../pages/settings/settings-page';
 
 type RouteName = 'game' | 'game-over' | 'home' | 'settings';
 
+/**
+ * Starts hash-based routing and renders the initial screen.
+ *
+ * @param target Root element that receives route content.
+ */
 export function startRouter(target: HTMLElement): void {
   renderRoute(target);
   window.addEventListener('hashchange', () => {

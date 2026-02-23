@@ -1,6 +1,11 @@
 import controllerIcon from '../../../puplic/designs/stadia_controller.svg';
 import playButtonIcon from '../../../puplic/designs/play-button.svg';
 
+/**
+ * Builds the home page markup.
+ *
+ * @returns Home screen HTML string.
+ */
 export function createHomeTemplate(): string {
   return `
     <main class="home-screen" aria-labelledby="home-title">

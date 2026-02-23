@@ -9,6 +9,13 @@ import foodsHomeButtonSprite from '../../../puplic/designs/theme2/home-button.sv
 import foodsWinnerBluePlayerSprite from '../../../puplic/designs/theme2/player-blue.svg';
 import foodsWinnerOrangePlayerSprite from '../../../puplic/designs/theme2/player-orange.svg';
 
+/**
+ * Builds the game-over and winner markup for the selected theme.
+ *
+ * @param result Final score result.
+ * @param theme Selected game theme.
+ * @returns Game-over screen HTML string.
+ */
 export function createGameOverTemplate(
   result: GameResult,
   theme: ThemeOption | null,
